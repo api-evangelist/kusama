@@ -1,0 +1,78 @@
+generated: '2026-07-19'
+method: searched
+source: openapi/kusama-sidecar-openapi.yaml (no components.securitySchemes), live unauthenticated probes
+  of https://kusama-rpc.polkadot.io/ and https://kusama-public-sidecar.parity-chains.parity.io/ on 2026-07-19
+summary: >-
+  Kusama has no HTTP authentication layer. Both the JSON-RPC endpoint and the Sidecar REST endpoint answered
+  live probes with no credential of any kind. This is not an omission — it is the design of a public
+  permissionless chain: all state is world-readable, and write authority is proven by cryptographic
+  signature over the transaction payload rather than by an API credential presented to a server.
+http_authentication:
+  schemes: []
+  openapi_security_schemes: none declared in the 119-operation Sidecar specification
+  api_keys: false
+  oauth2: false
+  openid_connect: false
+  mutual_tls: false
+  basic_auth: false
+  bearer_tokens: false
+  registration_required: false
+  rate_limit_identity: 'None. There is no account, tenant, or key to attribute requests to; public
+    endpoints are best-effort and may throttle by IP at the infrastructure layer without documenting it.'
+transaction_authorization:
+  model: cryptographic signature over a SCALE-encoded extrinsic, verified on-chain
+  description: >-
+    Authority to change state is carried by the extrinsic itself, not by the transport. A signed extrinsic
+    binds the caller's public key, the call data, the account nonce, a mortality era, the tip, and the
+    runtime spec_version/transaction_version, then is signed with the account's private key. The node
+    accepts it from anyone; the runtime validates the signature and the nonce.
+  signature_schemes:
+  - sr25519
+  - ed25519
+  - ecdsa
+  address_format:
+    standard: SS58
+    kusama_prefix: 2
+    source: system_properties on https://kusama-rpc.polkadot.io/ (probed 2026-07-19)
+  key_custody: >-
+    Keys are held entirely by the caller — in a browser extension, hardware wallet, or a keyring created
+    by @polkadot/keyring / subxt. No key material is ever transmitted to an RPC endpoint.
+  submission_methods:
+  - method: author_submitExtrinsic
+    transport: JSON-RPC
+    description: Submit a signed extrinsic, returns its hash.
+  - method: author_submitAndWatchExtrinsic
+    transport: JSON-RPC over WebSocket
+    description: Submit and subscribe to inclusion/finalization status updates.
+  - method: transaction_v1_broadcast
+    transport: JSON-RPC
+    description: Spec-versioned broadcast from the new JSON-RPC interface spec.
+  - method: transactionWatch_v1_submitAndWatch
+    transport: JSON-RPC over WebSocket
+    description: Spec-versioned submit-and-watch.
+  - method: POST /transaction
+    transport: Sidecar REST
+    description: Submit a signed, hex-encoded extrinsic over HTTP.
+  delegation:
+    mechanism: proxy accounts and multisig, enforced on-chain by the runtime
+    description: >-
+      Kusama's closest analogue to scoped/delegated credentials is the proxy pallet — an account can
+      authorize another account to dispatch a restricted class of calls on its behalf (e.g. Staking,
+      Governance, NonTransfer), with an optional announcement delay. Multisig accounts require m-of-n
+      signatures. Both are chain-level authorization primitives, not API scopes.
+    inspect_via: GET /accounts/{accountId}/proxy-info (Sidecar)
+  hardware_wallets_supported: true
+  offline_signing:
+    supported: true
+    metadata_hash_extension: CheckMetadataHash (RFC-0078 merkleized metadata)
+    helper_endpoint: POST /transaction/metadata-blob (Sidecar, added v20.14.0) returns the minimal metadata
+      blob and metadata hash an offline signer needs to decode and check a payload.
+oauth_scopes:
+  applicable: false
+  reason: No OAuth2 or OpenID Connect surface exists, so scopes/ is intentionally absent from this repo.
+operator_notes:
+  self_hosted_auth: >-
+    Operators who run their own node or sidecar are expected to place their own authentication, TLS
+    termination, and rate limiting in front of it. The sidecar binds to 127.0.0.1:8080 by default
+    (SAS_EXPRESS_BIND_HOST / SAS_EXPRESS_PORT) precisely because it ships with no auth of its own.
+  source: https://github.com/paritytech/substrate-api-sidecar/blob/master/README.md
