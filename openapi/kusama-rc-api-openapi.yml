@@ -1,0 +1,331 @@
+openapi: 3.0.0
+info:
+  title: Substrate API Sidecar accounts rc API
+  description: '> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of
+
+    > [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite
+
+    > built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints
+
+    > served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly
+
+    > lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.
+
+    >
+
+    > **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·
+
+    > [crate](https://crates.io/crates/polkadot-rest-api) ·
+
+    > [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·
+
+    > [docs](https://paritytech.github.io/polkadot-rest-api/) ·
+
+    > [issues](https://github.com/paritytech/polkadot-rest-api/issues)
+
+
+    Substrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes
+
+    built using Substrate''s FRAME framework.
+
+    '
+  contact:
+    url: https://github.com/paritytech/substrate-api-sidecar
+  license:
+    name: GPL-3.0-or-later
+    url: https://github.com/paritytech/substrate-api-sidecar/blob/master/LICENSE
+  version: 20.14.1
+servers:
+- url: https://polkadot-public-sidecar.parity-chains.parity.io/
+  description: Polkadot Parity public sidecar
+- url: https://kusama-public-sidecar.parity-chains.parity.io/
+  description: Kusama Parity public sidecar
+- url: https://polkadot-asset-hub-public-sidecar.parity-chains.parity.io/
+  description: Polkadot Asset Hub Parity public sidecar
+- url: https://kusama-asset-hub-public-sidecar.parity-chains.parity.io/
+  description: Kusama Asset Hub Parity public sidecar
+- url: http://localhost:8080
+  description: Localhost
+tags:
+- name: rc
+  description: relay chain specific endpoints for asset hub
+paths:
+  /experimental/rc/blocks/head/traces:
+    get:
+      tags:
+      - rc
+      summary: Get the latest relay chain block's traces.
+      description: Returns the latest relay chain block's traces.
+      operationId: getRcBlockHeadTraces
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlocksTrace'
+  /experimental/rc/blocks/{blockId}/traces:
+    get:
+      tags:
+      - rc
+      summary: Get a relay chain block's traces by its height or hash.
+      description: Returns a relay chain block's traces. Can be identified by either its height or hash.
+      operationId: getRcBlockTraces
+      parameters:
+      - name: blockId
+        in: path
+        description: Block identifier, as the block height or block hash.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlocksTrace'
+        '400':
+          description: invalid blockId supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /experimental/rc/blocks/head/traces/operations:
+    get:
+      tags:
+      - rc
+      summary: Get the latest relay chain block's trace operations.
+      description: Returns the latest relay chain block's trace operations.
+      operationId: getRcBlockHeadTraceOperations
+      parameters:
+      - name: actions
+        in: query
+        description: Include action traces.
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlocksTraceOperations'
+  /experimental/rc/blocks/{blockId}/traces/operations:
+    get:
+      tags:
+      - rc
+      summary: Get a relay chain block's trace operations by its height or hash.
+      description: Returns a relay chain block's trace operations. Can be identified by either its height or hash.
+      operationId: getRcBlockTraceOperations
+      parameters:
+      - name: blockId
+        in: path
+        description: Block identifier, as the block height or block hash.
+        required: true
+        schema:
+          type: string
+      - name: actions
+        in: query
+        description: Include action traces.
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlocksTraceOperations'
+        '400':
+          description: invalid blockId supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    TraceSpan:
+      type: object
+      properties:
+        id:
+          type: string
+          format: unsignedInteger
+        name:
+          type: string
+        parentId:
+          type: string
+          format: unsignedInteger
+        target:
+          type: string
+        wasm:
+          type: boolean
+    OperationAmountCurrency:
+      type: object
+      properties:
+        symbol:
+          type: string
+          example: KSM
+    TraceEvent:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            stringValues:
+              $ref: '#/components/schemas/TraceEventDataStringValues'
+        parentId:
+          type: string
+          format: unsignedInteger
+        target:
+          type: string
+    BlockIdentifiers:
+      type: object
+      properties:
+        hash:
+          type: string
+          description: The block's hash.
+          format: hex
+        height:
+          type: string
+          description: The block's height.
+          format: unsignedInteger
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        stack:
+          type: string
+        level:
+          type: string
+    BlocksTraceOperations:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        operations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Operation'
+    SpanId:
+      type: object
+      properties:
+        name:
+          type: string
+        target:
+          type: string
+        id:
+          type: string
+          format: unsignedInteger
+    TraceEventDataStringValues:
+      type: object
+      properties:
+        key:
+          type: string
+          format: hex
+          description: The complete storage key for the entry.
+        method:
+          type: string
+          description: Normally one of Put or Get.
+        result:
+          type: string
+          format: hex
+          description: Hex scale encoded storage value.
+      description: Note these exact values will only be present for storage events.
+    OperationPhase:
+      type: object
+      properties:
+        variant:
+          type: string
+          enum:
+          - onInitialize
+          - initialChecks
+          - applyExtrinsic
+          - onFinalize
+          - finalChecks
+          description: Phase of block execution pipeline.
+        extrinsicIndex:
+          type: string
+          format: unsignedInteger
+          description: 'If phase variant is `applyExtrinsic` this will be the index of
+
+            the extrinsic. Otherwise this field will not be present.
+
+            '
+    BlocksTrace:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        blockHash:
+          type: string
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/TraceEvent'
+        parentHash:
+          type: string
+        spans:
+          type: array
+          items:
+            $ref: '#/components/schemas/TraceSpan'
+        storageKeys:
+          type: string
+          description: Hex encoded storage keys used to filter events.
+        tracingTargets:
+          type: string
+          description: Targets used to filter spans and events.
+    OperationAmount:
+      type: object
+      properties:
+        values:
+          type: string
+          format: unsignedInteger
+        currency:
+          $ref: '#/components/schemas/OperationAmountCurrency'
+    Operation:
+      type: object
+      properties:
+        phase:
+          $ref: '#/components/schemas/OperationPhase'
+        parentSpanId:
+          $ref: '#/components/schemas/SpanId'
+        primarySpanId:
+          $ref: '#/components/schemas/SpanId'
+        eventIndex:
+          type: string
+          format: unsignedInteger
+          description: Index of the underlying trace event.
+        address:
+          type: string
+          description: 'Account this operation affects. Note - this will be an object like
+
+            `{ id: address }` if the network uses `MultiAddress`
+
+            '
+        storage:
+          type: object
+          properties:
+            pallet:
+              type: string
+            item:
+              type: string
+            field1:
+              type: string
+              description: 'A field of the storage item. (i.e `system::Account::get(address).data`)
+
+                '
+            field2:
+              type: string
+              description: 'A field of the struct described by field1 (i.e
+
+                `system::Account::get(address).data.free`)
+
+                '
+        amount:
+          $ref: '#/components/schemas/OperationAmount'

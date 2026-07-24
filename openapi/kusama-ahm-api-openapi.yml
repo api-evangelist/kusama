@@ -1,0 +1,130 @@
+openapi: 3.0.0
+info:
+  title: Substrate API Sidecar accounts ahm API
+  description: '> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of
+
+    > [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite
+
+    > built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints
+
+    > served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly
+
+    > lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.
+
+    >
+
+    > **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·
+
+    > [crate](https://crates.io/crates/polkadot-rest-api) ·
+
+    > [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·
+
+    > [docs](https://paritytech.github.io/polkadot-rest-api/) ·
+
+    > [issues](https://github.com/paritytech/polkadot-rest-api/issues)
+
+
+    Substrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes
+
+    built using Substrate''s FRAME framework.
+
+    '
+  contact:
+    url: https://github.com/paritytech/substrate-api-sidecar
+  license:
+    name: GPL-3.0-or-later
+    url: https://github.com/paritytech/substrate-api-sidecar/blob/master/LICENSE
+  version: 20.14.1
+servers:
+- url: https://polkadot-public-sidecar.parity-chains.parity.io/
+  description: Polkadot Parity public sidecar
+- url: https://kusama-public-sidecar.parity-chains.parity.io/
+  description: Kusama Parity public sidecar
+- url: https://polkadot-asset-hub-public-sidecar.parity-chains.parity.io/
+  description: Polkadot Asset Hub Parity public sidecar
+- url: https://kusama-asset-hub-public-sidecar.parity-chains.parity.io/
+  description: Kusama Asset Hub Parity public sidecar
+- url: http://localhost:8080
+  description: Localhost
+tags:
+- name: ahm
+  description: Asset Hub Migration information
+paths:
+  /ahm-info:
+    get:
+      tags:
+      - ahm
+      summary: Get Asset Hub Migration information.
+      description: Returns information about Asset Hub Migration (AHM) including migration start and end blocks for both relay chain and Asset Hub. The endpoint automatically detects whether you're connected to a relay chain or Asset Hub and provides relevant migration data. Returns static migration boundaries for known networks or queries on-chain migration pallets for dynamic information.
+      operationId: getAhmInfo
+      responses:
+        '200':
+          description: Successfully retrieved Asset Hub Migration information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AhmInfo'
+        '400':
+          description: Invalid chain specName or missing migration pallets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        stack:
+          type: string
+        level:
+          type: string
+    AhmInfo:
+      type: object
+      description: Asset Hub Migration information including migration boundaries for both relay chain and Asset Hub.
+      properties:
+        relay:
+          type: object
+          description: Relay chain migration information
+          properties:
+            startBlock:
+              type: integer
+              nullable: true
+              description: Block number when relay chain migration started, or null if not available
+              format: unsignedInteger
+            endBlock:
+              type: integer
+              nullable: true
+              description: Block number when relay chain migration ended, or null if not available
+              format: unsignedInteger
+        assetHub:
+          type: object
+          description: Asset Hub migration information
+          properties:
+            startBlock:
+              type: integer
+              nullable: true
+              description: Block number when Asset Hub migration started, or null if not available
+              format: unsignedInteger
+            endBlock:
+              type: integer
+              nullable: true
+              description: Block number when Asset Hub migration ended, or null if not available
+              format: unsignedInteger
+      example:
+        relay:
+          startBlock: 26041702
+          endBlock: 26071771
+        assetHub:
+          startBlock: 11716733
+          endBlock: 11736597

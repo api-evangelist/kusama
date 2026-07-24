@@ -1,0 +1,661 @@
+openapi: 3.0.0
+info:
+  title: Substrate API Sidecar accounts rc accounts API
+  description: '> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of
+
+    > [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite
+
+    > built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints
+
+    > served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly
+
+    > lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.
+
+    >
+
+    > **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·
+
+    > [crate](https://crates.io/crates/polkadot-rest-api) ·
+
+    > [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·
+
+    > [docs](https://paritytech.github.io/polkadot-rest-api/) ·
+
+    > [issues](https://github.com/paritytech/polkadot-rest-api/issues)
+
+
+    Substrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes
+
+    built using Substrate''s FRAME framework.
+
+    '
+  contact:
+    url: https://github.com/paritytech/substrate-api-sidecar
+  license:
+    name: GPL-3.0-or-later
+    url: https://github.com/paritytech/substrate-api-sidecar/blob/master/LICENSE
+  version: 20.14.1
+servers:
+- url: https://polkadot-public-sidecar.parity-chains.parity.io/
+  description: Polkadot Parity public sidecar
+- url: https://kusama-public-sidecar.parity-chains.parity.io/
+  description: Kusama Parity public sidecar
+- url: https://polkadot-asset-hub-public-sidecar.parity-chains.parity.io/
+  description: Polkadot Asset Hub Parity public sidecar
+- url: https://kusama-asset-hub-public-sidecar.parity-chains.parity.io/
+  description: Kusama Asset Hub Parity public sidecar
+- url: http://localhost:8080
+  description: Localhost
+tags:
+- name: rc accounts
+paths:
+  /rc/accounts/{address}/balance-info:
+    get:
+      tags:
+      - rc accounts
+      summary: Get balance information for an account on the relay chain.
+      description: Returns information about an account's balance on the relay chain. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for balance information.
+      operationId: getRcAccountBalanceInfo
+      parameters:
+      - name: address
+        in: path
+        description: SS58 address of the account.
+        required: true
+        schema:
+          type: string
+          format: SS58
+      - name: at
+        in: query
+        description: Block at which to query balance info for the specified account.
+        required: false
+        schema:
+          type: string
+          description: Block height (as a non-negative integer) or hash (as a hex string).
+          format: unsignedInteger or $hex
+      - name: token
+        in: query
+        description: 'Token to query the balance of. If not specified it will query the chains native token (e.g. DOT for Polkadot). Note: this is only relevant for chains that support multiple tokens through the ORML tokens pallet.'
+        required: false
+        schema:
+          type: string
+          description: Token symbol
+      - name: denominated
+        in: query
+        description: When set to `true` it will denominate any balance's given atomic value using the chains given decimal value.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountBalanceInfo'
+        '400':
+          description: Invalid Address
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /rc/accounts/{address}/proxy-info:
+    get:
+      tags:
+      - rc accounts
+      summary: Get proxy information for an account on the relay chain.
+      description: Returns information about an account's proxy configuration on the relay chain. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for proxy information.
+      operationId: getRcAccountProxyInfo
+      parameters:
+      - name: address
+        in: path
+        description: SS58 address of the account.
+        required: true
+        schema:
+          type: string
+          format: SS58
+      - name: at
+        in: query
+        description: Block at which to query proxy info for the specified account.
+        required: false
+        schema:
+          type: string
+          description: Block height (as a non-negative integer) or hash (as a hex string).
+          format: unsignedInteger or $hex
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountProxyInfo'
+        '400':
+          description: Invalid Address
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /rc/accounts/{address}/vesting-info:
+    get:
+      tags:
+      - rc accounts
+      summary: Get vesting information for an account on the relay chain.
+      description: Returns the vesting schedule for an account on the relay chain. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for vesting information.
+      operationId: getRcAccountVestingInfo
+      parameters:
+      - name: address
+        in: path
+        description: SS58 address of the account.
+        required: true
+        schema:
+          type: string
+          format: SS58
+      - name: at
+        in: query
+        description: Block at which to query the vesting info for the specified account.
+        required: false
+        schema:
+          type: string
+          description: Block height (as a non-negative integer) or hash (as a hex string).
+          format: unsignedInteger or $hex
+      - name: includeClaimable
+        in: query
+        description: When set to 'true', calculates and includes vested amounts for each vesting schedule plus the claimable amount. For relay chain pre-migration queries, vested amounts are calculated using the relay chain's own block number.
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountVestingInfo'
+        '400':
+          description: Invalid Address
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /rc/accounts/{address}/staking-info:
+    get:
+      tags:
+      - rc accounts
+      summary: Get staking information for a _Stash_ account on the relay chain.
+      description: Returns information about a _Stash_ account's staking activity on the relay chain. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for staking information. The _Stash_ account can be either a validator or nominator account.
+      operationId: getRcAccountStakingInfo
+      parameters:
+      - name: address
+        in: path
+        description: SS58 address of the account. Must be a _Stash_ account.
+        required: true
+        schema:
+          type: string
+          format: SS58
+      - name: at
+        in: query
+        description: Block at which to query the staking info for the specified account.
+        required: false
+        schema:
+          type: string
+          description: Block height (as a non-negative integer) or hash (as a hex string).
+          format: unsignedInteger or $hex
+      - name: includeClaimedRewards
+        in: query
+        description: When set to `false`, the `claimedRewards` field is not included in the response.
+        required: false
+        schema:
+          type: string
+          format: boolean
+          default: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountStakingInfo'
+        '400':
+          description: Invalid Address
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /rc/accounts/{address}/staking-payouts:
+    get:
+      tags:
+      - rc accounts
+      summary: Get payout information for a _Stash_ account on the relay chain.
+      description: Returns payout information for the last specified eras on the relay chain. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for staking payout information. If specifying both the depth and era query params, this endpoint will return information for (era - depth) through era. (i.e. if depth=5 and era=20 information will be returned for eras 16 through 20). The _Stash_ account can be either a validator or nominator account.
+      operationId: getRcAccountStakingPayouts
+      parameters:
+      - name: address
+        in: path
+        description: SS58 address of the account. Must be a _Stash_ account.
+        required: true
+        schema:
+          type: string
+          format: SS58
+      - name: at
+        in: query
+        description: Block at which to query staking payouts.
+        required: false
+        schema:
+          type: string
+          description: Block height (as a non-negative integer) or hash (as a hex string).
+          format: unsignedInteger or $hex
+      - name: depth
+        in: query
+        description: The number of eras to query for payouts of. Must be less than or equal to `HISTORY_DEPTH`. In cases where `era - (depth -1)` is less than 0, the first era queried will be 0.
+        required: false
+        schema:
+          type: string
+          format: unsignedInteger
+          default: 1
+      - name: era
+        in: query
+        description: The era to query at. Max era payout info is available for is the latest finished era (active_era - 1).
+        required: false
+        schema:
+          type: string
+          format: unsignedInteger
+      - name: unclaimedOnly
+        in: query
+        description: Only return unclaimed rewards.
+        required: false
+        schema:
+          type: string
+          format: boolean
+          default: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountStakingPayouts'
+        '400':
+          description: Invalid Address
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    AccountProxyInfo:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        delegatedAccounts:
+          type: array
+          items:
+            type: object
+            properties:
+              delegate:
+                type: string
+                description: Delegate address for the given proxy.
+                format: ss58
+              delay:
+                type: string
+                description: The announcement period required of the initial proxy. Will generally be zero.
+                format: unsignedInteger
+              proxyType:
+                type: string
+                description: The permissions allowed for this proxy account.
+        depositHeld:
+          type: string
+          format: unsignedInteger
+          description: The held deposit.
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    Nominations:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            type: string
+          description: The targets of the nomination.
+        submittedIn:
+          type: string
+          format: unsignedInteger
+          description: The era the nominations were submitted. (Except for initial nominations which are considered submitted at era 0.)
+        suppressed:
+          type: boolean
+          description: Whether the nominations have been suppressed.
+    BlockIdentifiers:
+      type: object
+      properties:
+        hash:
+          type: string
+          description: The block's hash.
+          format: hex
+        height:
+          type: string
+          description: The block's height.
+          format: unsignedInteger
+    VestingSchedule:
+      type: object
+      properties:
+        locked:
+          type: string
+          description: Number of tokens locked at start.
+          format: unsignedInteger
+        perBlock:
+          type: string
+          description: Number of tokens that gets unlocked every block after `startingBlock`.
+          format: unsignedInteger
+        startingBlock:
+          type: string
+          description: Starting block for unlocking (vesting).
+          format: unsignedInteger
+        vested:
+          type: string
+          description: Amount that has vested based on time elapsed for this schedule. Only present when `includeClaimable` parameter is used.
+          format: unsignedInteger
+      description: Vesting schedule for an account.
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        stack:
+          type: string
+        level:
+          type: string
+    Payouts:
+      type: array
+      items:
+        type: object
+        properties:
+          validatorId:
+            type: string
+            description: AccountId of the validator the payout is coming from.
+          nominatorStakingPayout:
+            type: string
+            format: unsignedInteger
+            description: Payout for the reward destination associated with the accountId the query was made for.
+          claimed:
+            type: boolean
+            description: Whether or not the reward has been claimed.
+          totalValidatorRewardPoints:
+            type: string
+            format: unsignedInteger
+            description: Number of reward points earned by the validator.
+          validatorCommission:
+            type: string
+            format: unsignedInteger
+            description: The percentage of the total payout that the validator takes as commission, expressed as a Perbill.
+          totalValidatorExposure:
+            type: string
+            format: unsignedInteger
+            description: The sum of the validator's and its nominators' stake.
+          nominatorExposure:
+            type: string
+            format: unsignedInteger
+            description: The amount of stake the nominator has behind the validator.
+        description: Payout for a nominating _Stash_ address and information about the validator they were nominating.
+    AccountStakingInfo:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        rewardDestination:
+          type: string
+          description: The account to which rewards will be paid. Can be 'Staked' (Stash account, adding to the amount at stake), 'Stash' (Stash address, not adding to the amount at stake), or 'Controller' (Controller address).
+          format: ss58
+          enum:
+          - Staked
+          - Stash
+          - Controller
+        controller:
+          type: string
+          description: Controller address for the given Stash.
+          format: ss58
+        numSlashingSpans:
+          type: string
+          description: Number of slashing spans on Stash account; `null` if provided address is not a Controller.
+          format: unsignedInteger
+        nominations:
+          $ref: '#/components/schemas/Nominations'
+        staking:
+          $ref: '#/components/schemas/StakingLedger'
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+      description: 'Note: For Sidecar versions prior to v.20.0.0, in field `claimedRewards` under `staking`, we return whatever we would find under `StakingLedger` with no further calculations. From v.20.0.0 onwards, `claimedRewards` is calculated based on different calls: `lastReward`, `claimedRewards` or `legacyClaimedRewards`. Note on lastReward: Runtime versions of Kusama less than 1062 will either have `lastReward` in place of `claimedRewards`, or no field at all. This is related to changes in reward distribution. See: [Lazy Payouts](https://github.com/paritytech/substrate/pull/4474), [Simple Payouts](https://github.com/paritytech/substrate/pull/5406)'
+    AccountStakingPayouts:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        erasPayouts:
+          type: array
+          items:
+            type: object
+            properties:
+              era:
+                type: string
+                format: unsignedInteger
+                description: Era this information is associated with.
+              totalEraRewardPoints:
+                type: string
+                format: unsignedInteger
+                description: Total reward points for the era. Equals the sum of reward points for all the validators in the set.
+              totalEraPayout:
+                type: string
+                format: unsignedInteger
+                description: Total payout for the era. Validators split the payout based on the portion of `totalEraRewardPoints` they have.
+              payouts:
+                $ref: '#/components/schemas/Payouts'
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    AccountVestingInfo:
+      type: object
+      description: Sidecar version's <= v10.0.0 have a`vesting` return value that defaults to an object for when there is no available vesting-info data. It also returns a `VestingInfo` as an object. For Sidecar >=11.0.0, that value will now default as an array when there is no value, and `Vec<PalletsPalletVestingInfo>` is returned when there is.
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        vesting:
+          type: array
+          items:
+            $ref: '#/components/schemas/VestingSchedule'
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        vestedBalance:
+          type: string
+          description: Total vested amount across all schedules based on time elapsed. Only present when `includeClaimable` parameter is used.
+          format: unsignedInteger
+        vestingTotal:
+          type: string
+          description: Total locked amount across all vesting schedules. Only present when `includeClaimable` parameter is used.
+          format: unsignedInteger
+        vestedClaimable:
+          type: string
+          description: Actual amount that can be claimed now (vestedBalance minus already claimed). Only present when `includeClaimable` parameter is used.
+          format: unsignedInteger
+        blockNumberForCalculation:
+          type: string
+          description: The block number used for vesting calculations. Only present when `includeClaimable` parameter is used.
+          format: unsignedInteger
+        blockNumberSource:
+          type: string
+          description: Which chain's block number was used for calculations ('relay' or 'self'). Only present when `includeClaimable` parameter is used.
+          enum:
+          - relay
+          - self
+    AccountBalanceInfo:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        nonce:
+          type: string
+          description: Account nonce.
+          format: unsignedInteger
+        tokenSymbol:
+          type: string
+          description: Token symbol of the balances displayed in this response.
+          format: unsignedInteger
+        free:
+          type: string
+          description: Free balance of the account. Not equivalent to _spendable_ balance. This is the only balance that matters in terms of most operations on tokens.
+          format: unsignedInteger
+        reserved:
+          type: string
+          description: Reserved balance of the account.
+          format: unsignedInteger
+        miscFrozen:
+          type: string
+          description: The amount that `free` may not drop below when withdrawing for anything except transaction fee payment. Note, that some runtimes may not have support for miscFrozen and if so the following will be returned `miscFrozen does not exist for this runtime`
+          format: unsignedInteger
+        feeFrozen:
+          type: string
+          description: The amount that `free` may not drop below when withdrawing specifically for transaction fee payment. Note, that some runtimes may not have support for feeFrozen and if so the following will be returned `feeFrozen does not exist for this runtime`
+          format: unsignedInteger
+        frozen:
+          type: string
+          description: The amount that `free` may not drop below when reducing the balance, except for actions where the account owner cannot reasonably benefit from the balance reduction, such as slashing. Note, that some runtimes may not have support for frozen and if so the following will be returned `frozen does not exist for this runtime`
+          format: unsignedInteger
+        transferable:
+          type: string
+          description: The amount that can be transferred from this account. This is calculated using the formula `free - max(maybeEd, frozen - reserve)` where `maybeEd` is the existential deposit if there are frozen funds or reserves, otherwise it is zero. This represents the actual spendable balance. Note, that some historical runtimes may not have support for the current formula used and if so the following will be returned `transferable not supported for this runtime`.
+          format: unsignedInteger
+        locks:
+          type: array
+          description: Array of locks on a balance. There can be many of these on an account and they "overlap", so the same balance is frozen by multiple locks
+          items:
+            $ref: '#/components/schemas/BalanceLock'
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    StakingLedger:
+      type: object
+      properties:
+        stash:
+          type: string
+          description: The _Stash_ account whose balance is actually locked and at stake.
+          format: ss58
+        total:
+          type: string
+          description: The total amount of the _Stash_'s balance that we are currently accounting for. Simply `active + unlocking`.
+          format: unsignedInteger
+        active:
+          type: string
+          description: The total amount of the _Stash_'s balance that will be at stake in any forthcoming eras.
+          format: unsignedInteger
+        unlocking:
+          type: string
+          description: Any balance that is becoming free, which may eventually be transferred out of the _Stash_ (assuming it doesn't get slashed first). Represented as an array of objects, each with an `era` at which `value` will be unlocked.
+          format: unsignedInteger
+        claimedRewards:
+          type: array
+          description: Array of objects, each containing an `era` and its corresponding `status`, which represents the rewards status of the queried Stash account. The queried account can either be a validator or nominator account. This array is populated with values from `stakingLedger.lastReward`, `stakingLedger.legacyClaimedRewards` or `stakingLedger.claimedRewards`, as well as the `query.staking.claimedRewards` call, depending on whether the queried block is before or after the migration. For more details on the implementation and the migration, refer to the related PR (https://github.com/paritytech/substrate-api-sidecar/pull/1445) and linked issue (https://github.com/paritytech/substrate-api-sidecar/issues/1433#issuecomment-2075914389).
+          items:
+            type: object
+            properties:
+              era:
+                type: string
+                description: The era for which we check the rewards status.
+                format: unsignedInteger
+              status:
+                type: string
+                description: The rewards status of the stakers backing a validator.
+                enum:
+                - claimed
+                - unclaimed
+                - partially claimed
+      description: The staking ledger.
+    BalanceLock:
+      type: object
+      properties:
+        id:
+          type: string
+          description: An identifier for this lock. Only one lock may be in existence for each identifier.
+        amount:
+          type: string
+          description: The amount below which the free balance may not drop with this lock in effect.
+          format: unsignedInteger
+        reasons:
+          type: string
+          description: Reasons for withdrawing balance.
+          enum:
+          - Fee = 0
+          - Misc = 1
+          - All = 2

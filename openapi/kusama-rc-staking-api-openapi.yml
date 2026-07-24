@@ -1,0 +1,549 @@
+openapi: 3.0.0
+info:
+  title: Substrate API Sidecar accounts rc staking API
+  description: '> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of
+
+    > [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite
+
+    > built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints
+
+    > served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly
+
+    > lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.
+
+    >
+
+    > **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·
+
+    > [crate](https://crates.io/crates/polkadot-rest-api) ·
+
+    > [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·
+
+    > [docs](https://paritytech.github.io/polkadot-rest-api/) ·
+
+    > [issues](https://github.com/paritytech/polkadot-rest-api/issues)
+
+
+    Substrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes
+
+    built using Substrate''s FRAME framework.
+
+    '
+  contact:
+    url: https://github.com/paritytech/substrate-api-sidecar
+  license:
+    name: GPL-3.0-or-later
+    url: https://github.com/paritytech/substrate-api-sidecar/blob/master/LICENSE
+  version: 20.14.1
+servers:
+- url: https://polkadot-public-sidecar.parity-chains.parity.io/
+  description: Polkadot Parity public sidecar
+- url: https://kusama-public-sidecar.parity-chains.parity.io/
+  description: Kusama Parity public sidecar
+- url: https://polkadot-asset-hub-public-sidecar.parity-chains.parity.io/
+  description: Polkadot Asset Hub Parity public sidecar
+- url: https://kusama-asset-hub-public-sidecar.parity-chains.parity.io/
+  description: Kusama Asset Hub Parity public sidecar
+- url: http://localhost:8080
+  description: Localhost
+tags:
+- name: rc staking
+paths:
+  /rc/accounts/{address}/staking-info:
+    get:
+      tags:
+      - rc staking
+      summary: Get staking information for a _Stash_ account on the relay chain.
+      description: Returns information about a _Stash_ account's staking activity on the relay chain. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for staking information. The _Stash_ account can be either a validator or nominator account.
+      operationId: getRcAccountStakingInfo
+      parameters:
+      - name: address
+        in: path
+        description: SS58 address of the account. Must be a _Stash_ account.
+        required: true
+        schema:
+          type: string
+          format: SS58
+      - name: at
+        in: query
+        description: Block at which to query the staking info for the specified account.
+        required: false
+        schema:
+          type: string
+          description: Block height (as a non-negative integer) or hash (as a hex string).
+          format: unsignedInteger or $hex
+      - name: includeClaimedRewards
+        in: query
+        description: When set to `false`, the `claimedRewards` field is not included in the response.
+        required: false
+        schema:
+          type: string
+          format: boolean
+          default: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountStakingInfo'
+        '400':
+          description: Invalid Address
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /rc/accounts/{address}/staking-payouts:
+    get:
+      tags:
+      - rc staking
+      summary: Get payout information for a _Stash_ account on the relay chain.
+      description: Returns payout information for the last specified eras on the relay chain. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for staking payout information. If specifying both the depth and era query params, this endpoint will return information for (era - depth) through era. (i.e. if depth=5 and era=20 information will be returned for eras 16 through 20). The _Stash_ account can be either a validator or nominator account.
+      operationId: getRcAccountStakingPayouts
+      parameters:
+      - name: address
+        in: path
+        description: SS58 address of the account. Must be a _Stash_ account.
+        required: true
+        schema:
+          type: string
+          format: SS58
+      - name: at
+        in: query
+        description: Block at which to query staking payouts.
+        required: false
+        schema:
+          type: string
+          description: Block height (as a non-negative integer) or hash (as a hex string).
+          format: unsignedInteger or $hex
+      - name: depth
+        in: query
+        description: The number of eras to query for payouts of. Must be less than or equal to `HISTORY_DEPTH`. In cases where `era - (depth -1)` is less than 0, the first era queried will be 0.
+        required: false
+        schema:
+          type: string
+          format: unsignedInteger
+          default: 1
+      - name: era
+        in: query
+        description: The era to query at. Max era payout info is available for is the latest finished era (active_era - 1).
+        required: false
+        schema:
+          type: string
+          format: unsignedInteger
+      - name: unclaimedOnly
+        in: query
+        description: Only return unclaimed rewards.
+        required: false
+        schema:
+          type: string
+          format: boolean
+          default: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountStakingPayouts'
+        '400':
+          description: Invalid Address
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /rc/pallets/staking/progress:
+    get:
+      tags:
+      - rc staking
+      summary: Get progress on the general Staking pallet system on Relay Chain.
+      description: Returns information on the progress of key components of the staking system and estimates of future points of interest. If you are querying from Asset Hub for staking progress, this endpoint requires multi chain connections between the relay chain, and asset hub itself. Set the asset hub rpc to SAS_SUBSTRATE_URL, and add the relay chain to the SAS_SUBSTRATE_MULTI_CHAIN_URL env var. Refer to the README for the structure of the env vars. The `useRcBlock` parameter allows querying Asset Hub state using relay chain block numbers, enabling post-migration infrastructure to continue using relay chain block identifiers while accessing Asset Hub data.
+      operationId: getRcStakingProgress
+      parameters:
+      - name: at
+        in: query
+        description: Block at which to retrieve a staking progress report.
+        required: false
+        schema:
+          type: string
+          description: Block identifier, as the block height or block hash.
+          format: unsignedInteger or $hex
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/StakingProgress'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/StakingProgress'
+                description: Returns a single object when using standard parameters. Returns an array when using 'useRcBlock' parameter (array contains one object per Asset Hub block found, or empty array if none found).
+        '400':
+          description: invalid blockId supplied for at query param, or invalid parameter combination
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /rc/pallets/staking/validators:
+    get:
+      tags:
+      - rc staking
+      summary: Get all validators (active/waiting) of a specific chain.
+      description: Returns a list of all validators addresses and their corresponding status which can be either active or waiting. For declared validators, it also includes their commission rate (as parts-per-billion) and nomination blocking status. It will also return a list of active validators that will not be part of the next era for staking. They will be under the key "validatorsToBeChilled". It's important to note, that addresses can be present in both the "validators" key, and "validatorsToBeChilled". Commission and blocked properties are not present for active validators that have been chilled.
+      operationId: getRcStakingValidators
+      parameters:
+      - name: at
+        in: query
+        description: Block at which to retrieve the list of validators.
+        required: false
+        schema:
+          type: string
+          description: Block identifier, as the block height or block hash.
+          format: unsignedInteger or $hex
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StakingValidators'
+        '400':
+          description: invalid blockId supplied for at query param, or invalid parameter combination
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    BlockIdentifiers:
+      type: object
+      properties:
+        hash:
+          type: string
+          description: The block's hash.
+          format: hex
+        height:
+          type: string
+          description: The block's height.
+          format: unsignedInteger
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        stack:
+          type: string
+        level:
+          type: string
+    AccountStakingInfo:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        rewardDestination:
+          type: string
+          description: The account to which rewards will be paid. Can be 'Staked' (Stash account, adding to the amount at stake), 'Stash' (Stash address, not adding to the amount at stake), or 'Controller' (Controller address).
+          format: ss58
+          enum:
+          - Staked
+          - Stash
+          - Controller
+        controller:
+          type: string
+          description: Controller address for the given Stash.
+          format: ss58
+        numSlashingSpans:
+          type: string
+          description: Number of slashing spans on Stash account; `null` if provided address is not a Controller.
+          format: unsignedInteger
+        nominations:
+          $ref: '#/components/schemas/Nominations'
+        staking:
+          $ref: '#/components/schemas/StakingLedger'
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+      description: 'Note: For Sidecar versions prior to v.20.0.0, in field `claimedRewards` under `staking`, we return whatever we would find under `StakingLedger` with no further calculations. From v.20.0.0 onwards, `claimedRewards` is calculated based on different calls: `lastReward`, `claimedRewards` or `legacyClaimedRewards`. Note on lastReward: Runtime versions of Kusama less than 1062 will either have `lastReward` in place of `claimedRewards`, or no field at all. This is related to changes in reward distribution. See: [Lazy Payouts](https://github.com/paritytech/substrate/pull/4474), [Simple Payouts](https://github.com/paritytech/substrate/pull/5406)'
+    UnappliedSlash:
+      type: object
+      properties:
+        validator:
+          type: string
+          description: Stash account ID of the offending validator.
+          format: ss58
+        own:
+          type: string
+          description: The amount the validator will be slashed.
+          format: unsignedInteger
+        others:
+          type: array
+          description: Array of tuples(`[accountId, amount]`) representing all the stashes of other slashed stakers and the amount they will be slashed.
+          items:
+            type: string
+            format: tuple[ss58, unsignedInteger]
+        reporters:
+          type: array
+          description: Array of account IDs of the reporters of the offense.
+          items:
+            type: string
+            format: ss58
+        payout:
+          type: string
+          description: Amount of bounty payout to reporters.
+          format: unsignedInteger
+    Payouts:
+      type: array
+      items:
+        type: object
+        properties:
+          validatorId:
+            type: string
+            description: AccountId of the validator the payout is coming from.
+          nominatorStakingPayout:
+            type: string
+            format: unsignedInteger
+            description: Payout for the reward destination associated with the accountId the query was made for.
+          claimed:
+            type: boolean
+            description: Whether or not the reward has been claimed.
+          totalValidatorRewardPoints:
+            type: string
+            format: unsignedInteger
+            description: Number of reward points earned by the validator.
+          validatorCommission:
+            type: string
+            format: unsignedInteger
+            description: The percentage of the total payout that the validator takes as commission, expressed as a Perbill.
+          totalValidatorExposure:
+            type: string
+            format: unsignedInteger
+            description: The sum of the validator's and its nominators' stake.
+          nominatorExposure:
+            type: string
+            format: unsignedInteger
+            description: The amount of stake the nominator has behind the validator.
+        description: Payout for a nominating _Stash_ address and information about the validator they were nominating.
+    AccountStakingPayouts:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        erasPayouts:
+          type: array
+          items:
+            type: object
+            properties:
+              era:
+                type: string
+                format: unsignedInteger
+                description: Era this information is associated with.
+              totalEraRewardPoints:
+                type: string
+                format: unsignedInteger
+                description: Total reward points for the era. Equals the sum of reward points for all the validators in the set.
+              totalEraPayout:
+                type: string
+                format: unsignedInteger
+                description: Total payout for the era. Validators split the payout based on the portion of `totalEraRewardPoints` they have.
+              payouts:
+                $ref: '#/components/schemas/Payouts'
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    Nominations:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            type: string
+          description: The targets of the nomination.
+        submittedIn:
+          type: string
+          format: unsignedInteger
+          description: The era the nominations were submitted. (Except for initial nominations which are considered submitted at era 0.)
+        suppressed:
+          type: boolean
+          description: Whether the nominations have been suppressed.
+    ElectionStatus:
+      type: object
+      properties:
+        status:
+          type: object
+          description: '[Deprecated](Works for polkadot runtimes before v0.8.30).
+
+            Era election status: either `Close: null` or `Open: <BlockNumber>`. A status of `Close` indicates that the submission window for solutions from off-chain Phragmen is not open. A status of `Open` indicates that the submission window for off-chain Phragmen solutions has been open since BlockNumber. N.B. when the submission window is open, certain extrinsics are not allowed because they would mutate the state that the off-chain Phragmen calculation relies on for calculating results.'
+        toggleEstimate:
+          type: string
+          description: Upper bound estimate of the block height at which the `status` will switch.
+          format: unsignedInteger
+      description: Information about the off-chain election. Not included in response when `forceEra.isForceNone`.
+    StakingProgress:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        activeEra:
+          type: string
+          description: '`EraIndex` of the era being rewarded.
+
+            '
+          format: unsignedInteger
+        forceEra:
+          type: string
+          description: Current status of era forcing.
+          enum:
+          - ForceNone
+          - NotForcing
+          - ForceAlways
+          - ForceNew
+        nextActiveEraEstimate:
+          type: string
+          description: Upper bound estimate of the block height at which the next active era will start. Not included in response when `forceEra.isForceNone`.
+          format: unsignedInteger
+        nextSessionEstimate:
+          type: string
+          description: Upper bound estimate of the block height at which the next session will start.
+          format: unsignedInteger
+        unappliedSlashes:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnappliedSlash'
+          description: Array of upcoming `UnappliedSlash` indexed by era.
+        electionStatus:
+          $ref: '#/components/schemas/ElectionStatus'
+        idealValidatorCount:
+          type: string
+          description: Upper bound of validator set size; considered the ideal size. Not included in response when `forceEra.isForceNone`.
+          format: unsignedInteger
+        validatorSet:
+          type: array
+          description: Stash account IDs of the validators for the current session. Not included in response when `forceEra.isForceNone`.
+          items:
+            type: string
+            format: ss58
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    StakingLedger:
+      type: object
+      properties:
+        stash:
+          type: string
+          description: The _Stash_ account whose balance is actually locked and at stake.
+          format: ss58
+        total:
+          type: string
+          description: The total amount of the _Stash_'s balance that we are currently accounting for. Simply `active + unlocking`.
+          format: unsignedInteger
+        active:
+          type: string
+          description: The total amount of the _Stash_'s balance that will be at stake in any forthcoming eras.
+          format: unsignedInteger
+        unlocking:
+          type: string
+          description: Any balance that is becoming free, which may eventually be transferred out of the _Stash_ (assuming it doesn't get slashed first). Represented as an array of objects, each with an `era` at which `value` will be unlocked.
+          format: unsignedInteger
+        claimedRewards:
+          type: array
+          description: Array of objects, each containing an `era` and its corresponding `status`, which represents the rewards status of the queried Stash account. The queried account can either be a validator or nominator account. This array is populated with values from `stakingLedger.lastReward`, `stakingLedger.legacyClaimedRewards` or `stakingLedger.claimedRewards`, as well as the `query.staking.claimedRewards` call, depending on whether the queried block is before or after the migration. For more details on the implementation and the migration, refer to the related PR (https://github.com/paritytech/substrate-api-sidecar/pull/1445) and linked issue (https://github.com/paritytech/substrate-api-sidecar/issues/1433#issuecomment-2075914389).
+          items:
+            type: object
+            properties:
+              era:
+                type: string
+                description: The era for which we check the rewards status.
+                format: unsignedInteger
+              status:
+                type: string
+                description: The rewards status of the stakers backing a validator.
+                enum:
+                - claimed
+                - unclaimed
+                - partially claimed
+      description: The staking ledger.
+    StakingValidators:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        validators:
+          type: array
+          items:
+            type: object
+            properties:
+              address:
+                type: string
+                description: Address of validator.
+              status:
+                type: string
+                description: Status of individual validator (active/waiting).
+              commission:
+                type: string
+                description: The validator's commission rate as parts-per-billion (e.g., "100000000" = 10%). Not present for chilled validators.
+              blocked:
+                type: boolean
+                description: Whether the validator is blocked from receiving new nominations. Not present for chilled validators.
+        validatorsToBeChilled:
+          description: Validators that will not be participating in the next era.
+          type: array
+          items:
+            type: object
+            properties:
+              address:
+                type: string
+                description: Address of validator.
+              status:
+                type: string
+                description: Status of individual validator (active/waiting).
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger

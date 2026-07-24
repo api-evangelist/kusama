@@ -1,0 +1,1095 @@
+openapi: 3.0.0
+info:
+  title: Substrate API Sidecar accounts API
+  description: '> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of
+
+    > [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite
+
+    > built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints
+
+    > served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly
+
+    > lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.
+
+    >
+
+    > **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·
+
+    > [crate](https://crates.io/crates/polkadot-rest-api) ·
+
+    > [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·
+
+    > [docs](https://paritytech.github.io/polkadot-rest-api/) ·
+
+    > [issues](https://github.com/paritytech/polkadot-rest-api/issues)
+
+
+    Substrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes
+
+    built using Substrate''s FRAME framework.
+
+    '
+  contact:
+    url: https://github.com/paritytech/substrate-api-sidecar
+  license:
+    name: GPL-3.0-or-later
+    url: https://github.com/paritytech/substrate-api-sidecar/blob/master/LICENSE
+  version: 20.14.1
+servers:
+- url: https://polkadot-public-sidecar.parity-chains.parity.io/
+  description: Polkadot Parity public sidecar
+- url: https://kusama-public-sidecar.parity-chains.parity.io/
+  description: Kusama Parity public sidecar
+- url: https://polkadot-asset-hub-public-sidecar.parity-chains.parity.io/
+  description: Polkadot Asset Hub Parity public sidecar
+- url: https://kusama-asset-hub-public-sidecar.parity-chains.parity.io/
+  description: Kusama Asset Hub Parity public sidecar
+- url: http://localhost:8080
+  description: Localhost
+tags:
+- name: accounts
+paths:
+  /accounts/{accountId}/asset-balances:
+    get:
+      tags:
+      - accounts
+      summary: Get an array of asset-balances for an account.
+      description: Returns information about an account's asset-balances. This is specific to the assets pallet for parachains. If no `assets` query parameter is provided, all asset-balances for the given account will be returned.
+      operationId: getAssetBalances
+      parameters:
+      - name: accountId
+        in: path
+        description: SS58 address of the account.
+        required: true
+        schema:
+          type: string
+          format: SS58
+      - name: at
+        in: query
+        description: Block at which to query asset-balance info for the specified account.
+        required: false
+        schema:
+          type: string
+          description: Block height (as a positive integer) or hash (as a hex string).
+          format: unsignedInteger or $hex
+      - name: useRcBlock
+        in: query
+        description: When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s). Only supported for Asset Hub endpoints. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found.
+        required: false
+        schema:
+          type: boolean
+          description: When set to 'true', uses relay chain block mode with the 'at' parameter.
+      - name: useRcBlockFormat
+        in: query
+        description: Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified.
+        required: false
+        schema:
+          type: string
+          enum:
+          - array
+          - object
+          description: Response format - 'array' (default) returns standard array, 'object' wraps response with rcBlock info.
+      - name: assets
+        in: query
+        description: An array of AssetId's to be queried. If not supplied, defaults to providing all asset balances associated with the `accountId` will be returned. The array query param format follows Express 4.x API. ex:`?assets[]=1&assets[]=2&assets[]=3`.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          description: An array of assetId numbers represented as strings
+          format: Array of unsignedInteger's
+      responses:
+        '200':
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AccountAssetsBalances'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/AccountAssetsBalances'
+                description: Returns a single object when using 'at' parameter or no query params. Returns an array when using 'useRcBlock' parameter (array contains one object per Asset Hub block found, or empty array if none found).
+        '400':
+          description: Invalid Address, invalid blockId supplied for at query param, or invalid parameter combination
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /accounts/{accountId}/asset-approvals:
+    get:
+      tags:
+      - accounts
+      summary: Get an asset approval for an account.
+      description: Returns information about an account's asset approval transaction. It is required to pass in a delegate and an assetId as query parameters.
+      operationId: getAssetApprovals
+      parameters:
+      - name: accountId
+        in: path
+        description: SS58 address of the account.
+        required: true
+        schema:
+          type: string
+          format: SS58
+      - name: at
+        in: query
+        description: Block at which to query asset approval info for the specified account.
+        required: false
+        schema:
+          type: string
+          description: Block height (as a non-negative integer) or hash (as a hex string).
+          format: unsignedInteger or $hex
+      - name: useRcBlock
+        in: query
+        description: When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s). Only supported for Asset Hub endpoints. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found.
+        required: false
+        schema:
+          type: boolean
+          description: When set to 'true', uses relay chain block mode with the 'at' parameter.
+      - name: useRcBlockFormat
+        in: query
+        description: Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified.
+        required: false
+        schema:
+          type: string
+          enum:
+          - array
+          - object
+          description: Response format - 'array' (default) returns standard array, 'object' wraps response with rcBlock info.
+      - name: assetId
+        in: query
+        description: The `assetId` associated with the asset-approval.
+        required: true
+        schema:
+          type: string
+          description: An assetId represented as an unsignedInteger.
+          format: unsignedInteger
+      - name: delegate
+        in: query
+        description: The delegate's `accountId` associated with an asset-approval.
+        required: true
+        schema:
+          type: string
+          format: SS58
+      responses:
+        '200':
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AccountAssetsApproval'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/AccountAssetsApproval'
+                description: Returns a single object when using standard parameters. Returns an array when using 'useRcBlock' parameter (array contains one object per Asset Hub block found, or empty array if none found).
+        '400':
+          description: Invalid Address, invalid blockId supplied for at query param, or invalid parameter combination
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /accounts/{accountId}/balance-info:
+    get:
+      tags:
+      - accounts
+      summary: Get balance information for an account.
+      description: Returns information about an account's balance. Replaces `/balance/{address}` from versions < v1.0.0.
+      operationId: getAccountBalanceInfo
+      parameters:
+      - name: accountId
+        in: path
+        description: SS58 address of the account.
+        required: true
+        schema:
+          type: string
+          format: SS58
+      - name: at
+        in: query
+        description: Block at which to query balance info for the specified account.
+        required: false
+        schema:
+          type: string
+          description: Block height (as a non-negative integer) or hash (as a hex string).
+          format: unsignedInteger or $hex
+      - name: useRcBlock
+        in: query
+        description: When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving balance info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found.
+        required: false
+        schema:
+          type: boolean
+          description: When set to 'true', uses relay chain block mode with the 'at' parameter.
+      - name: useRcBlockFormat
+        in: query
+        description: Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified.
+        required: false
+        schema:
+          type: string
+          enum:
+          - array
+          - object
+          description: Response format - 'array' (default) returns standard array, 'object' wraps response with rcBlock info.
+      - name: token
+        in: query
+        description: 'Token to query the balance of. If not specified it will query the chains native token (e.g. DOT for Polkadot). Note: this is only relevant for chains that support multiple tokens through the ORML tokens pallet.'
+        required: false
+        schema:
+          type: string
+          description: Token symbol
+      - name: denominated
+        in: query
+        description: When set to `true` it will denominate any balance's given atomic value using the chains given decimal value.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AccountBalanceInfo'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/AccountBalanceInfo'
+                description: Returns a single object when using standard parameters. Returns an array when using 'useRcBlock' parameter (array contains one object per Asset Hub block found, or empty array if none found).
+        '400':
+          description: Invalid Address, invalid blockId supplied for at query param, or invalid parameter combination
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /accounts/{accountId}/convert:
+    get:
+      tags:
+      - accounts
+      summary: Convert a given AccountId to an SS58 address.
+      description: Returns the SS58 prefix, the network address format, the SS58 address, and the AccountId that was given as input parameter, the scheme that was used and if it is a public key or not (boolean).
+      operationId: accountConvert
+      parameters:
+      - name: accountId
+        in: path
+        description: AccountId or Public Key (hex).
+        required: true
+        schema:
+          format: AccountId or Hex
+          type: string
+      - name: scheme
+        in: query
+        description: The cryptographic scheme to be used in order to convert the AccountId to an SS58 address. It can take one of three values [sr25519, ed25519, ecdsa]. The default scheme that is used is `sr25519` (if it is not set in the query parameter).
+        required: false
+        schema:
+          type: string
+          format: string
+          default: sr25519
+      - name: prefix
+        in: query
+        description: The address prefix which can be one of the values found in the SS58-registry.
+        required: false
+        schema:
+          type: string
+          format: number
+          default: 42
+      - name: publicKey
+        in: query
+        description: Defines if the given value in the path parameter is a Public Key (hex) or not (hence AccountId).
+        required: false
+        schema:
+          type: string
+          format: boolean
+          default: true
+      responses:
+        '200':
+          description: successfully converted the AccountId and retrieved the address info.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountConvert'
+        '400':
+          description: Invalid AccountId
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: AccountId not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /accounts/{accountId}/pool-asset-balances:
+    get:
+      tags:
+      - accounts
+      summary: Get an array of pool-asset-balances for an account.
+      description: Returns information about an account's pool-asset-balances. This is specific to the pool assets pallet for parachains. If no `assets` query parameter is provided, all pool-asset-balances for the given account will be returned.
+      operationId: getPoolAssetBalances
+      parameters:
+      - name: accountId
+        in: path
+        description: SS58 address of the account.
+        required: true
+        schema:
+          type: string
+          format: SS58
+      - name: at
+        in: query
+        description: Block at which to query pool-asset-balance info for the specified account.
+        required: false
+        schema:
+          type: string
+          description: Block height (as a positive integer) or hash (as a hex string).
+          format: unsignedInteger or $hex
+      - name: useRcBlock
+        in: query
+        description: When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving pool-asset-balance info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found.
+        required: false
+        schema:
+          type: boolean
+          description: When set to 'true', uses relay chain block mode with the 'at' parameter.
+      - name: useRcBlockFormat
+        in: query
+        description: Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified.
+        required: false
+        schema:
+          type: string
+          enum:
+          - array
+          - object
+          description: Response format - 'array' (default) returns standard array, 'object' wraps response with rcBlock info.
+      - name: assets
+        in: query
+        description: An array of AssetId's to be queried. If not supplied, defaults to providing all asset balances associated with the `accountId` will be returned. The array query param format follows Express 4.x API. ex:`?assets[]=1&assets[]=2&assets[]=3`.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          description: A list of assetId numbers represented as strings
+          format: Array of unsignedInteger's
+      responses:
+        '200':
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AccountPoolAssetsBalances'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/AccountPoolAssetsBalances'
+                description: Returns a single object when using standard parameters. Returns an array when using 'useRcBlock' parameter (array contains one object per Asset Hub block found, or empty array if none found).
+        '400':
+          description: Invalid Address, invalid blockId supplied for at query param, or invalid parameter combination
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /accounts/{accountId}/pool-asset-approvals:
+    get:
+      tags:
+      - accounts
+      summary: Get an asset approval for an account.
+      description: Returns information about an account's asset approval transaction. It is required to pass in a delegate and an assetId as query parameters.
+      operationId: getPoolAssetApprovals
+      parameters:
+      - name: accountId
+        in: path
+        description: SS58 address of the account.
+        required: true
+        schema:
+          type: string
+          format: SS58
+      - name: at
+        in: query
+        description: Block at which to query asset approval info for the specified account.
+        required: false
+        schema:
+          type: string
+          description: Block height (as a non-negative integer) or hash (as a hex string).
+          format: unsignedInteger or $hex
+      - name: useRcBlock
+        in: query
+        description: When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving pool-asset-approval info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found.
+        required: false
+        schema:
+          type: boolean
+          description: When set to 'true', uses relay chain block mode with the 'at' parameter.
+      - name: useRcBlockFormat
+        in: query
+        description: Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified.
+        required: false
+        schema:
+          type: string
+          enum:
+          - array
+          - object
+          description: Response format - 'array' (default) returns standard array, 'object' wraps response with rcBlock info.
+      - name: assetId
+        in: query
+        description: The `assetId` associated with the asset-approval.
+        required: true
+        schema:
+          type: string
+          description: An assetId represented as an unsignedInteger.
+          format: unsignedInteger
+      - name: delegate
+        in: query
+        description: The delegate's `accountId` associated with an asset-approval.
+        required: true
+        schema:
+          type: string
+          format: SS58
+      responses:
+        '200':
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AccountAssetsApproval'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/AccountAssetsApproval'
+                description: Returns a single object when using standard parameters. Returns an array when using 'useRcBlock' parameter (array contains one object per Asset Hub block found, or empty array if none found).
+        '400':
+          description: Invalid Address, invalid blockId supplied for at query param, or invalid parameter combination
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /accounts/{accountId}/foreign-asset-balances:
+    get:
+      tags:
+      - accounts
+      summary: Get an array of foreign-asset-balances for an account.
+      description: Returns information about an account's foreign-asset-balances. This is specific to the foreignAssets pallet for parachains. If no `foreignAssets` query parameter is provided, all foreign-asset-balances for the given account will be returned.
+      operationId: getForeignAssetBalances
+      parameters:
+      - name: accountId
+        in: path
+        description: SS58 address of the account.
+        required: true
+        schema:
+          type: string
+          format: SS58
+      - name: at
+        in: query
+        description: Block at which to query foreign-asset-balance info for the specified account.
+        required: false
+        schema:
+          type: string
+          description: Block height (as a positive integer) or hash (as a hex string).
+          format: unsignedInteger or $hex
+      - name: useRcBlock
+        in: query
+        description: When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving foreign-asset-balance info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found.
+        required: false
+        schema:
+          type: boolean
+          description: When set to 'true', uses relay chain block mode with the 'at' parameter.
+      - name: useRcBlockFormat
+        in: query
+        description: Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified.
+        required: false
+        schema:
+          type: string
+          enum:
+          - array
+          - object
+          description: Response format - 'array' (default) returns standard array, 'object' wraps response with rcBlock info.
+      - name: foreignAssets
+        in: query
+        description: An array of multilocation JSON strings to be queried. If not supplied, all foreign asset balances associated with the `accountId` will be returned. The array query param format follows Express 4.x API. ex:`?foreignAssets[]={"parents":"1","interior":{"X1":{"Parachain":"2125"}}}&foreignAssets[]={"parents":"2","interior":{"X1":{"GlobalConsensus":"Polkadot"}}}`.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          description: An array of multilocation objects represented as JSON strings.
+          format: Array of JSON strings
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AccountForeignAssetsBalances'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/AccountForeignAssetsBalances'
+                description: Returns a single object when using standard parameters. Returns an array when using 'useRcBlock' parameter (array contains one object per Asset Hub block found, or empty array if none found).
+        '400':
+          description: Invalid Address, invalid blockId supplied for at query param, or invalid parameter combination
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /accounts/{accountId}/proxy-info:
+    get:
+      tags:
+      - accounts
+      summary: Get proxy account information.
+      description: Returns information about a proxy account. This will include delegated accounts and deposits held.
+      operationId: getProxyInfo
+      parameters:
+      - name: accountId
+        in: path
+        description: SS58 address of the account.
+        required: true
+        schema:
+          type: string
+          format: SS58
+      - name: at
+        in: query
+        description: Block at which to query proxy info for the specified account.
+        required: false
+        schema:
+          type: string
+          description: Block height (as a non-negative integer) or hash (as a hex string).
+          format: unsignedInteger or $hex
+      - name: useRcBlock
+        in: query
+        description: When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving proxy info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found.
+        required: false
+        schema:
+          type: boolean
+          description: When set to 'true', uses relay chain block mode with the 'at' parameter.
+      - name: useRcBlockFormat
+        in: query
+        description: Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified.
+        required: false
+        schema:
+          type: string
+          enum:
+          - array
+          - object
+          description: Response format - 'array' (default) returns standard array, 'object' wraps response with rcBlock info.
+      responses:
+        '200':
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AccountProxyInfo'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/AccountProxyInfo'
+                description: Returns a single object when using standard parameters. Returns an array when using 'useRcBlock' parameter (array contains one object per Asset Hub block found, or empty array if none found).
+        '400':
+          description: Invalid Address, invalid blockId supplied for at query param, or invalid parameter combination
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /accounts/{accountId}/vesting-info:
+    get:
+      tags:
+      - accounts
+      summary: Get vesting information for an account.
+      description: Returns the vesting schedule for an account. Replaces `/vesting/{address}` from versions < v1.0.0.
+      operationId: getVestingSummaryByAccountId
+      parameters:
+      - name: accountId
+        in: path
+        description: SS58 address of the account.
+        required: true
+        schema:
+          format: SS58
+          type: string
+      - name: at
+        in: query
+        description: Block at which to query the vesting info for the specified account.
+        required: false
+        schema:
+          type: string
+          description: Block identifier, as the block height or block hash.
+          format: unsignedInteger or $hex
+      - name: useRcBlock
+        in: query
+        description: When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving vesting info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found.
+        required: false
+        schema:
+          type: boolean
+          description: When set to 'true', uses relay chain block mode with the 'at' parameter.
+      - name: useRcBlockFormat
+        in: query
+        description: Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified.
+        required: false
+        schema:
+          type: string
+          enum:
+          - array
+          - object
+          description: Response format - 'array' (default) returns standard array, 'object' wraps response with rcBlock info.
+      - name: includeClaimable
+        in: query
+        description: When set to 'true', calculates and includes vested amounts for each vesting schedule plus the claimable amount. For Asset Hub post-migration queries, this requires a relay chain connection since vesting schedules use relay chain block numbers.
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AccountVestingInfo'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/AccountVestingInfo'
+                description: Returns a single object when using standard parameters. Returns an array when using 'useRcBlock' parameter (array contains one object per Asset Hub block found, or empty array if none found).
+        '400':
+          description: Invalid Address, invalid blockId supplied for at query param, or invalid parameter combination
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /accounts/{address}/validate:
+    get:
+      tags:
+      - accounts
+      summary: Validate a given address.
+      description: Returns whether the given address is valid ss58 format, the ss58 prefix if the address has one, the network address format, and what the account ID is for this address.
+      operationId: getValidationByAccountId
+      parameters:
+      - name: address
+        in: path
+        description: SS58 or Hex address of the account.
+        required: true
+        schema:
+          format: SS58 or Hex
+          type: string
+      responses:
+        '200':
+          description: successfully retrieved address info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountValidation'
+  /accounts/compare:
+    get:
+      tags:
+      - accounts
+      summary: Compares up to 30 SS58 addresses.
+      description: Returns if the given addresses are equal or not, along with details of each address. Equality is determined by comparing the accountId/publicKey of each address.
+      operationId: accountCompare
+      parameters:
+      - name: addresses
+        in: query
+        description: An array or a comma separated string of SS58 addresses. Provide up to 30 addresses using one of these formats `?addresses=...&addresses=...` or `?addresses[]=...&addresses[]=...` or `?addresses=...,...`.
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+          description: An array of SS58 addresses.
+      responses:
+        '200':
+          description: successfully compared at least two SS58 addresses.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountCompare'
+        '400':
+          description: Invalid Address
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    AccountAssetsApproval:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        amount:
+          type: string
+          description: The amount of funds approved for the balance transfer from the owner to some delegated target.
+          format: unsignedInteger
+        deposit:
+          type: string
+          description: The amount reserved on the owner's account to hold this item in storage.
+          format: unsignedInteger
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    AccountProxyInfo:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        delegatedAccounts:
+          type: array
+          items:
+            type: object
+            properties:
+              delegate:
+                type: string
+                description: Delegate address for the given proxy.
+                format: ss58
+              delay:
+                type: string
+                description: The announcement period required of the initial proxy. Will generally be zero.
+                format: unsignedInteger
+              proxyType:
+                type: string
+                description: The permissions allowed for this proxy account.
+        depositHeld:
+          type: string
+          format: unsignedInteger
+          description: The held deposit.
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    AddressDetails:
+      type: object
+      properties:
+        ss58Format:
+          type: string
+          description: The queried SS58 address.
+        ss58Prefix:
+          type: string
+          description: SS58 prefix of the given address.
+          format: unsignedInteger
+        network:
+          type: string
+          description: The network based on which the given address is encoded.
+        publicKey:
+          type: string
+          description: The account ID/Public Key (hex) of the queried SS58 address.
+    BlockIdentifiers:
+      type: object
+      properties:
+        hash:
+          type: string
+          description: The block's hash.
+          format: hex
+        height:
+          type: string
+          description: The block's height.
+          format: unsignedInteger
+    VestingSchedule:
+      type: object
+      properties:
+        locked:
+          type: string
+          description: Number of tokens locked at start.
+          format: unsignedInteger
+        perBlock:
+          type: string
+          description: Number of tokens that gets unlocked every block after `startingBlock`.
+          format: unsignedInteger
+        startingBlock:
+          type: string
+          description: Starting block for unlocking (vesting).
+          format: unsignedInteger
+        vested:
+          type: string
+          description: Amount that has vested based on time elapsed for this schedule. Only present when `includeClaimable` parameter is used.
+          format: unsignedInteger
+      description: Vesting schedule for an account.
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        stack:
+          type: string
+        level:
+          type: string
+    AccountValidation:
+      type: object
+      properties:
+        isValid:
+          type: boolean
+          description: Whether the given address is valid ss58 formatted.
+        ss58Prefix:
+          type: string
+          description: SS58 prefix of the given address. If the address is a valid base58 format, but incorrect ss58, a prefix for the given address will still be returned.
+          format: unsignedInteger
+        network:
+          type: string
+          description: The network based on which the given address is encoded.
+        accountId:
+          type: string
+          description: The account id of the given address.
+    AccountForeignAssetsBalances:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        foreignAssets:
+          type: array
+          description: An array of queried foreign assets.
+          items:
+            $ref: '#/components/schemas/ForeignAssetBalance'
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    AccountVestingInfo:
+      type: object
+      description: Sidecar version's <= v10.0.0 have a`vesting` return value that defaults to an object for when there is no available vesting-info data. It also returns a `VestingInfo` as an object. For Sidecar >=11.0.0, that value will now default as an array when there is no value, and `Vec<PalletsPalletVestingInfo>` is returned when there is.
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        vesting:
+          type: array
+          items:
+            $ref: '#/components/schemas/VestingSchedule'
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        vestedBalance:
+          type: string
+          description: Total vested amount across all schedules based on time elapsed. Only present when `includeClaimable` parameter is used.
+          format: unsignedInteger
+        vestingTotal:
+          type: string
+          description: Total locked amount across all vesting schedules. Only present when `includeClaimable` parameter is used.
+          format: unsignedInteger
+        vestedClaimable:
+          type: string
+          description: Actual amount that can be claimed now (vestedBalance minus already claimed). Only present when `includeClaimable` parameter is used.
+          format: unsignedInteger
+        blockNumberForCalculation:
+          type: string
+          description: The block number used for vesting calculations. Only present when `includeClaimable` parameter is used.
+          format: unsignedInteger
+        blockNumberSource:
+          type: string
+          description: Which chain's block number was used for calculations ('relay' or 'self'). Only present when `includeClaimable` parameter is used.
+          enum:
+          - relay
+          - self
+    AccountAssetsBalances:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        assets:
+          type: array
+          description: An array of queried assets.
+          items:
+            $ref: '#/components/schemas/AssetsBalance'
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    AccountConvert:
+      type: object
+      properties:
+        ss58Prefix:
+          type: string
+          description: SS58 prefix based on which the account ID or Public Key (hex) is converted to an SS58 address.
+          format: unsignedInteger
+        network:
+          type: string
+          description: The network based on which the returned address is encoded. It depends on the prefix that was given as a query param.
+        address:
+          type: string
+          description: The returned SS58 address which is the result of the conversion of the account ID or Public Key (hex).
+        accountId:
+          type: string
+          description: The given account ID or Public Key (hex) that is converted to an SS58 address.
+        scheme:
+          type: string
+          description: The cryptographic scheme/algorithm used to encode the given account ID or Public Key (hex).
+        publicKey:
+          type: boolean
+          description: Whether the given path parameter is a Public Key (hex) or not.
+    AssetsBalance:
+      type: object
+      properties:
+        assetId:
+          type: string
+          description: The identifier of the asset.
+          format: unsignedInteger
+        balance:
+          type: string
+          description: The balance of the asset.
+          format: unsignedInteger
+        isFrozen:
+          type: boolean
+          description: Whether the asset is frozen for non-admin transfers. Note, that some runtimes may not have support for isFrozen and if so the following will be returned `isFrozen does not exist for this runtime`
+        isSufficient:
+          type: boolean
+          description: Whether a non-zero balance of this asset is a deposit of sufficient value to account for the state bloat associated with its balance storage. If set to `true`, then non-zero balances may be stored without a `consumer` reference (and thus an ED in the Balances pallet or whatever else is used to control user-account state growth).
+    AccountCompare:
+      type: object
+      properties:
+        areEqual:
+          type: boolean
+          description: Whether the given SS58 addresses are equal or not. Equality is determined by comparing the accountId/publicKey of each address.
+        addresses:
+          type: array
+          description: An array that contains detailed information for each of the queried SS58 addresses.
+          items:
+            $ref: '#/components/schemas/AddressDetails'
+    AccountPoolAssetsBalances:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        poolAssets:
+          type: array
+          description: An array of queried assets.
+          items:
+            $ref: '#/components/schemas/AssetsBalance'
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    AccountBalanceInfo:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        nonce:
+          type: string
+          description: Account nonce.
+          format: unsignedInteger
+        tokenSymbol:
+          type: string
+          description: Token symbol of the balances displayed in this response.
+          format: unsignedInteger
+        free:
+          type: string
+          description: Free balance of the account. Not equivalent to _spendable_ balance. This is the only balance that matters in terms of most operations on tokens.
+          format: unsignedInteger
+        reserved:
+          type: string
+          description: Reserved balance of the account.
+          format: unsignedInteger
+        miscFrozen:
+          type: string
+          description: The amount that `free` may not drop below when withdrawing for anything except transaction fee payment. Note, that some runtimes may not have support for miscFrozen and if so the following will be returned `miscFrozen does not exist for this runtime`
+          format: unsignedInteger
+        feeFrozen:
+          type: string
+          description: The amount that `free` may not drop below when withdrawing specifically for transaction fee payment. Note, that some runtimes may not have support for feeFrozen and if so the following will be returned `feeFrozen does not exist for this runtime`
+          format: unsignedInteger
+        frozen:
+          type: string
+          description: The amount that `free` may not drop below when reducing the balance, except for actions where the account owner cannot reasonably benefit from the balance reduction, such as slashing. Note, that some runtimes may not have support for frozen and if so the following will be returned `frozen does not exist for this runtime`
+          format: unsignedInteger
+        transferable:
+          type: string
+          description: The amount that can be transferred from this account. This is calculated using the formula `free - max(maybeEd, frozen - reserve)` where `maybeEd` is the existential deposit if there are frozen funds or reserves, otherwise it is zero. This represents the actual spendable balance. Note, that some historical runtimes may not have support for the current formula used and if so the following will be returned `transferable not supported for this runtime`.
+          format: unsignedInteger
+        locks:
+          type: array
+          description: Array of locks on a balance. There can be many of these on an account and they "overlap", so the same balance is frozen by multiple locks
+          items:
+            $ref: '#/components/schemas/BalanceLock'
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    ForeignAssetBalance:
+      type: object
+      properties:
+        multiLocation:
+          type: object
+          description: The multilocation identifier of the foreign asset. This is an XCM multilocation object that uniquely identifies an asset across different parachains.
+        balance:
+          type: string
+          description: The balance of the foreign asset.
+          format: unsignedInteger
+        isFrozen:
+          type: boolean
+          description: Whether the asset is frozen for non-admin transfers. Returns false if the runtime does not support isFrozen.
+        isSufficient:
+          type: boolean
+          description: Whether a non-zero balance of this asset is a deposit of sufficient value to account for the state bloat associated with its balance storage. If set to `true`, then non-zero balances may be stored without a `consumer` reference (and thus an ED in the Balances pallet or whatever else is used to control user-account state growth).
+    BalanceLock:
+      type: object
+      properties:
+        id:
+          type: string
+          description: An identifier for this lock. Only one lock may be in existence for each identifier.
+        amount:
+          type: string
+          description: The amount below which the free balance may not drop with this lock in effect.
+          format: unsignedInteger
+        reasons:
+          type: string
+          description: Reasons for withdrawing balance.
+          enum:
+          - Fee = 0
+          - Misc = 1
+          - All = 2

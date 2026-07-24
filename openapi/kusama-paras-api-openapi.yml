@@ -1,0 +1,682 @@
+openapi: 3.0.0
+info:
+  title: Substrate API Sidecar accounts paras API
+  description: '> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of
+
+    > [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite
+
+    > built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints
+
+    > served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly
+
+    > lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.
+
+    >
+
+    > **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·
+
+    > [crate](https://crates.io/crates/polkadot-rest-api) ·
+
+    > [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·
+
+    > [docs](https://paritytech.github.io/polkadot-rest-api/) ·
+
+    > [issues](https://github.com/paritytech/polkadot-rest-api/issues)
+
+
+    Substrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes
+
+    built using Substrate''s FRAME framework.
+
+    '
+  contact:
+    url: https://github.com/paritytech/substrate-api-sidecar
+  license:
+    name: GPL-3.0-or-later
+    url: https://github.com/paritytech/substrate-api-sidecar/blob/master/LICENSE
+  version: 20.14.1
+servers:
+- url: https://polkadot-public-sidecar.parity-chains.parity.io/
+  description: Polkadot Parity public sidecar
+- url: https://kusama-public-sidecar.parity-chains.parity.io/
+  description: Kusama Parity public sidecar
+- url: https://polkadot-asset-hub-public-sidecar.parity-chains.parity.io/
+  description: Polkadot Asset Hub Parity public sidecar
+- url: https://kusama-asset-hub-public-sidecar.parity-chains.parity.io/
+  description: Kusama Asset Hub Parity public sidecar
+- url: http://localhost:8080
+  description: Localhost
+tags:
+- name: paras
+paths:
+  /paras:
+    get:
+      tags:
+      - paras
+      summary: '[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] List all registered paras (parathreads & parachains).
+
+        '
+      description: Returns all registered parachains and parathreads with lifecycle info.
+      parameters:
+      - name: at
+        in: query
+        description: Block at which to retrieve paras list at.
+        required: false
+        schema:
+          type: string
+          description: Block identifier, as the block height or block hash.
+          format: unsignedInteger or $hex
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Paras'
+  /paras/leases/current:
+    get:
+      tags:
+      - paras
+      summary: '[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get general information about the current lease period.
+
+        '
+      description: 'Returns an overview of the current lease period, including lease holders.
+
+        '
+      parameters:
+      - name: at
+        in: query
+        description: Block at which to retrieve current lease period info at.
+        required: false
+        schema:
+          type: string
+          description: Block identifier, as the block height or block hash.
+          format: unsignedInteger or $hex
+      - name: currentLeaseHolders
+        in: query
+        description: 'Wether or not to include the `currentLeaseHolders` property. Inclusion
+
+          of the property will likely result in a larger payload and increased
+
+          response time.
+
+          '
+        required: false
+        schema:
+          type: boolean
+          default: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParasLeasesCurrent'
+  /paras/auctions/current:
+    get:
+      tags:
+      - paras
+      summary: '[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get the status of the current auction.
+
+        '
+      description: 'Returns an overview of the current auction. There is only one auction
+
+        at a time. If there is no auction most fields will be `null`. If the current
+
+        auction phase is in `vrfDelay` and you are looking to retrieve the latest winning
+
+        bids, it is advised to query one block before `finishEnd` in the `endingPeriod` phase
+
+        for that auction as there technically are no winners during the `vrfDelay` and thus
+
+        the field is `null`.
+
+        '
+      parameters:
+      - name: at
+        in: query
+        description: Block at which to retrieve auction progress at.
+        required: false
+        schema:
+          type: string
+          description: Block identifier, as the block height or block hash.
+          format: unsignedInteger or $hex
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParasAuctionsCurrent'
+  /paras/crowdloans:
+    get:
+      tags:
+      - paras
+      summary: '[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] List all stored crowdloans.
+
+        '
+      description: 'Returns a list of all the crowdloans and their associated paraIds.
+
+        '
+      parameters:
+      - name: at
+        in: query
+        description: Block at which to retrieve the list of paraIds that have crowdloans at.
+        required: false
+        schema:
+          type: string
+          description: Block identifier, as the block height or block hash.
+          format: unsignedInteger or $hex
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParasCrowdloans'
+  /paras/{paraId}/crowdloan-info:
+    get:
+      tags:
+      - paras
+      summary: '[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get crowdloan information for a `paraId`.
+
+        '
+      description: 'Returns crowdloan''s `fundInfo` and the set of `leasePeriods` the crowdloan`
+
+        covers.
+
+        '
+      parameters:
+      - name: paraId
+        in: path
+        description: paraId to query the crowdloan information of.
+        required: true
+        schema:
+          type: number
+      - name: at
+        in: query
+        description: Block at which to retrieve info at.
+        required: false
+        schema:
+          type: string
+          description: Block identifier, as the block height or block hash.
+          format: unsignedInteger or $hex
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParasCrowdloanInfo'
+  /paras/{paraId}/lease-info:
+    get:
+      tags:
+      - paras
+      summary: '[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get current and future leases as well as the lifecycle stage for a given `paraId`.
+
+        '
+      description: 'Returns a list of leases that belong to the `paraId` as well as the
+
+        `paraId`''s current lifecycle stage.
+
+        '
+      parameters:
+      - name: paraId
+        in: path
+        description: paraId to query the crowdloan information of.
+        required: true
+        schema:
+          type: number
+      - name: at
+        in: query
+        description: Block at which to retrieve para's leases at.
+        required: false
+        schema:
+          type: string
+          description: Block identifier, as the block height or block hash.
+          format: unsignedInteger or $hex
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParasLeaseInfo'
+  /paras/head/included-candidates:
+    get:
+      tags:
+      - paras
+      summary: '[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get the heads of the included (backed and considered available) parachain candidates at the
+
+        specified block height or at the most recent finalized head otherwise.
+
+        '
+      description: 'Returns an object with all the parachain id''s as keys, and their headers as values.
+
+        '
+      parameters:
+      - name: at
+        in: query
+        description: Block at which to retrieve para's heads at.
+        required: false
+        schema:
+          type: string
+          description: Block identifier, as the block height or block hash.
+          format: unsignedInteger or $hex
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParasHeaders'
+  /paras/head/backed-candidates:
+    get:
+      tags:
+      - paras
+      summary: '[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get the heads of the backed parachain candidates at the specified block height or at the most recent finalized head otherwise.
+
+        '
+      description: 'Returns an object with all the parachain id''s as keys, and their headers as values.
+
+        '
+      parameters:
+      - name: at
+        in: query
+        description: Block at which to retrieve para's heads at.
+        required: false
+        schema:
+          type: string
+          description: Block identifier, as the block height or block hash.
+          format: unsignedInteger or $hex
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParasHeaders'
+  /paras/{number}/inclusion:
+    get:
+      tags:
+      - paras
+      summary: Get relay chain inclusion information for a specific parachain block.
+      description: 'Returns the relay chain block number where a parachain block was included,
+
+        along with the relay parent number used during production. This endpoint helps
+
+        track the lifecycle of parachain blocks from production to inclusion.
+
+
+        **Note**: This endpoint requires a multi-chain connection (both parachain and relay chain APIs).
+
+        '
+      parameters:
+      - name: number
+        in: path
+        description: Parachain block number to find inclusion information for.
+        required: true
+        schema:
+          type: string
+          format: unsignedInteger
+      - name: depth
+        in: query
+        description: Maximum number of relay chain blocks to search for inclusion (must be divisible by 5, max 100).
+        required: false
+        schema:
+          type: integer
+          minimum: 5
+          maximum: 100
+          multipleOf: 5
+          default: 10
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParachainInclusion'
+        '400':
+          description: Invalid depth parameter
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Depth parameter must be divisible by 5 for optimal performance.
+components:
+  schemas:
+    ParasCrowdloans:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        funds:
+          type: array
+          items:
+            type: object
+            properties:
+              paraId:
+                type: string
+                format: unsignedInteger
+              fundInfo:
+                $ref: '#/components/schemas/FundInfo'
+          description: 'List of paras that have crowdloans.
+
+            '
+    ParachainInclusion:
+      type: object
+      properties:
+        parachainBlock:
+          type: integer
+          description: The parachain block number that was searched for.
+        parachainBlockHash:
+          type: string
+          format: hex
+          description: The hash of the parachain block.
+        parachainId:
+          type: integer
+          description: The parachain ID.
+        relayParentNumber:
+          type: integer
+          description: The relay chain block number used as parent during parachain block production.
+        inclusionNumber:
+          type: integer
+          nullable: true
+          description: The relay chain block number where the parachain block was included (null if not found).
+        found:
+          type: boolean
+          description: Whether the inclusion was found within the search depth.
+      required:
+      - parachainBlock
+      - parachainBlockHash
+      - parachainId
+      - relayParentNumber
+      - inclusionNumber
+      - found
+    ParasLeaseInfo:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        paraLifecycle:
+          $ref: '#/components/schemas/ParaLifecycle'
+        onboardingAs:
+          $ref: '#/components/schemas/OnboardingAs'
+        leases:
+          type: array
+          items:
+            type: object
+            properties:
+              leasePeriodIndex:
+                type: string
+                format: unsignedInteger
+              account:
+                type: string
+              deposit:
+                type: string
+                format: unsignedInteger
+          description: 'List of lease periods for which the `paraId` holds a lease along with
+
+            the deposit held and the associated `accountId`.
+
+            '
+    ParasLeasesCurrent:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        leasePeriodIndex:
+          type: string
+          format: unsignedInteger
+          description: Current lease period index. This value may be null when the current block now, substracted by the leaseOffset is less then zero.
+        endOfLeasePeriod:
+          type: string
+          format: unsignedInteger
+          description: Last block (number) of the current lease period. This value may be null when `leasePeriodIndex` is null.
+        currentLeaseHolders:
+          type: array
+          items:
+            type: string
+            format: unsignedInteger
+          description: List of `paraId`s that currently hold a lease.
+    Para:
+      type: object
+      properties:
+        paraId:
+          type: string
+          format: unsignedInteger
+        paraLifecycle:
+          $ref: '#/components/schemas/ParaLifecycle'
+        onboardingAs:
+          $ref: '#/components/schemas/OnboardingAs'
+    ParasHeaders:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        paraId:
+          type: object
+          description: "The key is not named `paraId` and will be the number of the parachain. There is technically no limit to the number of paraId keys there can be. \n"
+          properties:
+            hash:
+              type: string
+              description: The block's hash.
+              format: hex
+            number:
+              type: string
+              description: The block's height.
+              format: unsignedInteger
+            parentHash:
+              type: string
+              description: The hash of the parent block.
+              format: hex
+            stateRoot:
+              type: string
+              description: The state root after executing this block.
+              format: hex
+            extrinsicsRoot:
+              type: string
+              description: The Merkle root of the extrinsics.
+              format: hex
+            digest:
+              type: object
+              properties:
+                logs:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/DigestItem'
+                  description: Array of `DigestItem`s associated with the block.
+    ParasAuctionsCurrent:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        beginEnd:
+          type: string
+          format: unisgnedInteger or $null
+          description: 'Fist block (number) of the auction ending phase. `null` if there is no ongoing
+
+            auction.
+
+            '
+        finishEnd:
+          type: string
+          format: unisgnedInteger or $null
+          description: 'Last block (number) of the auction ending phase. `null` if there is no ongoing
+
+            auction.
+
+            '
+        phase:
+          type: string
+          enum:
+          - startPeriod
+          - endPeriod
+          - vrfDelay
+          description: 'An auction can be in one of 4 phases. Both `startingPeriod` () and `endingPeriod` indicate
+
+            an ongoing auction, while `vrfDelay` lines up with the `AuctionStatus::VrfDelay` . Finally, a value of `null`
+
+            indicates there is no ongoing auction. Keep in mind the that the `finishEnd` field is the block number the
+
+            `endingPeriod` finishes and the `vrfDelay` period begins. The `vrfDelay` period is typically about an
+
+            epoch long and no crowdloan contributions are accepted.
+
+            '
+        auctionIndex:
+          type: string
+          format: unsignedInteger
+          description: 'The auction number. If there is no current auction this will be the number
+
+            of the previous auction.
+
+            '
+        leasePeriods:
+          type: array
+          items:
+            type: string
+            format: unsignedInteger
+          description: 'Lease period indexes that may be bid on in this auction. `null` if
+
+            there is no ongoing auction.
+
+            '
+        winning:
+          type: array
+          items:
+            $ref: '#/components/schemas/WinningData'
+    BlockIdentifiers:
+      type: object
+      properties:
+        hash:
+          type: string
+          description: The block's hash.
+          format: hex
+        height:
+          type: string
+          description: The block's height.
+          format: unsignedInteger
+    OnboardingAs:
+      type: string
+      enum:
+      - parachain
+      - parathread
+      description: 'This property only shows up when `paraLifecycle=onboarding`. It
+
+        describes if a particular para is onboarding as a `parachain` or a
+
+        `parathread`.
+
+        '
+    WinningData:
+      type: object
+      properties:
+        bid:
+          type: object
+          properties:
+            accountId:
+              type: string
+            paraId:
+              type: string
+              format: unsignedInteger
+            amount:
+              type: string
+              format: unsignedInteger
+        leaseSet:
+          type: array
+          items:
+            type: string
+            format: unsignedInteger
+      description: 'A currently winning bid and the set of lease periods the bid is for. The
+
+        `amount` of the bid is per lease period. The `bid` property will be `null`
+
+        if no bid has been made for the corresponding `leaseSet`.
+
+        '
+    FundInfo:
+      type: object
+      properties:
+        depositor:
+          type: string
+        verifier:
+          type: string
+        deposit:
+          type: string
+          format: unsignedInteger
+        raised:
+          type: string
+          format: unsignedInteger
+        end:
+          type: string
+          format: unsignedInteger
+        cap:
+          type: string
+          format: unsignedInteger
+        lastConstribution:
+          type: string
+          enum:
+          - preEnding
+          - ending
+        firstPeriod:
+          type: string
+          format: unsignedInteger
+        lastPeriod:
+          type: string
+          format: unsignedInteger
+        trieIndex:
+          type: string
+          format: unsignedInteger
+    ParasCrowdloanInfo:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        fundInfo:
+          $ref: '#/components/schemas/FundInfo'
+        leasePeriods:
+          type: array
+          items:
+            type: string
+            format: unsignedInteger
+          description: Lease periods the crowdloan can bid on.
+    DigestItem:
+      type: object
+      properties:
+        type:
+          type: string
+        index:
+          type: string
+          format: unsignedInteger
+        value:
+          type: array
+          items:
+            type: string
+    ParaLifecycle:
+      type: string
+      enum:
+      - onboarding
+      - parathread
+      - parachain
+      - upgradingParathread
+      - downgradingParachain
+      - offboardingParathread
+      - offboardingParachain
+      description: 'The possible states of a para, to take into account delayed lifecycle
+
+        changes.
+
+        '
+    Paras:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        paras:
+          type: array
+          items:
+            $ref: '#/components/schemas/Para'

@@ -1,0 +1,1052 @@
+openapi: 3.0.0
+info:
+  title: Substrate API Sidecar accounts blocks API
+  description: '> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of
+
+    > [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite
+
+    > built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints
+
+    > served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly
+
+    > lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.
+
+    >
+
+    > **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·
+
+    > [crate](https://crates.io/crates/polkadot-rest-api) ·
+
+    > [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·
+
+    > [docs](https://paritytech.github.io/polkadot-rest-api/) ·
+
+    > [issues](https://github.com/paritytech/polkadot-rest-api/issues)
+
+
+    Substrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes
+
+    built using Substrate''s FRAME framework.
+
+    '
+  contact:
+    url: https://github.com/paritytech/substrate-api-sidecar
+  license:
+    name: GPL-3.0-or-later
+    url: https://github.com/paritytech/substrate-api-sidecar/blob/master/LICENSE
+  version: 20.14.1
+servers:
+- url: https://polkadot-public-sidecar.parity-chains.parity.io/
+  description: Polkadot Parity public sidecar
+- url: https://kusama-public-sidecar.parity-chains.parity.io/
+  description: Kusama Parity public sidecar
+- url: https://polkadot-asset-hub-public-sidecar.parity-chains.parity.io/
+  description: Polkadot Asset Hub Parity public sidecar
+- url: https://kusama-asset-hub-public-sidecar.parity-chains.parity.io/
+  description: Kusama Asset Hub Parity public sidecar
+- url: http://localhost:8080
+  description: Localhost
+tags:
+- name: blocks
+paths:
+  /blocks:
+    get:
+      tags:
+      - blocks
+      summary: Get a range of blocks by their height.
+      description: Given a range query parameter return an array of all the blocks within that range. When `useRcBlock` parameter is used, the range represents relay chain block numbers and the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp` for each block. Relay chain blocks without corresponding Asset Hub blocks are skipped.
+      operationId: getBlock
+      parameters:
+      - name: range
+        in: query
+        description: A range of integers. There is a max limit of 500 blocks per request.
+        required: true
+        example: 0-499
+        schema:
+          type: string
+      - name: eventDocs
+        in: query
+        description: When set to `true`, every event will have an extra `docs` property with a string of the events documentation.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: extrinsicDocs
+        in: query
+        description: When set to `true`, every extrinsic will have an extra `docs` property with a string of the extrinsics documentation.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: noFees
+        in: query
+        description: When set to `true`, the fee won't be calculated for the extrinsics.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: useEvmFormat
+        in: query
+        description: When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: useRcBlock
+        in: query
+        description: When set to `true`, the range parameter represents relay chain block numbers and the response includes additional fields for each block. Only supported for Asset Hub endpoints with relay chain API available. When used, returns an array of response objects or empty array if no Asset Hub block found.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: useRcBlockFormat
+        in: query
+        description: Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified.
+        required: false
+        schema:
+          type: string
+          enum:
+          - array
+          - object
+          description: Response format - 'array' (default) returns standard array, 'object' wraps response with rcBlock info.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Blocks'
+        '400':
+          description: invalid Block identifier supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /blocks/{blockId}:
+    get:
+      tags:
+      - blocks
+      summary: Get a block by its height or hash.
+      description: Returns a single block. BlockId can either be a block hash or a block height. Replaces `/block/{number}` from versions < v1.0.0. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`.
+      operationId: getBlockById
+      parameters:
+      - name: blockId
+        in: path
+        description: Block identifier, as the block height or block hash.
+        required: true
+        schema:
+          pattern: ^0[xX][0-9a-fA-F]{1,64}$|[0-9]{1,12}
+          type: string
+      - name: eventDocs
+        in: query
+        description: When set to `true`, every event will have an extra `docs` property with a string of the events documentation.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: extrinsicDocs
+        in: query
+        description: When set to `true`, every extrinsic will have an extra `docs` property with a string of the extrinsics documentation.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: noFees
+        in: query
+        description: When set to `true`, the fee won't be calculated for the extrinsics.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: finalizedKey
+        in: query
+        description: When set to false, this will override the chain-config, and omit the finalized key in the response. This can increase performance slightly by avoiding an additional RPC call to the node.
+        required: false
+        schema:
+          type: boolean
+      - name: decodedXcmMsgs
+        in: query
+        description: When set to `true`, this will show the decoded XCM messages within the extrinsics of the requested block.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: paraId
+        in: query
+        description: When it is set, this will return only the decoded XCM messages for the specified origin Parachain Id (originParaId). To activate this functionality, ensure that the `decodedXcmMsgs` parameter is set to true.
+        required: false
+        schema:
+          type: string
+      - name: useRcBlock
+        in: query
+        description: When set to `true`, it will use the relay chain block identifier to determine the corresponding Asset Hub block. Only supported for Asset Hub endpoints with relay chain API available. When used, returns an array of response objects or empty array if no Asset Hub block found.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: useRcBlockFormat
+        in: query
+        description: Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified.
+        required: false
+        schema:
+          type: string
+          enum:
+          - array
+          - object
+          description: Response format - 'array' (default) returns standard array, 'object' wraps response with rcBlock info.
+      - name: useEvmFormat
+        in: query
+        description: When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/BlockWithDecodedXcmMsgs'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/BlockWithDecodedXcmMsgs'
+                description: Returns a single object when using standard parameters. Returns an array when using 'useRcBlock' parameter (array contains one object per Asset Hub block found, or empty array if none found).
+        '400':
+          description: invalid Block identifier supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /blocks/{blockId}/header:
+    get:
+      tags:
+      - blocks
+      summary: Get a block's header by its height or hash.
+      description: Returns a single block's header. BlockId can either be a block hash or a block height. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`.
+      operationId: getBlockHeaderById
+      parameters:
+      - name: blockId
+        in: path
+        description: Block identifier, as the block height or block hash.
+        required: true
+        schema:
+          pattern: ^0[xX][0-9a-fA-F]{1,64}$|[0-9]{1,12}
+          type: string
+      - name: useRcBlock
+        in: query
+        description: When set to `true`, it will use the relay chain block identifier to determine the corresponding Asset Hub block. Only supported for Asset Hub endpoints with relay chain API available. When used, returns an array of response objects or empty array if no Asset Hub block found.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: useRcBlockFormat
+        in: query
+        description: Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified.
+        required: false
+        schema:
+          type: string
+          enum:
+          - array
+          - object
+          description: Response format - 'array' (default) returns standard array, 'object' wraps response with rcBlock info.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/BlockHeader'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/BlockHeader'
+                description: Returns a single object when using standard parameters. Returns an array when using 'useRcBlock' parameter (array contains one object per Asset Hub block found, or empty array if none found).
+        '400':
+          description: invalid Block identifier supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /blocks/{blockId}/extrinsics/{extrinsicIndex}:
+    get:
+      tags:
+      - blocks
+      summary: Get an extrinsic by its extrinsicIndex and block height or hash. The pair blockId, extrinsicIndex is sometimes referred to as a Timepoint.
+      description: Returns a single extrinsic. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`.
+      operationId: getExtrinsicByTimepoint
+      parameters:
+      - name: blockId
+        in: path
+        description: Block identifier, as the block height or block hash.
+        required: true
+        schema:
+          pattern: ^0[xX][0-9a-fA-F]{1,64}$|[0-9]{1,12}
+          type: string
+      - name: extrinsicIndex
+        in: path
+        description: The extrinsic's index within the block's body.
+        required: true
+        schema:
+          type: string
+      - name: eventDocs
+        in: query
+        description: When set to `true`, every event will have an extra `docs` property with a string of the events documentation.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: extrinsicDocs
+        in: query
+        description: When set to `true`, every extrinsic will have an extra `docs` property with a string of the extrinsics documentation.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: noFees
+        in: query
+        description: When set to `true`, the fee won't be calculated for the extrinsic.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: useRcBlock
+        in: query
+        description: When set to `true`, it will use the relay chain block identifier to determine the corresponding Asset Hub block. Only supported for Asset Hub endpoints with relay chain API available. When used, returns an array of response objects or empty array if no Asset Hub block found.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: useRcBlockFormat
+        in: query
+        description: Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified.
+        required: false
+        schema:
+          type: string
+          enum:
+          - array
+          - object
+          description: Response format - 'array' (default) returns standard array, 'object' wraps response with rcBlock info.
+      - name: useEvmFormat
+        in: query
+        description: When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/ExtrinsicIndex'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/ExtrinsicIndex'
+                description: Returns a single object when using standard parameters. Returns an array when using 'useRcBlock' parameter (array contains one object per Asset Hub block found, or empty array if none found).
+        '400':
+          description: Requested `extrinsicIndex` does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /blocks/head:
+    get:
+      tags:
+      - blocks
+      summary: Get the most recently finalized block.
+      description: Returns the most recently finalized block. Replaces `/block` from versions < v1.0.0. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`.
+      operationId: getHeadBlock
+      parameters:
+      - name: finalized
+        in: query
+        description: Boolean representing whether or not to get the finalized head. If it is not set the value defaults to true. When set to false it will attempt to get the newest known block, which may not be finalized.
+        required: false
+        schema:
+          type: boolean
+          default: true
+      - name: eventDocs
+        in: query
+        description: When set to `true`, every event will have an extra `docs` property with a string of the events documentation.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: extrinsicDocs
+        in: query
+        description: When set to `true`, every extrinsic will have an extra `docs` property with a string of the extrinsics documentation.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: noFees
+        in: query
+        description: When set to `true`, the fee won't be calculated for the extrinsics.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: decodedXcmMsgs
+        in: query
+        description: When set to `true`, this will show the decoded XCM messages within the extrinsics of the requested block.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: paraId
+        in: query
+        description: When it is set, this will return only the decoded XCM messages for the specified origin Parachain Id (originParaId). To activate this functionality, ensure that the `decodedXcmMsgs` parameter is set to true.
+        required: false
+        schema:
+          type: string
+      - name: useRcBlock
+        in: query
+        description: When set to `true`, it will use the latest relay chain block to determine the corresponding Asset Hub block. Only supported for Asset Hub endpoints with relay chain API available. Respects the `finalized` parameter when determining which relay chain block to use. When used, returns an array of response objects or empty array if no Asset Hub block found.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: useRcBlockFormat
+        in: query
+        description: Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified.
+        required: false
+        schema:
+          type: string
+          enum:
+          - array
+          - object
+          description: Response format - 'array' (default) returns standard array, 'object' wraps response with rcBlock info.
+      - name: useEvmFormat
+        in: query
+        description: When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/BlockWithDecodedXcmMsgs'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/BlockWithDecodedXcmMsgs'
+                description: Returns a single object when using standard parameters. Returns an array when using 'useRcBlock' parameter (array contains one object per Asset Hub block found, or empty array if none found).
+  /blocks/head/header:
+    get:
+      tags:
+      - blocks
+      summary: Get information about the header of the most recent finalized block.
+      description: Returns the most recently finalized block's header. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`.
+      operationId: getLatestBlockHeader
+      parameters:
+      - name: finalized
+        in: query
+        description: Boolean representing whether or not to get the finalized head. If it is not set the value defaults to true. When set to false it will attempt to get the newest known block, which may not be finalized.
+        required: false
+        schema:
+          type: boolean
+          default: true
+      - name: useRcBlock
+        in: query
+        description: When set to `true`, it will use the latest relay chain block to determine the corresponding Asset Hub block header. Only supported for Asset Hub endpoints with relay chain API available. Respects the `finalized` parameter when determining which relay chain block to use. When used, returns an array of response objects or empty array if no Asset Hub block found.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: useRcBlockFormat
+        in: query
+        description: Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified.
+        required: false
+        schema:
+          type: string
+          enum:
+          - array
+          - object
+          description: Response format - 'array' (default) returns standard array, 'object' wraps response with rcBlock info.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/BlockHeader'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/BlockHeader'
+                description: Returns a single object when using standard parameters. Returns an array when using 'useRcBlock' parameter (array contains one object per Asset Hub block found, or empty array if none found).
+        '400':
+          description: invalid Block identifier supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /blocks/{blockId}/extrinsics-raw:
+    get:
+      tags:
+      - blocks
+      summary: Get a blocks header & its extrinsics as hex values.
+      description: Returns a block & its extrinsics as hex values. BlockId can either be a block hash or a block height. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`.
+      operationId: getBlockRawExtrinsics
+      parameters:
+      - name: blockId
+        in: path
+        description: Block identifier, as the block height or block hash.
+        required: true
+        schema:
+          pattern: ^0[xX][0-9a-fA-F]{1,64}$|[0-9]{1,12}
+          type: string
+      - name: useRcBlock
+        in: query
+        description: When set to `true`, it will use the relay chain block identifier to determine the corresponding Asset Hub block. Only supported for Asset Hub endpoints with relay chain API available. When used, returns an array of response objects or empty array if no Asset Hub block found.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: useRcBlockFormat
+        in: query
+        description: Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified.
+        required: false
+        schema:
+          type: string
+          enum:
+          - array
+          - object
+          description: Response format - 'array' (default) returns standard array, 'object' wraps response with rcBlock info.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/BlockRaw'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/BlockRaw'
+                description: Returns a single object when using standard parameters. Returns an array when using 'useRcBlock' parameter (array contains one object per Asset Hub block found, or empty array if none found).
+        '400':
+          description: invalid Block identifier supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /blocks/{blockId}/para-inclusions:
+    get:
+      tags:
+      - blocks
+      summary: Get all parachain inclusion information for a relay chain block.
+      description: Returns all decoded parachain inclusion events (CandidateIncluded) for a relay chain block. BlockId can either be a block hash or a block height. This endpoint extracts and decodes the candidate descriptor, commitments hash, and parachain header information for each included parachain block.
+      operationId: getBlockParaInclusions
+      parameters:
+      - name: blockId
+        in: path
+        description: Relay chain block identifier, as the block height or block hash.
+        required: true
+        schema:
+          pattern: ^0[xX][0-9a-fA-F]{1,64}$|[0-9]{1,12}
+          type: string
+      - name: paraId
+        in: query
+        description: Optional parachain ID to filter results. When provided, only the inclusion information for the specified parachain will be returned.
+        required: false
+        schema:
+          type: string
+          format: unsignedInteger
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockParaInclusions'
+        '400':
+          description: invalid Block identifier supplied or block does not contain paraInclusion events
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    RuntimeDispatchInfo:
+      type: object
+      properties:
+        weight:
+          $ref: '#/components/schemas/WeightsV2'
+          description: Weights represented as WeightsV2 (two dimensional weights). When querying historical blocks that use WeightsV1, the weight will be returned as a weight key that points to a number represented as a string.
+        class:
+          type: string
+          description: Extrinsic class.
+          enum:
+          - Normal
+          - Operational
+          - Mandatory
+        partialFee:
+          type: string
+          description: The _inclusion fee_ of a transaction, i.e. the minimum fee required for a transaction. Includes weight and encoded length fees, but does not have access to any signed extensions, e.g. the `tip`.
+          format: unsignedInteger
+        kind:
+          type: string
+          description: Information on the partialFee that is collected. Can be either `preDispatch`, `postDispatch` or `fromEvent`. `preDispatch` means the information used to collect the fee was from `payment_queryInfo`, `postDispatch` means the information used to calculate the fee was from finalized weights for the extrinsic, and `fromEvent` means that the partialFee was abstracted from the `TransactionPayment::TransactionPaidFee` event.
+      description: RuntimeDispatchInfo for the transaction. Includes the `partialFee`.
+    Blocks:
+      type: array
+      items:
+        $ref: '#/components/schemas/Block'
+    SanitizedEvent:
+      type: object
+      properties:
+        method:
+          type: string
+        data:
+          type: array
+          items:
+            type: string
+    BlockFinalize:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/SanitizedEvent'
+      description: Object with an array of `SanitizedEvent`s that occurred during block construction finalization with the `method` and `data` for each.
+    Block:
+      type: object
+      properties:
+        number:
+          type: string
+          description: The block's height.
+          format: unsignedInteger
+        hash:
+          type: string
+          description: The block's hash.
+          format: hex
+        parentHash:
+          type: string
+          description: The hash of the parent block.
+          format: hex
+        stateRoot:
+          type: string
+          description: The state root after executing this block.
+          format: hex
+        extrinsicRoot:
+          type: string
+          description: The Merkle root of the extrinsics.
+          format: hex
+        authorId:
+          type: string
+          description: The account ID of the block author (may be undefined for some chains).
+          format: ss58
+        logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/DigestItem'
+          description: Array of `DigestItem`s associated with the block.
+        onInitialize:
+          $ref: '#/components/schemas/BlockInitialize'
+        extrinsics:
+          type: array
+          description: Array of extrinsics (inherents and transactions) within the block.
+          items:
+            $ref: '#/components/schemas/Extrinsic'
+        onFinalize:
+          $ref: '#/components/schemas/BlockFinalize'
+        finalized:
+          type: boolean
+          description: 'A boolean identifying whether the block is finalized or not. Note: on chains that do not have deterministic finality this field is omitted.'
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+      description: 'Note: Block finalization does not correspond to consensus, i.e. whether the block is in the canonical chain. It denotes the finalization of block _construction._'
+    ExtrinsicIndex:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        extrinsic:
+          $ref: '#/components/schemas/Extrinsic'
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+      description: A single extrinsic at a given block.
+    BlockRaw:
+      type: object
+      properties:
+        number:
+          type: string
+          description: The block's height.
+          format: unsignedInteger
+        parentHash:
+          type: string
+          description: The hash of the parent block.
+          format: hex
+        stateRoot:
+          type: string
+          description: The state root after executing this block.
+          format: hex
+        extrinsicRoot:
+          type: string
+          description: The Merkle root of the extrinsics.
+          format: hex
+        digest:
+          type: object
+          properties:
+            logs:
+              type: array
+              items:
+                $ref: '#/components/schemas/DigestItem'
+              description: Array of `DigestItem`s associated with the block.
+        extrinsics:
+          type: array
+          description: Array of raw extrinsics (inherents and transactions) within the block.
+          items:
+            type: string
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    DecodedXcmMsgs:
+      type: object
+      properties:
+        decodedXcmMsgs:
+          type: object
+          properties:
+            horizontalMessages:
+              type: object
+              oneOf:
+              - $ref: '#/components/schemas/DecodedXcmMsgsHorizontalMessagesInRelay'
+              - $ref: '#/components/schemas/DecodedXcmMsgsHorizontalMessagesInParachain'
+            downwardMessages:
+              type: array
+              items:
+                type: object
+                properties:
+                  sentAt:
+                    type: string
+                    format: unsignedInteger
+                    description: Represents the block number that the XCM message was sent at on the relay chain.
+                  msg:
+                    type: string
+                    description: Represents the XCM message.
+                  data:
+                    type: object
+                    description: The decoded instructions included in the XCM message and their respective fields.
+            upwardMessages:
+              type: array
+              items:
+                type: object
+                properties:
+                  originParaId:
+                    type: string
+                    format: unsignedInteger
+                    description: The Parachain id that the specific XCM message was sent from.
+                  data:
+                    type: object
+                    description: The decoded instructions included in the XCM message and their respective fields.
+      description: Object with three arrays, one for every XCM direction. The arrays are populated or left empty based on the direction of the current XCM message that is being decoded. The XCM messages can be Upward and/or Horizontal (`in transit`) messages when connected to a Relay chain. When connected to a Parachain, the messages can be Downward and/or Horizontal. One or more messages can be present in a single block. In case of multiple messages from the same paraIds (originParaId and/or destinationParaId), the messages will be shown under the field `data`.
+    BlockIdentifiers:
+      type: object
+      properties:
+        hash:
+          type: string
+          description: The block's hash.
+          format: hex
+        height:
+          type: string
+          description: The block's height.
+          format: unsignedInteger
+    DigestItem:
+      type: object
+      properties:
+        type:
+          type: string
+        index:
+          type: string
+          format: unsignedInteger
+        value:
+          type: array
+          items:
+            type: string
+    WeightsV2:
+      type: object
+      properties:
+        refTime:
+          type: string
+          description: The weight of computational time used based on some reference hardware.
+        proofSize:
+          type: string
+          description: The weight of storage space used by proof of validity.
+    BlockWithDecodedXcmMsgs:
+      allOf:
+      - $ref: '#/components/schemas/Block'
+      - $ref: '#/components/schemas/DecodedXcmMsgs'
+      description: Block information that includes the decoded XCM messages if any are found in the queried block. If not, the decodedXcmMsgs object will be returned with three empty arrays corresponding to each direction, horizontalMessages, downwardMessages, upwardMessages.
+    DecodedXcmMsgsHorizontalMessagesInParachain:
+      type: array
+      items:
+        type: object
+        properties:
+          sentAt:
+            type: string
+            format: unsignedInteger
+            description: Represents the block number that the XCM message was sent at on the relay chain.
+          originParaId:
+            type: string
+            format: unsignedInteger
+            description: The Parachain id that the specific XCM message was sent from.
+          data:
+            type: object
+            description: The decoded instructions included in the XCM message and their respective fields.
+        description: Array that includes the Horizontal Messages when we are connected to a Parachain. Each block can contain one or more messages. If multiple messages originate from the same parachain (originParaId), they will be displayed within the data field.
+    Extrinsic:
+      type: object
+      properties:
+        method:
+          $ref: '#/components/schemas/ExtrinsicMethod'
+        signature:
+          $ref: '#/components/schemas/Signature'
+        nonce:
+          type: string
+          description: Account nonce, if applicable.
+          format: unsignedInteger
+        args:
+          type: object
+          description: 'Object of arguments keyed by parameter name. Note: if you are expecting an [`OpaqueCall`](https://substrate.dev/rustdocs/v2.0.0/pallet_multisig/type.OpaqueCall.html) and it is not decoded in the response (i.e. it is just a hex string), then Sidecar was not able to decode it and likely that it is not a valid call for the runtime.'
+        tip:
+          type: string
+          description: Any tip added to the transaction.
+          format: unsignedInteger
+        hash:
+          type: string
+          description: The transaction's hash.
+          format: hex
+        info:
+          $ref: '#/components/schemas/RuntimeDispatchInfo'
+        era:
+          $ref: '#/components/schemas/GenericExtrinsicEra'
+        events:
+          type: array
+          description: An array of `SanitizedEvent`s that occurred during extrinsic execution.
+          items:
+            $ref: '#/components/schemas/SanitizedEvent'
+        success:
+          type: boolean
+          description: Whether or not the extrinsic succeeded.
+        paysFee:
+          type: boolean
+          description: Whether the extrinsic requires a fee. Careful! This field relates to whether or not the extrinsic requires a fee if called as a transaction. Block authors could insert the extrinsic as an inherent in the block and not pay a fee. Always check that `paysFee` is `true` and that the extrinsic is signed when reconciling old blocks.
+    ParaInclusionDescriptor:
+      type: object
+      description: Candidate descriptor containing parachain inclusion metadata
+      properties:
+        relayParent:
+          type: string
+          description: The relay chain parent block hash
+          format: hex
+        persistedValidationDataHash:
+          type: string
+          description: Hash of the persisted validation data
+          format: hex
+        povHash:
+          type: string
+          description: Hash of the Proof of Validity (PoV)
+          format: hex
+        erasureRoot:
+          type: string
+          description: Root hash of the erasure encoding
+          format: hex
+        paraHead:
+          type: string
+          description: Hash of the parachain head data
+          format: hex
+        validationCodeHash:
+          type: string
+          description: Hash of the validation code
+          format: hex
+    ExtrinsicMethod:
+      type: object
+      properties:
+        pallet:
+          type: string
+        method:
+          type: string
+      description: Extrinsic method
+    BlockHeader:
+      type: object
+      properties:
+        parentHash:
+          type: string
+          description: The hash of the parent block.
+          format: hex
+        number:
+          type: string
+          description: The block's height.
+          format: unsignedInteger
+        stateRoot:
+          type: string
+          description: The state root after executing this block.
+          format: hex
+        extrinsicRoot:
+          type: string
+          description: The Merkle root of the extrinsics.
+          format: hex
+        digest:
+          type: object
+          properties:
+            logs:
+              type: array
+              items:
+                $ref: '#/components/schemas/DigestItem'
+              description: Array of `DigestItem`s associated with the block.
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    BlockInitialize:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/SanitizedEvent'
+      description: Object with an array of `SanitizedEvent`s that occurred during block initialization with the `method` and `data` for each.
+    Signature:
+      type: object
+      properties:
+        signature:
+          type: string
+          format: hex
+        signer:
+          type: string
+          format: ss58
+      description: Object with `signature` and `signer`, or `null` if unsigned.
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        stack:
+          type: string
+        level:
+          type: string
+    ParaInclusion:
+      type: object
+      description: Information about a single parachain inclusion event
+      properties:
+        paraId:
+          type: string
+          description: The parachain ID
+          format: unsignedInteger
+        paraBlockNumber:
+          type: number
+          description: The parachain block number that was included (decoded from HeadData)
+          format: unsignedInteger
+        paraBlockHash:
+          type: string
+          description: The parachain block hash that was included (decoded from HeadData)
+          format: hex
+        descriptor:
+          $ref: '#/components/schemas/ParaInclusionDescriptor'
+        commitmentsHash:
+          type: string
+          description: Hash of the candidate commitments
+          format: hex
+        coreIndex:
+          type: string
+          description: Core index assigned to this parachain block
+          format: unsignedInteger
+        groupIndex:
+          type: string
+          description: Validator group index that backed this parachain block
+          format: unsignedInteger
+    GenericExtrinsicEra:
+      type: object
+      description: 'The return value for era can either be `mortalEra`, or `immortalEra` and is represented as an enum in substrate. `immortalEra` meaning
+
+        the transaction is valid forever. `mortalEra` consists of a tuple containing a period and phase.
+
+        ex: `"{"mortalEra": ["64", "11"]}"`. The Period is the period of validity from the block hash found in the signing material.
+
+        The Phase is the period that this transaction''s lifetime begins (and, importantly,
+
+        implies which block hash is included in the signature material).
+
+        '
+      properties:
+        mortalEra:
+          type: array
+          items:
+            type: string
+          description: Tuple of a Phase, and Period. Each item in the array will be a string formatted as an integer.
+        immortalEra:
+          type: string
+          description: Hardcoded constant '0x00'.
+          format: hex
+      example: '{"mortalEra":["64", "11"]}'
+    BlockParaInclusions:
+      type: object
+      description: Contains all decoded parachain inclusion information for a relay chain block
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        inclusions:
+          type: array
+          description: Array of parachain inclusions in this relay chain block, sorted by paraId
+          items:
+            $ref: '#/components/schemas/ParaInclusion'
+    DecodedXcmMsgsHorizontalMessagesInRelay:
+      type: array
+      items:
+        type: object
+        properties:
+          originParaId:
+            type: string
+            format: unsignedInteger
+            description: The Parachain id that the specific XCM message was sent from.
+          destinationParaId:
+            type: string
+            format: unsignedInteger
+            description: The Parachain id that the specific XCM message was sent to.
+          data:
+            type: object
+            description: The decoded instructions included in the XCM message and their respective fields.
+        description: Array that includes the Horizontal (`in transit`) messages when we are connected to a Relay Chain. Each block can contain one or more messages. If multiple messages share the same origin and destination paraId, they will be displayed within the data field.
