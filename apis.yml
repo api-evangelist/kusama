@@ -1,22 +1,350 @@
 aid: kusama
 name: Kusama
-description: 'Kusama is a company surfaced as a portfolio company of pantera-capital and added to the
-  API Evangelist network as a stub for enrichment. Sector: crypto. This profile is a lead awaiting the
-  enrichment pipeline.'
+description: 'Kusama is the permissionless, unaudited canary network of the Polkadot ecosystem, running
+  the same Polkadot SDK (Substrate/FRAME) runtime as Polkadot but with faster governance, lower barriers
+  to entry, and real economic conditions — it is where runtime upgrades, parachain/coretime mechanics, and
+  governance changes ship first before reaching Polkadot. Its developer surface is a chain interface rather
+  than a hosted SaaS API: a public Substrate JSON-RPC 2.0 endpoint at kusama-rpc.polkadot.io exposing 130
+  live methods (chain, state, author, system, payment, plus the newer chainHead/archive/transaction v1
+  families) over HTTP and WebSocket, and a REST projection of the same chain state via Substrate API Sidecar
+  at kusama-public-sidecar.parity-chains.parity.io, documented by a 119-operation OpenAPI 3.0 specification.
+  Access is unauthenticated and public-read; write access happens by submitting SCALE-encoded, key-signed
+  extrinsics. The native token is KSM (12 decimals, SS58 prefix 2).'
+accessModel:
+  pricing: unknown
+  onboarding: open
+  trial: false
+  try_now: false
+  public: true
+  label: Open access
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kusama.network/images/kusama-logo-canary-white.png
 url: https://raw.githubusercontent.com/api-evangelist/kusama/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - pantera-capital
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profiled
+x-tier-reason: enriched-from-public-surface
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
 tags:
 - Company
 - Crypto
-apis: []
+- Blockchain
+- Web3
+- Polkadot
+- Substrate
+- JSON-RPC
+- Blockchain Data
+- Staking
+- Governance
+apis:
+- aid: kusama:json-rpc
+  name: Kusama JSON-RPC API
+  description: >-
+    The public Substrate JSON-RPC 2.0 interface to the Kusama relay chain. Probed live on 2026-07-19:
+    130 methods are advertised by rpc_methods, spanning chain (blocks/headers), state (storage, metadata,
+    runtime version), author (extrinsic submission), system (health, properties, peers), payment (fee
+    queries), and the newer spec-versioned chainHead_v1 / archive_v1 / transaction_v1 / transactionWatch_v1
+    families defined by the Polkadot JSON-RPC interface specification. Available over HTTPS (request/response)
+    and WSS (subscriptions). No authentication.
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - JSON-RPC
+  - Blockchain
+  - Substrate
+  properties:
+  - type: Examples
+    url: examples/kusama-jsonrpc-examples.json
+  - type: AsyncAPI
+    url: asyncapi/kusama-jsonrpc-asyncapi.yml
+- aid: kusama:kusama-accounts-api
+  name: Kusama accounts API
+  description: The accounts API from Kusama — 11 operation(s) for accounts.
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-accounts-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-ahm-api
+  name: Kusama ahm API
+  description: Asset Hub Migration information
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - ahm
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-ahm-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-blocks-api
+  name: Kusama blocks API
+  description: The blocks API from Kusama — 8 operation(s) for blocks.
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - blocks
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-blocks-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-contracts-api
+  name: Kusama contracts API
+  description: The contracts API from Kusama — 1 operation(s) for contracts.
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - contracts
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-contracts-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-coretime-api
+  name: Kusama coretime API
+  description: The coretime API from Kusama — 6 operation(s) for coretime.
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - coretime
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-coretime-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-node-api
+  name: Kusama node API
+  description: node connected to sidecar
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - node
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-node-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-pallets-api
+  name: Kusama pallets API
+  description: pallets employed in the runtime
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - pallets
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-pallets-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-paras-api
+  name: Kusama paras API
+  description: The paras API from Kusama — 9 operation(s) for paras.
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - paras
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-paras-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-rc-accounts-api
+  name: Kusama rc accounts API
+  description: The rc accounts API from Kusama — 5 operation(s) for rc accounts.
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - rc accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-rc-accounts-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-rc-api
+  name: Kusama rc API
+  description: relay chain specific endpoints for asset hub
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - rc
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-rc-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-rc-blocks-api
+  name: Kusama rc blocks API
+  description: The rc blocks API from Kusama — 8 operation(s) for rc blocks.
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - rc blocks
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-rc-blocks-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-rc-node-api
+  name: Kusama rc node API
+  description: The rc node API from Kusama — 3 operation(s) for rc node.
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - rc node
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-rc-node-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-rc-pallets-api
+  name: Kusama rc pallets API
+  description: The rc pallets API from Kusama — 13 operation(s) for rc pallets.
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - rc pallets
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-rc-pallets-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-rc-runtime-api
+  name: Kusama rc runtime API
+  description: The rc runtime API from Kusama — 5 operation(s) for rc runtime.
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - rc runtime
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-rc-runtime-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-rc-staking-api
+  name: Kusama rc staking API
+  description: The rc staking API from Kusama — 4 operation(s) for rc staking.
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - rc staking
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-rc-staking-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-rc-transaction-api
+  name: Kusama rc transaction API
+  description: The rc transaction API from Kusama — 5 operation(s) for rc transaction.
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - rc transaction
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-rc-transaction-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-runtime-api
+  name: Kusama runtime API
+  description: The runtime API from Kusama — 5 operation(s) for runtime.
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - runtime
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-runtime-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-staking-api
+  name: Kusama staking API
+  description: The staking API from Kusama — 4 operation(s) for staking.
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - staking
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-staking-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-trace-api
+  name: Kusama trace API
+  description: The trace API from Kusama — 4 operation(s) for trace.
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - trace
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-trace-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
+- aid: kusama:kusama-transaction-api
+  name: Kusama transaction API
+  description: The transaction API from Kusama — 6 operation(s) for transaction.
+  humanURL: https://paritytech.github.io/json-rpc-interface-spec/
+  baseURL: https://kusama-rpc.polkadot.io/
+  tags:
+  - transaction
+  properties:
+  - type: OpenAPI
+    url: openapi/kusama-transaction-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/kusama-problem-types.yml
+  - type: DataModel
+    url: data-model/kusama-data-model.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -25,3 +353,64 @@ maintainers:
 common:
 - type: Website
   url: https://kusama.network/
+- type: DeveloperPortal
+  url: https://docs.polkadot.com/
+- type: Documentation
+  url: https://docs.polkadot.com/chain-interactions/
+- type: APIReference
+  url: https://paritytech.github.io/json-rpc-interface-spec/
+- type: GettingStarted
+  url: https://wiki.polkadot.com/kusama/kusama-getting-started/
+- type: Support
+  url: https://docs.polkadot.com/get-support/
+- type: Community
+  url: https://forum.polkadot.network/tag/kusama
+- type: GitHubOrganization
+  url: https://github.com/paritytech
+- type: TermsOfService
+  url: https://kusama.network/terms
+- type: PrivacyPolicy
+  url: https://kusama.network/privacy
+- type: Packages
+  url: packages/kusama-packages.yml
+- type: SDKs
+  url: packages/kusama-packages.yml
+- type: CLI
+  url: cli/kusama-cli.yml
+- type: MCPServer
+  url: mcp/kusama-mcp.yml
+- type: LLMsTxt
+  url: llms/kusama-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: WellKnown
+  url: well-known/kusama-well-known.yml
+- type: Authentication
+  url: authentication/kusama-authentication.yml
+- type: Conventions
+  url: conventions/kusama-conventions.yml
+- type: Idempotency
+  url: conventions/kusama-conventions.yml
+- type: Conformance
+  url: conformance/kusama-conformance.yml
+- type: Lifecycle
+  url: lifecycle/kusama-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/kusama-lifecycle.yml
+- type: ChangeLog
+  url: changelog/kusama-changelog.yml
+- type: Sandbox
+  url: sandbox/kusama-sandbox.yml
+- type: DomainSecurity
+  url: security/kusama-domain-security.yml
+- type: VulnerabilityDisclosure
+  url: security/kusama-vulnerability-disclosure.yml
+- type: Security
+  url: security/kusama-vulnerability-disclosure.yml
+- type: Webhooks
+  url: asyncapi/kusama-jsonrpc-asyncapi.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
