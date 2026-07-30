@@ -1,0 +1,319 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/kusama-sidecar-openapi.yaml (156 component schemas, 119 operations), live probes 2026-07-19
+summary: >-
+  Kusama's data model is not a CRUD resource graph. It is a state machine indexed by block, so almost
+  every entity is a projection of chain state "as of" a block rather than a record with a lifecycle. The
+  organizing key is BlockIdentifiers — referenced by 46 of the 156 schemas, more than ten times any other
+  type — because nearly every response is stamped with the block it was computed at. Identity is an SS58
+  address or a numeric on-chain id; there are no opaque vendor-issued object ids and no id prefixes.
+identity:
+  primary_key_types:
+  - name: SS58 address
+    used_for: accounts, validators, nominators, proxies, pool members
+    format: base58, network-prefixed; Kusama prefix is 2
+    example_shape: 'C-prefixed for Kusama (prefix 2); note a Polkadot address (prefix 0, 1-prefixed) is
+      a different network and will be rejected or resolve to a different account'
+    validate_via: GET /accounts/{address}/validate
+    convert_via: GET /accounts/{accountId}/convert
+  - name: block hash
+    format: 0x-prefixed 32-byte hex
+  - name: block height
+    format: integer serialized as a JSON string
+  - name: extrinsic hash
+    format: 0x-prefixed hex; the correlation id for a submitted transaction
+  - name: timepoint
+    format: (blockId, extrinsicIndex) pair — the canonical way to address a specific extrinsic
+    resolve_via: GET /blocks/{blockId}/extrinsics/{extrinsicIndex}
+  - name: numeric on-chain ids
+    used_for: paraId, assetId, poolId, coretime core index, referendum index, era index, session index
+  id_prefixes:
+    present: false
+    note: Unlike vendor APIs there are no typed id prefixes. Type is carried by the endpoint, not the id.
+core_entity: BlockIdentifiers
+core_entity_note: >-
+  Referenced by 46 schemas. Shape is {height, hash}. Every stateful read returns it as `at`. Treat it as
+  the version stamp on every object in this model — two objects are only consistent with each other if
+  their `at` matches.
+entities:
+- name: Block
+  description: A relay-chain block — header, extrinsics, emitted events, logs, and optionally decoded XCM
+    messages.
+  endpoints:
+  - GET /blocks
+  - GET /blocks/head
+  - GET /blocks/{blockId}
+  - GET /blocks/{blockId}/header
+  - GET /blocks/{blockId}/extrinsics-raw
+  relationships:
+  - has_many: Extrinsic
+    via: extrinsics[]
+  - has_one: BlockHeader
+    via: header
+  - has_many: DigestItem
+    via: header.digest.logs
+  - has_many: SanitizedEvent
+    via: onInitialize / onFinalize / per-extrinsic events
+  - has_many: ParaInclusion
+    via: GET /blocks/{blockId}/para-inclusions
+- name: Extrinsic
+  description: A single transaction or inherent within a block.
+  relationships:
+  - belongs_to: Block
+    via: blockId
+  - has_one: ExtrinsicMethod
+    via: method (pallet + call name)
+  - has_one: Signature
+    via: signature (null for inherents/unsigned)
+  - has_one: GenericExtrinsicEra
+    via: era (mortality window — see conventions idempotency)
+  - has_many: SanitizedEvent
+    via: events[]
+  - has_one: WeightsV2
+    via: info.weight
+- name: Account
+  description: An addressable account and everything derivable about it. There is no account "record" —
+    each facet is a separate derivation from storage.
+  endpoints:
+  - GET /accounts/{accountId}/balance-info
+  - GET /accounts/{accountId}/staking-info
+  - GET /accounts/{accountId}/staking-payouts
+  - GET /accounts/{accountId}/vesting-info
+  - GET /accounts/{accountId}/proxy-info
+  - GET /accounts/{accountId}/asset-balances
+  - GET /accounts/{accountId}/foreign-asset-balances
+  - GET /accounts/{accountId}/pool-asset-balances
+  - GET /accounts/{accountId}/asset-approvals
+  - GET /accounts/{accountId}/pool-asset-approvals
+  - GET /accounts/compare
+  relationships:
+  - has_one: AccountBalanceInfo
+    via: balance-info
+  - has_many: BalanceLock
+    via: balance-info.locks
+  - has_one: AccountStakingInfo
+    via: staking-info
+  - has_one: StakingLedger
+    via: staking-info.stakingLedger
+  - has_one: Nominations
+    via: staking-info.nominations
+  - has_many: VestingSchedule
+    via: vesting-info
+  - has_one: AccountProxyInfo
+    via: proxy-info
+  - has_many: AssetsBalance
+    via: asset-balances
+  - has_many: ForeignAssetBalance
+    via: foreign-asset-balances
+- name: Staking
+  description: Validators, eras, payouts, and slashing.
+  endpoints:
+  - GET /pallets/staking/progress
+  - GET /pallets/staking/validators
+  relationships:
+  - has_one: StakingProgress
+    via: progress
+  - has_many: StakingValidators
+    via: validators
+  - has_many: UnappliedSlash
+    via: progress.unappliedSlashes
+  - has_one: ElectionStatus
+    via: progress.electionStatus
+  - has_many: Payouts
+    via: account staking-payouts
+  belongs_to:
+  - entity: Account
+    via: SS58 stash/controller address
+- name: NominationPool
+  description: Pooled staking — a pool aggregates member funds under a single nominating account.
+  endpoints:
+  - GET /pallets/nomination-pools/info
+  - GET /pallets/nomination-pools/{poolId}
+  relationships:
+  - has_one: BondedPool
+    via: poolId
+  - has_one: RewardPool
+    via: poolId
+  - belongs_to: Account
+    via: pool member SS58 address
+- name: Asset
+  description: Fungible assets registered on an Asset Hub — local assets, foreign assets, and pool assets
+    are three distinct registries.
+  endpoints:
+  - GET /pallets/assets/{assetId}/asset-info
+  - GET /pallets/foreign-assets
+  - GET /pallets/pool-assets/{assetId}/asset-info
+  relationships:
+  - has_one: AssetInfo
+    via: assetId
+  - has_one: AssetMetadata
+    via: assetId
+  - has_one: AssetMultiLocation
+    via: foreign asset identity (XCM MultiLocation rather than a numeric id)
+  - has_many: AssetsBalance
+    via: per-account holdings
+- name: LiquidityPool
+  description: Asset-conversion (DEX) pools.
+  endpoints:
+  - GET /pallets/asset-conversion/liquidity-pools
+  - GET /pallets/asset-conversion/next-available-id
+  relationships:
+  - has_many: Asset
+    via: the asset pair backing the pool
+- name: Coretime
+  description: Agile Coretime — the model that replaces parachain slot auctions. Cores are sold as
+    regions, then assigned to workloads.
+  endpoints:
+  - GET /coretime/info
+  - GET /coretime/overview
+  - GET /coretime/regions
+  - GET /coretime/leases
+  - GET /coretime/renewals
+  - GET /coretime/reservations
+  relationships:
+  - has_many: CoretimeCore
+    via: overview
+  - has_many: CoretimeRegion
+    via: regions
+  - has_one: CoretimeSaleInfo
+    via: info
+  - has_many: CoretimeRenewal
+    via: renewals
+  - has_many: CoretimeReservation
+    via: reservations
+  - has_one: CoretimeWorkload
+    via: core assignment
+  - has_one: CoretimeWorkplan
+    via: core assignment
+  - has_one: CoretimeMask
+    via: region coremask (which fraction of a core)
+- name: Para
+  description: Parachain registration and lifecycle. Largely superseded by Coretime.
+  status: deprecated
+  deprecation_note: Eight /paras operations are marked "PHASED OUT ENDPOINT IN FAVOR OF CORETIME" in
+    their OpenAPI summaries. See lifecycle/kusama-lifecycle.yml.
+  relationships:
+  - has_one: ParaLifecycle
+    via: lifecycle state
+  - has_one: FundInfo
+    via: crowdloan
+  - has_many: ParasLeasesCurrent
+    via: leases
+  - has_one: WinningData
+    via: auction
+- name: Pallet
+  description: A runtime module. This is the reflective/introspection surface — the runtime describes its
+    own storage, constants, calls, events and errors, and the API exposes that description.
+  endpoints:
+  - GET /pallets/{palletId}/storage
+  - GET /pallets/{palletId}/storage/{storageItemId}
+  - GET /pallets/{palletId}/consts
+  - GET /pallets/{palletId}/consts/{constantItemId}
+  - GET /pallets/{palletId}/dispatchables
+  - GET /pallets/{palletId}/dispatchables/{dispatchableItemId}
+  - GET /pallets/{palletId}/events
+  - GET /pallets/{palletId}/events/{eventItemId}
+  - GET /pallets/{palletId}/errors
+  - GET /pallets/{palletId}/errors/{errorItemId}
+  relationships:
+  - has_many: PalletStorageItem
+  - has_many: PalletConstantsItem
+  - has_many: PalletDispatchablesItem
+  - has_many: PalletEventsItem
+  - has_many: PalletErrorsItem
+  note: >-
+    GET /pallets/{palletId}/errors is the authoritative catalog for on-chain DispatchError values — the
+    real error surface for write paths. See errors/kusama-problem-types.yml.
+- name: Transaction
+  description: The write path. A signed extrinsic submitted for inclusion.
+  endpoints:
+  - POST /transaction
+  - POST /transaction/dry-run
+  - POST /transaction/fee-estimate
+  - POST /transaction/material
+  - POST /transaction/metadata-blob
+  - GET /node/transaction-pool
+  relationships:
+  - has_one: TransactionSuccess
+    via: successful submission (returns hash)
+  - has_one: TransactionFailure
+    via: TransactionFailedToParse | TransactionFailedToSubmit | TransactionValidityError
+  - has_one: TransactionDryRun
+    via: dry-run
+  - has_one: TransactionDispatchOutcome
+    via: dry-run result
+  - has_one: TransactionDispatchError
+    via: failed dispatch
+  - has_one: TransactionFeeEstimate
+    via: fee-estimate
+  - has_one: TransactionMaterial
+    via: material (the genesis hash, spec/transaction version, and metadata needed to construct a signing
+      payload offline)
+  - has_one: TransactionMetadataBlob
+    via: metadata-blob (RFC-0078)
+  - becomes: Extrinsic
+    via: inclusion in a Block
+- name: Runtime
+  description: The executable state-transition function and its version identity.
+  endpoints:
+  - GET /runtime/spec
+  - GET /runtime/metadata
+  - GET /runtime/code
+  relationships:
+  - has_one: RuntimeSpec
+  - has_one: RuntimeMetadata
+  - has_one: RuntimeCode
+  - has_one: ChainType
+  note: RuntimeSpec.specVersion is the de facto API version of the chain. See lifecycle/.
+- name: Node
+  description: The specific node instance answering the request — infrastructure, not chain state.
+  endpoints:
+  - GET /node/version
+  - GET /node/network
+  - GET /node/transaction-pool
+  relationships:
+  - has_one: NodeVersion
+  - has_one: NodeNetwork
+  - has_many: PeerInfo
+    via: network.peers
+  - has_many: NodeRole
+  - has_one: TransactionPool
+  note: These responses are node-scoped and will differ between endpoints. Not chain state — do not
+    cache them as such.
+- name: Trace
+  description: Block execution traces. Experimental and expensive.
+  status: experimental
+  endpoints:
+  - GET /blocks/{blockId}/traces
+  - GET /experimental/rc/blocks/{blockId}/traces
+  relationships:
+  - has_many: TraceSpan
+  - has_many: TraceEvent
+  - has_many: Operation
+  - has_one: SpanId
+- name: RelayChainContext
+  description: When the sidecar is attached to a parachain, 37 operations accept useRcBlock to resolve
+    against relay-chain block context instead.
+  relationships:
+  - has_one: RcBlockInfo
+  - has_one: RcBlockObjectResponse
+    via: useRcBlockFormat=object
+graph_notes:
+- >-
+  There is no create/update/delete on any read entity. The only mutation path in the entire API is
+  POST /transaction — everything else is a projection. Model this as CQRS with an append-only log, not
+  as REST resources.
+- >-
+  Account is a derived view, not a stored record. There is no GET /accounts/{id} returning "the account";
+  there are ten separate derivations. Assembling a full account picture means several calls, and they are
+  only mutually consistent if you pin the same `at` across all of them.
+- >-
+  Foreign assets are identified by XCM MultiLocation, not by a scalar id (AssetMultiLocation,
+  AssetMultiLocationHex, AssetMultiLocationObject). Any storage schema assuming a numeric asset key will
+  break on foreign assets.
+- >-
+  Coretime supersedes Para. New integrations should model cores/regions/workloads; the auction,
+  crowdloan and lease entities are on the way out.
+render: null
+render_note: No subway/ diagram exists in this repo yet. This file is the machine-readable source a
+  future render should be generated from.

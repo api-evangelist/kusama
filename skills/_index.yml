@@ -1,0 +1,45 @@
+generated: '2026-07-19'
+method: generated
+source: openapi/kusama-sidecar-openapi.yaml, examples/kusama-rpc-methods.json, conventions/kusama-conventions.yml
+notes: >-
+  Packaged Agent Skills for Kusama. No provider-published skills or AGENTS.md were found on
+  kusama.network, docs.polkadot.com, or in the paritytech GitHub organization (searched 2026-07-19), so
+  these are generated. Every operationId referenced is verified present in the published OpenAPI; where
+  an operation has no operationId in Parity's specification (35 of 119 do not), the skill references it
+  by path and says so.
+skills:
+- name: kusama-read-account-state
+  file: kusama-read-account-state.md
+  api: kusama:sidecar-rest
+  summary: Assemble a consistent account picture — balances, locks, staking, vesting, proxies, assets —
+    by pinning `at` across the fan-out.
+  key_lesson: Account is a derived view, not a record. Ten separate endpoints, only consistent if pinned
+    to the same block.
+- name: kusama-submit-transaction
+  file: kusama-submit-transaction.md
+  api: kusama:sidecar-rest
+  summary: Build, estimate, dry-run, submit and confirm a signed extrinsic.
+  key_lesson: HTTP 200 means accepted into the pool, not executed. Inclusion, success and finality are
+    three separate facts.
+  risk: write path — irreversibly spends real KSM; requires human confirmation
+- name: kusama-follow-finalized-blocks
+  file: kusama-follow-finalized-blocks.md
+  api: kusama:json-rpc
+  summary: Build a restartable WebSocket consumer that survives reconnects without losing blocks.
+  key_lesson: Subscribe to finalized heads, not best-chain heads, and backfill the gap on reconnect —
+    dropped subscriptions resume at head, not where they left off.
+- name: kusama-explore-chain-state
+  file: kusama-explore-chain-state.md
+  api: kusama:sidecar-rest
+  summary: Introspect pallets, storage, constants, calls, events and errors from the runtime itself.
+  key_lesson: Kusama upgrades fast. Ask the chain what it exposes rather than hardcoding against docs,
+    and cache the answer against specVersion.
+cross_cutting_rules:
+- Confirm chain identity before acting — GET /node/version must return chain "Kusama".
+- Pin `at` (70 of 119 operations accept it) whenever two reads must be mutually consistent.
+- Parse all numbers as BigInt/decimal — they are JSON strings in Planck, 1 KSM = 10^12 Planck.
+- Kusama's SS58 prefix is 2; a Polkadot address is a valid string but a different account.
+- Idempotency is the account nonce, not a header. Re-broadcast the same signed payload on timeout; never
+  re-sign with a fresh nonce.
+- Errors are not RFC 9457. Branch on HTTP status, not on message text.
+- Kusama is not a testnet. Rehearse on Westend or a Chopsticks fork.

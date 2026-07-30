@@ -1,0 +1,74 @@
+generated: '2026-07-19'
+method: searched
+source: https://github.com/paritytech/substrate-api-sidecar/blob/master/CHANGELOG.md
+notes: >-
+  Kusama the chain does not publish a product changelog — its change record is on-chain (runtime upgrades
+  enacted by OpenGov referenda, observable as spec_version bumps). The dated, structured changelog that
+  governs the HTTP surface documented in this repo is the substrate-api-sidecar CHANGELOG, captured below.
+  Runtime-level change is tracked separately under runtime_changes.
+scheme: semver, conventional-commits via standard-version
+changelog_url: https://github.com/paritytech/substrate-api-sidecar/blob/master/CHANGELOG.md
+current_version: 20.14.1
+current_version_date: '2026-04-28'
+entries:
+- version: 20.14.1
+  date: '2026-04-28'
+  breaking: false
+  deprecation: true
+  highlights:
+  - substrate-api-sidecar formally deprecated in favor of polkadot-rest-api (Rust rewrite on subxt, 1:1
+    compatible under /v1/). Final feature release; only critical-security fixes backported.
+  - 'fix: use ClaimedRewards storage for claimed status in staking-payouts (#1922)'
+  - 'fix: remove IBP kilt endpoint (#1896)'
+  - 'chore: bump Node.js baseline from 18 to 22 (lru-cache@11 requires Node 20.2+)'
+- version: 20.14.0
+  date: '2026-02-01'
+  breaking: false
+  additions:
+  - POST /transaction/metadata-blob — RFC-0078 merkleized metadata support; returns the minimal metadata
+    blob offline signers need to decode transaction payloads plus the metadata hash for the CheckMetadataHash
+    signed extension. Requires V15 metadata on the connected chain. (#1886)
+  - useRcBlockFormat query parameter for relay-chain block response formatting; with useRcBlock=true and
+    useRcBlockFormat=object the response is wrapped in an object carrying rcBlock info and a
+    parachainDataPerBlock array. Applies to blocks, accounts and pallets controllers. (#1872)
+- version: 20.13.3
+  date: '2026-01-06'
+  breaking: false
+  highlights:
+  - 'fix: unappliedSlashes per era (#1869)'
+  - 'fix: unappliedSlashesAtActiveEra in staking/progress (#1868)'
+- version: 20.13.2
+  date: '2025-12-30'
+  breaking: false
+  highlights:
+  - 'feat: helm templates for health and readiness probes (#1864)'
+- version: 20.13.0
+  date: '2025-12-16'
+  breaking: false
+  additions:
+  - includeClaimable query param on vesting-info endpoints (#1860)
+  - Grafana dashboard for running sidecar (#1856)
+- version: 20.12.0
+  date: '2025-12-01'
+  breaking: false
+  additions:
+  - GET /accounts/{accountId}/foreign-asset-balances (#1834)
+  highlights:
+  - 'fix: add Polkadot Asset Hub constants to ahm-info (#1823)'
+- version: 20.11.0
+  date: '2025-11-03'
+  breaking: false
+  additions:
+  - rcBlockHash added to the useRcBlock response (#1818)
+runtime_changes:
+  description: Kusama runtime upgrades are enacted on-chain and surface as spec_version / transaction_version
+    bumps rather than as a published release feed.
+  observed_spec_version: 2003000
+  observed_transaction_version: 26
+  observed_at: '2026-07-19'
+  detect_via: POST https://kusama-rpc.polkadot.io/ {"method":"state_getRuntimeVersion"}
+  governance_feeds:
+  - https://kusama.subsquare.io/
+  - https://kusama.polkassembly.io/
+  - https://forum.polkadot.network/tag/kusama
+  runtime_source: https://github.com/polkadot-fellows/runtimes

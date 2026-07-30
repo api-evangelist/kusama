@@ -1,0 +1,190 @@
+generated: '2026-07-19'
+method: derived
+status: candidate
+source: openapi/kusama-sidecar-openapi.yaml plus the live rpc_methods surface in examples/kusama-rpc-methods.json
+search_result:
+  official_server_found: false
+  probed:
+  - registry: registry.modelcontextprotocol.io
+    query: kusama
+    result: 0 servers
+    probed_at: '2026-07-19'
+  - registry: registry.modelcontextprotocol.io
+    query: polkadot
+    result: 0 servers
+    probed_at: '2026-07-19'
+  - registry: registry.modelcontextprotocol.io
+    query: substrate
+    result: no Polkadot/Substrate-blockchain server (only an unrelated project named SUBSTRATE)
+    probed_at: '2026-07-19'
+  conclusion: Neither Parity Technologies nor the Kusama ecosystem publishes an official hosted or remote
+    MCP server. The tool list below is a CANDIDATE derived from real, verified operations — it is not a
+    published server and no endpoint is claimed.
+server:
+  name: kusama
+  transport: stdio
+  url: null
+  published: false
+  backing_apis:
+  - https://kusama-public-sidecar.parity-chains.parity.io/
+  - https://kusama-rpc.polkadot.io/
+  auth: none required — both backing endpoints are public and unauthenticated
+agent_safety_notes:
+- >-
+  Every tool below is READ-ONLY. Write access to Kusama means submitting a signed extrinsic that spends
+  real KSM irreversibly, and it requires private key custody. A read-only server needs no key material at
+  all, which is the correct default for an agent.
+- >-
+  If a write tool is ever added, it must be gated behind explicit human confirmation and must never hold
+  the signing key itself — the correct pattern is to build the payload, return it for out-of-band signing,
+  and submit only the already-signed bytes.
+- >-
+  Agents must pin the `at` parameter when comparing two reads. Without it each call resolves against a
+  head that moves every ~6 seconds and the agent will silently reason across inconsistent state.
+- >-
+  Balances are returned as strings in Planck (1 KSM = 10^12 Planck). An agent that formats these as
+  human KSM without dividing will report values a trillion times too large.
+tools:
+- name: get_chain_identity
+  description: Confirm which chain the endpoint is serving, its client version, and its token/address
+    properties. Call this first — it is the guard that prevents acting against the wrong network.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getNodeVersion
+  read_only: true
+- name: get_runtime_spec
+  description: Get the runtime spec_name, spec_version and transaction_version. Use to detect runtime
+    upgrades that invalidate cached metadata.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#/runtime/spec
+  note: This operation has no operationId in the specification.
+  read_only: true
+- name: get_finalized_block
+  description: Get the most recently finalized block, including its extrinsics and events.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getHeadBlock
+  read_only: true
+- name: get_finalized_block_header
+  description: Get just the header of the most recently finalized block — the cheap liveness/height probe.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getLatestBlockHeader
+  read_only: true
+- name: get_block
+  description: Get a block by height or hash.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getBlockById
+  read_only: true
+- name: get_block_range
+  description: Get a range of blocks by height. Bounded by the service; oversized ranges return 400.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getBlock
+  read_only: true
+- name: get_extrinsic
+  description: Get a single extrinsic by its (blockId, extrinsicIndex) timepoint — the canonical way to
+    look up a specific transaction.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getExtrinsicByTimepoint
+  read_only: true
+- name: get_account_balance
+  description: Get balance information for an SS58 account, including locks. Amounts are strings in Planck.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getAccountBalanceInfo
+  read_only: true
+- name: validate_address
+  description: Validate an SS58 address. Use before any account lookup to catch wrong-network addresses
+    (Kusama prefix is 2).
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getValidationByAccountId
+  read_only: true
+- name: convert_address
+  description: Convert an AccountId to its SS58 representation for a given network prefix.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#accountConvert
+  read_only: true
+- name: compare_accounts
+  description: Compare up to 30 SS58 addresses to determine whether they resolve to the same underlying
+    account across network prefixes.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#accountCompare
+  read_only: true
+- name: get_account_staking_info
+  description: Get staking information for a stash account — ledger, nominations, bonded amounts.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getStakingSummaryByAccountId
+  read_only: true
+- name: get_account_staking_payouts
+  description: Get era payout information for a stash account, with claimed/unclaimed status.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getStakingPayoutsByAccountId
+  read_only: true
+- name: get_account_vesting
+  description: Get vesting schedules for an account, optionally including claimable amounts.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getVestingSummaryByAccountId
+  read_only: true
+- name: get_account_proxies
+  description: Get proxy delegations for an account — the chain-level equivalent of scoped delegated
+    authority.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getProxyInfo
+  read_only: true
+- name: get_account_asset_balances
+  description: Get an account's fungible asset balances.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getAssetBalances
+  read_only: true
+- name: get_staking_progress
+  description: Get chain-wide staking progress — current era and session, election status, unapplied
+    slashes.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#/pallets/staking/progress
+  note: This operation has no operationId in the specification.
+  read_only: true
+- name: get_nomination_pool
+  description: Get information for a nomination pool by id.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getNominationPoolById
+  read_only: true
+- name: get_ongoing_referenda
+  description: List on-going OpenGov referenda on the root and whitelisted-caller tracks.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getPalletOnGoingReferenda
+  read_only: true
+- name: get_coretime_overview
+  description: Get all cores and their current assignment under Agile Coretime.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getCoretimeCores
+  read_only: true
+- name: get_coretime_info
+  description: Get generic coretime configuration and current sale information.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getCoretimeInfo
+  read_only: true
+- name: list_pallet_storage
+  description: List the storage items a pallet exposes. The reflective entry point for exploring chain
+    state without hardcoding keys.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#/pallets/{palletId}/storage
+  note: This operation has no operationId in the specification.
+  read_only: true
+- name: get_pallet_storage_item
+  description: Read the value of a specific storage item, optionally at a pinned block.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#/pallets/{palletId}/storage/{storageItemId}
+  note: This operation has no operationId in the specification.
+  read_only: true
+- name: get_pallet_errors
+  description: Get the catalog of DispatchError variants a pallet can return — the authoritative error
+    reference for write paths.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#/pallets/{palletId}/errors
+  note: This operation has no operationId in the specification.
+  read_only: true
+- name: estimate_transaction_fee
+  description: Estimate the fee for an already-signed extrinsic. Read-only — does not submit.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#feeEstimateTransaction
+  read_only: true
+- name: dry_run_transaction
+  description: Dry-run an already-signed extrinsic against current state and return the dispatch outcome
+    without submitting it. The safe way for an agent to answer "would this work?".
+  source_operation: openapi/kusama-sidecar-openapi.yaml#dryrunTransaction
+  read_only: true
+- name: get_transaction_material
+  description: Get the genesis hash, spec/transaction version, and metadata needed to construct a signing
+    payload offline.
+  source_operation: openapi/kusama-sidecar-openapi.yaml#getTransactionMaterial
+  read_only: true
+excluded_operations:
+- operation: submitTransaction
+  reason: Write path. Submits a signed extrinsic that irreversibly spends real KSM. Deliberately excluded
+    from the candidate read-only tool surface; if exposed it must require explicit human confirmation.
+- operation: callContractQuery
+  reason: Executes an ink! contract query; excluded from the baseline surface pending review of its
+    resource cost.
+- operation: getRcBlockHeadTraces and the trace family
+  reason: Experimental and very expensive to compute; unsuitable as a default agent tool.
+resources:
+- name: rpc-methods
+  description: The 130 JSON-RPC methods advertised live by the Kusama endpoint.
+  file: examples/kusama-rpc-methods.json
+- name: conventions
+  description: Idempotency, historical-state pinning, numeric-as-string handling, pagination.
+  file: conventions/kusama-conventions.yml
+- name: errors
+  description: Error envelopes for both REST and JSON-RPC, and the extrinsic-failure distinction.
+  file: errors/kusama-problem-types.yml

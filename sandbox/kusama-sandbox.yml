@@ -1,0 +1,104 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.polkadot.com/apps/get-started/get-testnet-tokens/, https://faucet.polkadot.io/,
+  live probes 2026-07-19
+summary: >-
+  Kusama itself is not a sandbox. It is the canary network — real KSM, real economic value, real
+  slashing — deliberately positioned as "expect chaos" rather than "expect a safety net". Nothing on
+  Kusama is reversible or free. The genuine test surfaces sit beside it: the Westend test network for
+  live multi-party testing, and Chopsticks for forking Kusama state locally.
+kusama_is_not_a_testnet:
+  warning: >-
+    A recurring integration mistake is treating Kusama as Polkadot's testnet because it is cheaper. It is
+    not. KSM has market value, transactions are irreversible, validators are slashed for real, and
+    governance executes faster than on Polkadot — meaning breaking runtime upgrades land here first and
+    with less notice. Test on Westend or a local fork; use Kusama for pre-production validation under
+    real conditions, accepting real loss.
+  chain_type: 'Live (confirmed via system_chainType on 2026-07-19 — the node self-reports "Live", not
+    "Development" or "Local")'
+  token: KSM
+  token_decimals: 12
+  ss58_prefix: 2
+  faucet: none — KSM must be acquired on the open market
+test_networks:
+- name: Westend
+  role: The Polkadot ecosystem's long-lived, permanent test network. Closest environment to Kusama/Polkadot
+    runtime behavior without real value.
+  rpc: https://westend-rpc.polkadot.io/
+  websocket: wss://westend-rpc.polkadot.io
+  verified: 'Live probe 2026-07-19 — system_chain returned "Westend".'
+  token: WND
+  token_value: none (test tokens, no market value)
+  faucet: https://faucet.polkadot.io/
+  faucet_docs: https://docs.polkadot.com/apps/get-started/get-testnet-tokens/
+  reset_policy: Not reset on a schedule; long-lived state.
+- name: Paseo
+  role: Community-run test network mirroring Polkadot runtime, positioned for dApp developers who want
+    Polkadot-like (rather than bleeding-edge) behavior.
+  verified: false
+  note: >-
+    Listed for completeness because it is widely referenced in ecosystem docs, but no public RPC endpoint
+    was reachable at probe time on 2026-07-19 (the endpoints tried returned 503 or did not resolve).
+    Resolve a current endpoint from the Polkadot docs before relying on it.
+local_testing:
+- name: Chopsticks
+  purpose: Fork live Kusama state into a local node and replay or dry-run against it. The standard way
+    to test an extrinsic or a runtime upgrade against real Kusama state without spending KSM.
+  repository: https://github.com/AcalaNetwork/chopsticks
+  verified: 'Repository reachable 2026-07-19 (HTTP 200).'
+  capabilities:
+  - Fork Kusama at a chosen block and run a local node with that state.
+  - Time travel — advance blocks, skip eras, simulate scheduled governance enactment.
+  - Override storage values to construct scenarios that cannot be reached organically.
+  - Dry-run extrinsics against forked real state.
+  note: Used in substrate-api-sidecar's own test suite via @acala-network/chopsticks-testing.
+- name: polkadot node in development mode
+  purpose: A single-node throwaway chain with pre-funded well-known development accounts.
+  command: polkadot --dev
+  note: The --dev accounts (Alice, Bob, Charlie, ...) are well-known keypairs. They exist ONLY on
+    development chains. Never fund or use a well-known dev account on Kusama — the private keys are
+    public and any balance sent to one is immediately claimable by anyone.
+dry_run_and_simulation:
+  description: Kusama exposes first-class simulation, which substitutes for much of what a hosted sandbox
+    would otherwise provide.
+  endpoints:
+  - name: system_dryRun
+    transport: JSON-RPC
+    description: Execute an extrinsic against current state without submitting it, returning the dispatch
+      outcome.
+    note: An unsafe RPC method — typically disabled on public endpoints; available on your own node.
+  - name: system_dryRunAt
+    transport: JSON-RPC
+    description: Dry-run against a specific historical block.
+  - name: payment_queryInfo
+    transport: JSON-RPC
+    description: Estimate the fee and weight of an extrinsic before submitting. Available on the public
+      endpoint.
+  - name: payment_queryFeeDetails
+    transport: JSON-RPC
+    description: Detailed fee breakdown (base, length, weight, tip components).
+  - name: POST /transaction/dry-run
+    transport: Sidecar REST
+    description: Dry-run a signed extrinsic over HTTP.
+  - name: POST /transaction/fee-estimate
+    transport: Sidecar REST
+    description: Estimate fees for a signed extrinsic over HTTP.
+  xcm_simulation:
+  - GET on the XCM debug/preview surface documented at
+    https://docs.polkadot.com/chain-interactions/send-transactions/interoperability/debug-and-preview-xcms/
+  - XCM fee estimation at
+    https://docs.polkadot.com/chain-interactions/send-transactions/interoperability/estimate-xcm-fees/
+local_sidecar:
+  description: The REST API in this repo can be run locally against any chain, including a Chopsticks
+    fork of Kusama.
+  command: SAS_SUBSTRATE_URL=ws://localhost:8000 npx @substrate/api-sidecar
+  default_bind: 127.0.0.1:8080
+  source: https://github.com/paritytech/substrate-api-sidecar/blob/master/README.md
+test_credentials:
+  api_keys: none — the API is unauthenticated, so there is no test-vs-live key concept
+  test_key_prefixes: not applicable
+  test_cards: not applicable
+  note: >-
+    The test-vs-live distinction in this ecosystem is the CHAIN you point at, not a credential mode.
+    Switching from test to production means changing the RPC URL and using a funded, real keypair.
+    Guard for it by asserting system_chain returns "Kusama" before executing any write path.

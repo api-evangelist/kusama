@@ -1,0 +1,116 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/kusama-sidecar-openapi.yaml (response codes across 119 operations) plus a live 500 captured
+  from https://kusama-public-sidecar.parity-chains.parity.io/pallets/staking/progress on 2026-07-19
+format: bespoke-json
+rfc9457: false
+notes: >-
+  The Sidecar REST API does not implement RFC 9457 problem+json. It returns a bespoke envelope with
+  Content-Type application/json. There is no type URI, no title, and no machine-readable error code
+  beyond the HTTP status — callers must string-match on message. The JSON-RPC endpoint uses the standard
+  JSON-RPC 2.0 error object instead, which is a separate shape documented below.
+rest_envelope:
+  content_type: application/json
+  fields:
+  - name: code
+    type: integer
+    description: Mirrors the HTTP status code.
+  - name: message
+    type: string
+    description: Human-readable message. Not a stable identifier — not safe to match on across versions.
+  - name: stack
+    type: string
+    description: Server stack trace, including internal file paths.
+    concern: >-
+      Leaks implementation paths (e.g. /usr/src/app/build/src/services/...) to unauthenticated callers.
+      Operators self-hosting the sidecar should strip this before exposing it publicly.
+  example_observed:
+    request: GET /pallets/staking/progress
+    status: 500
+    body:
+      code: 500
+      message: ActiveEra is None when Some was expected.
+      stack: 'InternalServerError: ActiveEra is None when Some was expected. at PalletsStakingProgressService.deriveSessionAndEraProgress
+        (/usr/src/app/build/src/services/pallets/PalletsStakingProgressService.js:244:19)'
+response_code_coverage:
+  derived_from: openapi/kusama-sidecar-openapi.yaml
+  total_operations: 119
+  codes:
+  - code: '200'
+    operations: 119
+  - code: '400'
+    operations: 76
+  - code: '404'
+    operations: 20
+  - code: '500'
+    operations: 1
+  gap: >-
+    Only one operation declares a 500 in the specification, yet a 500 is trivially reproducible in
+    production (captured above). 43 operations declare no 4xx at all. Error coverage in the spec
+    understates real behavior.
+problem_types:
+- status: 400
+  name: BadRequest
+  applies_to: 76 of 119 operations
+  typical_causes:
+  - Malformed or wrong-network SS58 address in {accountId} (a Polkadot-prefix address sent to a Kusama
+    endpoint is a common case — Kusama's SS58 prefix is 2).
+  - Unparseable {blockId} — must be a block height or a 0x-prefixed block hash.
+  - Unknown {palletId}, {storageItemId}, {constantItemId}, or {errorItemId} for the connected runtime.
+  - Invalid or out-of-range query parameter (e.g. a range on /blocks exceeding the permitted span).
+  remediation: Validate address prefix and block identifier client-side before calling; resolve pallet
+    and storage item names from GET /pallets/{palletId}/storage rather than hardcoding them.
+- status: 404
+  name: NotFound
+  applies_to: 20 of 119 operations
+  typical_causes:
+  - The requested entity does not exist on this chain — e.g. an assetId, poolId, or paraId not registered
+    on Kusama.
+  - The endpoint's pallet is not present in the connected runtime (the sidecar mounts controllers based
+    on the chain's metadata, so pallet-specific routes 404 on chains lacking that pallet).
+  remediation: Confirm the pallet exists in the runtime before depending on its routes; treat 404 on a
+    pallet route as "not supported by this chain", not as "empty result".
+- status: 500
+  name: InternalServerError
+  applies_to: Any operation; only 1 declares it in the spec.
+  typical_causes:
+  - >-
+    Upstream WebSocket to the Substrate node is disconnected. Observed live on the Kusama Asset Hub
+    public sidecar — "WebSocket is not connected / Failed WS Request" for method
+    state_getRuntimeVersion.
+  - Runtime storage in an unexpected state for the derivation the endpoint performs. Observed live on
+    Kusama — 'ActiveEra is None when Some was expected.'
+  - Historical state pruned away on a non-archive node when querying an older block.
+  remediation: >-
+    Retry with backoff — many 500s here are transient upstream-connection faults rather than deterministic
+    request errors. Distinguish by re-probing GET /node/version; if that also fails, the sidecar's node
+    link is down. For pruned-state 500s, point at an archive node instead.
+json_rpc_errors:
+  protocol: JSON-RPC 2.0
+  envelope: '{"jsonrpc":"2.0","id":<id>,"error":{"code":<int>,"message":"<string>","data":<optional>}}'
+  standard_codes:
+  - code: -32700
+    name: Parse error
+  - code: -32600
+    name: Invalid Request
+  - code: -32601
+    name: Method not found
+    note: Returned for methods outside the 130 advertised by rpc_methods, and for any legacy method a
+      node operator has disabled.
+  - code: -32602
+    name: Invalid params
+  - code: -32603
+    name: Internal error
+  server_defined_range: '-32000 to -32099, used by Substrate for node-specific conditions such as
+    unsafe RPC method blocked, transaction pool rejections, and state-not-available.'
+  method_availability_note: >-
+    Public endpoints run with unsafe RPC methods disabled. author_insertKey, author_rotateKeys,
+    system_addReservedPeer, offchain_localStorageSet and similar appear in the rpc_methods list but are
+    rejected over a public connection — the list advertises the build's surface, not what this endpoint
+    will execute for you.
+extrinsic_failure_note: >-
+  A successfully submitted extrinsic returning HTTP 200 does not mean it succeeded on-chain. Inclusion and
+  success are separate: the transaction must be included in a block, then its ExtrinsicSuccess or
+  ExtrinsicFailed event inspected. Runtime-level failures carry a pallet-specific DispatchError, whose
+  human-readable catalog per pallet is available at GET /pallets/{palletId}/errors. This is the real error
+  surface for write paths, and it is entirely separate from HTTP status codes.

@@ -1,0 +1,138 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/kusama-sidecar-openapi.yaml, live protocol probes on 2026-07-19,
+  https://paritytech.github.io/json-rpc-interface-spec/
+notes: >-
+  Assertions below are evidence-backed. Kusama conforms to a stack of blockchain-native specifications
+  (JSON-RPC 2.0, the Polkadot JSON-RPC interface spec, SCALE, SS58) and to OpenAPI 3.0 on its REST
+  projection, while conforming to essentially none of the enterprise web-API standards — no OAuth, no
+  OIDC, no RFC 9457, no RFC 8594. That is an accurate description of a permissionless chain, not a defect
+  list.
+standards:
+- id: jsonrpc-2.0
+  name: JSON-RPC 2.0
+  conforms: true
+  evidence: 'Live probe of https://kusama-rpc.polkadot.io/ returned {"jsonrpc":"2.0","id":1,"result":"Kusama"}
+    for system_chain on 2026-07-19 — correct envelope, echoed id, versioned member.'
+- id: polkadot-json-rpc-interface-spec
+  name: Polkadot JSON-RPC interface specification
+  conforms: true
+  evidence: 'rpc_methods on the public endpoint advertises the spec-versioned families chainHead_v1 (8
+    methods), archive_v1 (11), transaction_v1 (2), transactionWatch_v1 (2) and chainSpec_v1 (3),
+    alongside the legacy families. Probed 2026-07-19.'
+  spec: https://paritytech.github.io/json-rpc-interface-spec/
+- id: openapi-3.0
+  name: OpenAPI 3.0.0
+  conforms: true
+  evidence: openapi/kusama-sidecar-openapi.yaml declares openapi 3.0.0, 119 operations, 156 component
+    schemas, and lists the Kusama public sidecar in servers[]. Parses cleanly.
+  caveat: 35 of 119 operations have no operationId, which weakens code generation and agent grounding.
+- id: scale-codec
+  name: SCALE (Simple Concatenated Aggregate Little-Endian) codec
+  conforms: true
+  evidence: All extrinsics and storage values are SCALE-encoded; state_getMetadata returns SCALE-encoded
+    runtime metadata. Implemented by parity-scale-codec.
+- id: ss58
+  name: SS58 address format
+  conforms: true
+  evidence: 'system_properties returned {"ss58Format":2,...} live on 2026-07-19. Kusama uses network
+    prefix 2. Dedicated endpoints /accounts/{accountId}/convert and /accounts/{address}/validate exist
+    to encode and verify addresses.'
+- id: rfc-0078-merkleized-metadata
+  name: 'Polkadot RFC-0078: merkleized metadata for offline signers'
+  conforms: true
+  evidence: 'POST /transaction/metadata-blob added in substrate-api-sidecar v20.14.0 (2026-02-01) returns
+    the metadata blob and metadata hash for the CheckMetadataHash signed extension. Requires V15 metadata
+    on the connected chain.'
+- id: libp2p
+  name: libp2p peer-to-peer networking
+  conforms: true
+  evidence: 'GET /node/network returned a libp2p peer id (12D3KooW...) and multiaddr listen addresses
+    live on 2026-07-19.'
+- id: websocket-rfc6455
+  name: WebSocket (RFC 6455)
+  conforms: true
+  evidence: Subscription methods (chain_subscribeNewHeads, state_subscribeStorage, chainHead_v1_follow,
+    and 12 others) are served over wss://kusama-rpc.polkadot.io.
+- id: rfc9457
+  name: 'RFC 9457: Problem Details for HTTP APIs'
+  conforms: false
+  evidence: 'Live 500 from the Kusama sidecar returned Content-Type application/json with a bespoke
+    {code, message, stack} body. No application/problem+json, no type URI, no title member. See
+    errors/kusama-problem-types.yml.'
+- id: rfc8594
+  name: 'RFC 8594: Sunset HTTP header'
+  conforms: false
+  evidence: substrate-api-sidecar is formally deprecated and eight /paras operations are marked
+    deprecated in their summaries, yet no Sunset or Deprecation response header is emitted. Deprecation
+    is communicated in the OpenAPI description and CHANGELOG only.
+- id: oauth2
+  name: 'OAuth 2.0 (RFC 6749)'
+  conforms: false
+  evidence: No securitySchemes in the OpenAPI specification; /.well-known/oauth-authorization-server
+    returns 404/405 on every probed host. There is no authorization server.
+- id: oidc
+  name: OpenID Connect
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on kusama.network and docs.polkadot.com, 405
+    on the RPC endpoint. Probed 2026-07-19.
+- id: rfc9116
+  name: 'RFC 9116: security.txt'
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on kusama.network and on security.parity.io. A real
+    disclosure program exists but is not machine-discoverable. See security/kusama-vulnerability-disclosure.yml.
+- id: rfc8615-api-catalog
+  name: 'RFC 9727 / .well-known/api-catalog'
+  conforms: false
+  evidence: 404 on all probed hosts, 2026-07-19.
+- id: jsonapi
+  name: 'JSON:API'
+  conforms: false
+  evidence: Responses are plain domain JSON with no data/attributes/relationships envelope and no
+    application/vnd.api+json content type.
+- id: odata
+  name: OData
+  conforms: false
+  evidence: No $filter/$select/$expand query surface; field selection is per-operation boolean toggles.
+- id: http-pagination
+  name: Standard HTTP pagination (cursor, offset, or RFC 8288 Link headers)
+  conforms: false
+  evidence: No limit/offset/cursor/page parameter appears in any of the 119 operations, and no Link
+    header is emitted. Bulk reads are bounded by block `range` and `depth`. See
+    conventions/kusama-conventions.yml.
+- id: http-idempotency-key
+  name: 'HTTP Idempotency-Key header (IETF draft)'
+  conforms: false
+  evidence: No Idempotency-Key header is accepted or documented.
+  note: >-
+    Idempotency itself IS provided, one layer down — the account nonce and mortal era give exactly-once
+    execution enforced by the runtime, and it cannot be bypassed by an intermediary. Recorded here as
+    non-conformance to the HTTP convention, not as an absence of the property.
+- id: fapi
+  name: 'FAPI 2.0'
+  conforms: false
+  evidence: Not applicable — no OAuth/OIDC layer exists to profile.
+- id: scim
+  name: SCIM
+  conforms: false
+  evidence: No identity or user-provisioning surface.
+- id: fhir
+  name: FHIR
+  conforms: false
+  evidence: Not a healthcare API.
+- id: psd2
+  name: PSD2
+  conforms: false
+  evidence: Not a regulated payments API. Kusama is a permissionless public ledger with no account
+    servicing entity.
+compliance_certifications:
+  published: false
+  notes: >-
+    No SOC 2, ISO 27001, PCI DSS, HIPAA or FedRAMP attestation is published for Kusama, and none would be
+    meaningful — there is no operating company behind the chain to be audited, no customer data processor
+    relationship, and no vendor to sign a DPA with. What exists instead is a public program of protocol
+    security audits and vulnerability disclosures at https://security.parity.io/audits, plus a bug bounty
+    that explicitly scopes the Kusama runtime. Because there are no named certifications, no `Compliance`
+    pointer is emitted in apis.yml — asserting one would misrepresent the provider.
+  security_audits: https://security.parity.io/audits
+  disclosures: https://security.parity.io/disclosures

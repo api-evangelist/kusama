@@ -1,0 +1,109 @@
+generated: '2026-07-19'
+method: searched
+source: https://github.com/paritytech/substrate-api-sidecar/blob/master/CHANGELOG.md, openapi/kusama-sidecar-openapi.yaml,
+  live RPC probe of https://kusama-rpc.polkadot.io/
+versioning:
+  chain:
+    scheme: runtime spec_version (monotonic integer), bumped by on-chain runtime upgrade
+    current_spec_name: kusama
+    current_spec_version: 2003000
+    current_impl_name: parity-kusama
+    current_node_version: 1.24.0-660acefe665
+    transaction_version: 26
+    observed_at: '2026-07-19'
+    source: state_getRuntimeVersion on https://kusama-rpc.polkadot.io/
+    notes: >-
+      A bump in transaction_version signals a breaking change to extrinsic encoding — offline signers and
+      indexers must re-fetch metadata. spec_version bumps alone may be non-breaking. This is the closest
+      thing Kusama has to an API version, and it changes by on-chain governance, not by a vendor release.
+  json_rpc:
+    scheme: method-name suffixed families (_v1, _unstable) per the Polkadot JSON-RPC interface spec
+    spec: https://paritytech.github.io/json-rpc-interface-spec/
+    stable_families:
+    - chainHead_v1
+    - archive_v1
+    - transaction_v1
+    - transactionWatch_v1
+    - chainSpec_v1
+    unstable_observed:
+    - system_unstable_networkState
+    legacy_families:
+    - chain_*
+    - state_*
+    - author_*
+    - system_*
+    - payment_*
+    - childstate_*
+    notes: >-
+      The legacy families remain served on kusama-rpc.polkadot.io (probed 2026-07-19) but the interface
+      spec positions the _v1 families as the forward path for new clients, particularly light clients.
+  rest_sidecar:
+    scheme: semver on the substrate-api-sidecar release
+    current_version: 20.14.1
+    released: '2026-04-28'
+deprecation:
+  policy_published: true
+  policy_url: https://github.com/paritytech/substrate-api-sidecar/blob/master/CHANGELOG.md
+  rfc8594_sunset_headers: false
+  notes: >-
+    Deprecation is announced in-band — in the OpenAPI info.description, in the CHANGELOG, and inline in
+    individual operation summaries — rather than via RFC 8594 Sunset/Deprecation response headers. No
+    Sunset or Deprecation header was observed on live responses from the Kusama sidecar.
+  deprecated_products:
+  - name: substrate-api-sidecar
+    status: deprecated
+    announced: '2026-04-28'
+    announced_in: v20.14.1 release notes and OpenAPI info.description
+    superseded_by: polkadot-rest-api
+    successor_repository: https://github.com/paritytech/polkadot-rest-api
+    successor_docs: https://paritytech.github.io/polkadot-rest-api/
+    successor_crate: https://crates.io/crates/polkadot-rest-api
+    successor_docker: paritytech/polkadot-rest-api:v0.1.0
+    migration_guide: https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md
+    compatibility: 1:1 API compatibility, endpoints served under /v1/ (e.g. /v1/blocks/head)
+    support_commitment: 'Final feature release. Only critical-security fixes will be backported, if any.'
+    sunset_date: null
+  deprecated_operations:
+    source: openapi/kusama-sidecar-openapi.yaml (summaries carrying "DEPRECATION NOTE")
+    reason: Phased out in favor of Agile Coretime; the paras/auctions/crowdloans model is being replaced
+      by coretime regions and renewals.
+    replacement_tag: coretime
+    paths:
+    - GET /paras
+    - GET /paras/auctions/current
+    - GET /paras/crowdloans
+    - GET /paras/head/backed-candidates
+    - GET /paras/head/included-candidates
+    - GET /paras/leases/current
+    - GET /paras/{paraId}/crowdloan-info
+    - GET /paras/{paraId}/lease-info
+status_page:
+  present: false
+  notes: >-
+    Neither kusama.network nor Parity publishes a hosted status page for the Kusama public RPC or sidecar
+    endpoints (searched 2026-07-19). Liveness is instead observable directly from the chain interface.
+  liveness_probes:
+  - name: node health
+    endpoint: POST https://kusama-rpc.polkadot.io/ {"method":"system_health"}
+    observed: '{"peers":74,"isSyncing":false,"shouldHavePeers":true}'
+    observed_at: '2026-07-19'
+  - name: sidecar node version
+    endpoint: GET https://kusama-public-sidecar.parity-chains.parity.io/node/version
+    observed: '{"clientVersion":"1.24.0-660acefe665","clientImplName":"parity-kusama","chain":"Kusama"}'
+    observed_at: '2026-07-19'
+  - name: kusama asset hub sidecar
+    endpoint: GET https://kusama-asset-hub-public-sidecar.parity-chains.parity.io/node/version
+    observed: HTTP 500 "WebSocket is not connected"
+    observed_at: '2026-07-19'
+    note: Recorded as observed; the Asset Hub public sidecar was not serving at probe time.
+sla:
+  published: false
+  notes: >-
+    The public RPC and sidecar endpoints are best-effort community infrastructure with no published SLA.
+    Production consumers are directed to run their own node or use a commercial RPC provider.
+network_position:
+  role: canary network
+  relationship: Runs the same Polkadot SDK codebase as Polkadot; runtime upgrades, governance changes,
+    and coretime/parachain mechanics ship to Kusama first and reach Polkadot after proving out.
+  governance: OpenGov (on-chain referenda) — https://kusama.subsquare.io/ and https://kusama.polkassembly.io/
+  implication: Breaking behavior changes reach Kusama earlier and faster than Polkadot by design.

@@ -1,0 +1,125 @@
+{
+  "generated": "2026-07-19",
+  "method": "searched",
+  "source": "Live probes of https://kusama-rpc.polkadot.io/ and https://kusama-public-sidecar.parity-chains.parity.io/ on 2026-07-19",
+  "notes": "Every request/response pair below was captured verbatim from the public Kusama endpoints. Block-height and hash values are point-in-time and will not reproduce; shapes and field names will.",
+  "json_rpc": {
+    "endpoint": "https://kusama-rpc.polkadot.io/",
+    "transport": "HTTP POST (application/json); WSS at wss://kusama-rpc.polkadot.io for subscriptions",
+    "protocol": "JSON-RPC 2.0",
+    "auth": "none",
+    "examples": [
+      {
+        "name": "Identify the chain",
+        "request": {"jsonrpc": "2.0", "id": 1, "method": "system_chain", "params": []},
+        "response": {"jsonrpc": "2.0", "id": 1, "result": "Kusama"}
+      },
+      {
+        "name": "Node client version",
+        "request": {"jsonrpc": "2.0", "id": 1, "method": "system_version", "params": []},
+        "response": {"jsonrpc": "2.0", "id": 1, "result": "1.24.0-660acefe665"}
+      },
+      {
+        "name": "Node implementation name",
+        "request": {"jsonrpc": "2.0", "id": 1, "method": "system_name", "params": []},
+        "response": {"jsonrpc": "2.0", "id": 1, "result": "Parity Polkadot"}
+      },
+      {
+        "name": "Chain type",
+        "request": {"jsonrpc": "2.0", "id": 1, "method": "system_chainType", "params": []},
+        "response": {"jsonrpc": "2.0", "id": 1, "result": "Live"}
+      },
+      {
+        "name": "Node health — use as a liveness check before submitting extrinsics",
+        "request": {"jsonrpc": "2.0", "id": 1, "method": "system_health", "params": []},
+        "response": {"jsonrpc": "2.0", "id": 1, "result": {"peers": 74, "isSyncing": false, "shouldHavePeers": true}}
+      },
+      {
+        "name": "Token and address properties — SS58 prefix 2, KSM with 12 decimals",
+        "request": {"jsonrpc": "2.0", "id": 1, "method": "system_properties", "params": []},
+        "response": {"jsonrpc": "2.0", "id": 1, "result": {"ss58Format": 2, "tokenDecimals": 12, "tokenSymbol": "KSM"}}
+      },
+      {
+        "name": "Latest finalized block hash",
+        "request": {"jsonrpc": "2.0", "id": 1, "method": "chain_getFinalizedHead", "params": []},
+        "response": {"jsonrpc": "2.0", "id": 1, "result": "0xca30b746c0427928ecf5e575cc9e43f10f48a5b24609db52c04916910286e4c6"}
+      },
+      {
+        "name": "Runtime version — spec_version is the closest thing Kusama has to an API version",
+        "request": {"jsonrpc": "2.0", "id": 1, "method": "state_getRuntimeVersion", "params": []},
+        "response_excerpt": {"jsonrpc": "2.0", "id": 1, "result": {"specName": "kusama", "implName": "parity-kusama", "authoringVersion": 2, "specVersion": 2003000, "implVersion": 0, "apis": [["0xab3c0572291feb8b", 2], ["0xbc9d89904f5b923f", 1], ["0xf3ff14d5ab527059", 3]]}},
+        "note": "The apis array is truncated here; the live response lists every runtime API with its version."
+      },
+      {
+        "name": "Enumerate the served method surface",
+        "request": {"jsonrpc": "2.0", "id": 1, "method": "rpc_methods", "params": []},
+        "response_shape": {"jsonrpc": "2.0", "id": 1, "result": {"methods": ["account_nextIndex", "..."]}},
+        "observed_method_count": 130,
+        "note": "Full captured list is in examples/kusama-rpc-methods.json."
+      }
+    ]
+  },
+  "sidecar_rest": {
+    "endpoint": "https://kusama-public-sidecar.parity-chains.parity.io/",
+    "auth": "none",
+    "examples": [
+      {
+        "name": "Node version — confirms which chain the sidecar is attached to",
+        "request": "GET /node/version",
+        "status": 200,
+        "response": {"clientVersion": "1.24.0-660acefe665", "clientImplName": "parity-kusama", "chain": "Kusama"}
+      },
+      {
+        "name": "Latest finalized block header",
+        "request": "GET /blocks/head/header",
+        "status": 200,
+        "response_excerpt": {
+          "parentHash": "0x119b623486df6575de30b16c567710e5f221a3d5215103e30d28830c4b49532f",
+          "number": "34448611",
+          "stateRoot": "0x83fdf53da545b85a9c037bc181a98e89b245e461493275620309833f4955029a",
+          "extrinsicsRoot": "0x054f3e3cb8582354e56255bfd93d3500d581ebf974669910309795484b51d4e4",
+          "digest": {"logs": ["...truncated hex log entries..."]}
+        },
+        "note": "Numeric fields are returned as JSON strings, not numbers — see conventions/kusama-conventions.yml."
+      },
+      {
+        "name": "Runtime spec",
+        "request": "GET /runtime/spec",
+        "status": 200,
+        "response_excerpt": {
+          "at": {"height": "34448629", "hash": "0x11a3c69a4a1fe6ef763962a7db002e68d72ed9a106059ecb5a85e7b8128ff985"},
+          "authoringVersion": "2",
+          "transactionVersion": "26",
+          "implVersion": "0",
+          "specName": "kusama",
+          "specVersion": "2003000",
+          "chainType": {"live": null},
+          "properties": {"isEthereum": false, "ss58Format": "2", "tokenDecimals": "..." }
+        }
+      },
+      {
+        "name": "Peer-to-peer networking state",
+        "request": "GET /node/network",
+        "status": 200,
+        "response_excerpt": {
+          "nodeRoles": [{"full": null}],
+          "numPeers": "74",
+          "isSyncing": false,
+          "shouldHavePeers": true,
+          "localPeerId": "12D3KooWLtpQ6JioQoQaYKQWSutgBVg24RaLCn4sPfYBfKUeFwvM"
+        }
+      },
+      {
+        "name": "Error envelope — captured live, not synthesized",
+        "request": "GET /pallets/staking/progress",
+        "status": 500,
+        "response_excerpt": {
+          "code": 500,
+          "message": "ActiveEra is None when Some was expected.",
+          "stack": "InternalServerError: ActiveEra is None when Some was expected.\n    at PalletsStakingProgressService.deriveSessionAndEraProgress (...)"
+        },
+        "note": "The sidecar returns a bespoke {code,message,stack} envelope with Content-Type application/json — NOT RFC 9457 application/problem+json. The stack field leaks internal file paths."
+      }
+    ]
+  }
+}

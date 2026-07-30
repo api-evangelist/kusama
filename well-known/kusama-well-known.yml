@@ -1,0 +1,53 @@
+generated: '2026-07-19'
+method: searched
+source: live HTTP probes 2026-07-19
+notes: >-
+  No /.well-known/ discovery surface is published on any Kusama-related host. This is expected: Kusama is
+  a public permissionless chain with no authorization server, no tenant registration, and no HTTP identity
+  layer — the JSON-RPC endpoint answers only POST (hence 405 on every GET probe). Recorded as verified
+  absence, not as a gap awaiting a retry.
+hosts:
+- host: https://kusama.network
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://kusama-rpc.polkadot.io
+  note: JSON-RPC endpoint accepts POST only; GET returns 405 Method Not Allowed for every path.
+  documents:
+  - path: /.well-known/security.txt
+    status: 405
+  - path: /.well-known/openid-configuration
+    status: 405
+  - path: /.well-known/oauth-authorization-server
+    status: 405
+  - path: /.well-known/api-catalog
+    status: 405
+  - path: /.well-known/ai-plugin.json
+    status: 405
+- host: https://docs.polkadot.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+    note: Polkadot developer docs llms.txt (ecosystem-wide, not Kusama-specific). See llms/kusama-llms.txt.
+- host: https://wiki.polkadot.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404

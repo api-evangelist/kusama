@@ -1,0 +1,99 @@
+generated: '2026-07-19'
+method: searched
+source: npm registry, PyPI, crates.io (probed 2026-07-19)
+notes: >-
+  Kusama publishes no vendor SDK of its own — it is a chain, not a company with a client library program.
+  The first-party clients are the Polkadot-ecosystem libraries maintained by Parity Technologies and the
+  polkadot-js / polkadot-api organizations; all of them speak to Kusama by pointing at a Kusama RPC
+  endpoint (wss://kusama-rpc.polkadot.io). Versions below were read live from each registry.
+packages:
+- language: javascript
+  registry: npm
+  name: '@polkadot/api'
+  version: 16.5.6
+  url: https://www.npmjs.com/package/@polkadot/api
+  install: npm install @polkadot/api
+  repository: https://github.com/polkadot-js/api
+  docs: https://polkadot.js.org/docs/api/
+  description: Promise and RxJS wrappers around the Polkadot JS RPC.
+  official: true
+- language: javascript
+  registry: npm
+  name: polkadot-api
+  version: 2.1.8
+  url: https://www.npmjs.com/package/polkadot-api
+  install: npm install polkadot-api
+  repository: https://github.com/polkadot-api/polkadot-api
+  description: Light-client-first TypeScript client built on the new JSON-RPC spec (papi).
+  official: true
+- language: javascript
+  registry: npm
+  name: '@polkadot/keyring'
+  version: 14.0.3
+  url: https://www.npmjs.com/package/@polkadot/keyring
+  install: npm install @polkadot/keyring
+  repository: https://github.com/polkadot-js/common
+  description: Keyring management for signing Kusama extrinsics.
+  official: true
+- language: javascript
+  registry: npm
+  name: '@polkadot/util-crypto'
+  version: 14.0.3
+  url: https://www.npmjs.com/package/@polkadot/util-crypto
+  install: npm install @polkadot/util-crypto
+  repository: https://github.com/polkadot-js/common
+  description: Crypto utilities (sr25519/ed25519, SS58 encoding) used across the Polkadot stack.
+  official: true
+- language: javascript
+  registry: npm
+  name: '@substrate/api-sidecar'
+  version: 20.14.1
+  url: https://www.npmjs.com/package/@substrate/api-sidecar
+  install: npm install -g @substrate/api-sidecar
+  repository: https://github.com/paritytech/substrate-api-sidecar
+  description: REST service exposing Substrate/FRAME chain state over HTTP. Runs the API described in
+    openapi/kusama-sidecar-openapi.yaml.
+  official: true
+  deprecated: true
+  superseded_by: polkadot-rest-api
+- language: python
+  registry: pypi
+  name: substrate-interface
+  url: https://pypi.org/project/substrate-interface/
+  install: pip install substrate-interface
+  repository: https://github.com/polkascan/py-substrate-interface
+  description: Python interface to Substrate nodes, including Kusama.
+  official: false
+  note: Community-maintained (Polkascan/JAM), widely used as the de facto Python client.
+- language: rust
+  registry: crates.io
+  name: subxt
+  version: 0.50.2
+  url: https://crates.io/crates/subxt
+  install: cargo add subxt
+  repository: https://github.com/paritytech/subxt
+  description: Interact with Substrate-based chains on the Polkadot Network.
+  official: true
+- language: rust
+  registry: crates.io
+  name: polkadot-sdk
+  version: 2606.0.0
+  url: https://crates.io/crates/polkadot-sdk
+  install: cargo add polkadot-sdk
+  repository: https://github.com/paritytech/polkadot-sdk
+  description: Polkadot SDK umbrella crate — the node and runtime framework Kusama itself is built on.
+  official: true
+- language: rust
+  registry: crates.io
+  name: polkadot-rest-api
+  url: https://crates.io/crates/polkadot-rest-api
+  install: cargo add polkadot-rest-api
+  repository: https://github.com/paritytech/polkadot-rest-api
+  description: Rust rewrite of substrate-api-sidecar with 1:1 API compatibility under /v1/.
+  official: true
+registries_probed_with_no_first_party_result:
+- maven-central
+- nuget
+- rubygems
+- packagist
+- pkg.go.dev

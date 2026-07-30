@@ -1,0 +1,188 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/kusama-sidecar-openapi.yaml (119 operations), live probes of https://kusama-rpc.polkadot.io/
+  and https://kusama-public-sidecar.parity-chains.parity.io/ on 2026-07-19,
+  https://github.com/paritytech/substrate-api-sidecar/blob/master/README.md
+summary: >-
+  Kusama presents two interfaces with different conventions over one state machine: a JSON-RPC 2.0 node
+  interface and a REST projection (Sidecar). Neither uses API keys, neither uses RFC 9457, and neither
+  uses cursor pagination. The organizing convention is not HTTP at all — it is the block. Almost every
+  read is "state as of a block", and almost every write is a signed extrinsic whose replay protection is
+  an account nonce.
+authentication:
+  style: none (public, unauthenticated)
+  detail: See authentication/kusama-authentication.yml. Write authority is a signature over the extrinsic,
+    not a transport credential.
+idempotency:
+  supported: true
+  mechanism: account nonce plus mortal era, enforced on-chain
+  http_header: null
+  note: >-
+    Kusama has no Idempotency-Key header, because it does not need one. Exactly-once execution is a
+    property of the runtime, not of the HTTP layer.
+  how_it_works: >-
+    Every signed extrinsic embeds the signing account's nonce — a strictly increasing per-account counter.
+    The runtime executes a given (account, nonce) pair at most once. Resubmitting a byte-identical signed
+    extrinsic after it has been included is rejected as a stale/duplicate transaction, so a client that
+    retries a network timeout cannot double-spend. The nonce is the idempotency key, and it is bound
+    inside the signature, so it cannot be forged or replayed by an intermediary.
+  mortality: >-
+    Extrinsics are mortal by default: the payload commits to a starting block hash and a validity period
+    (era). Once that window passes the extrinsic can never be included, which bounds how long a retry
+    can remain in flight. Immortal extrinsics are possible but discouraged precisely because they remove
+    this bound.
+  cross_chain_replay_protection: >-
+    The signing payload also commits to the genesis hash, the runtime spec_version and the
+    transaction_version. A Kusama extrinsic therefore cannot be replayed on Polkadot or on a Kusama
+    runtime that has since had a breaking upgrade.
+  read_idempotency: All Sidecar reads are GET and side-effect free; pinning `at` makes them fully
+    deterministic (see historical_state below).
+  client_guidance:
+  - Fetch the next nonce with account_nextIndex (JSON-RPC) or GET /accounts/{accountId}/balance-info
+    before signing, and account for extrinsics still in the pool.
+  - On a submission timeout, do NOT re-sign with a fresh nonce — re-broadcast the same signed payload, or
+    query by extrinsic hash first. Re-signing with a new nonce is how double-submits happen.
+  - Track submissions by extrinsic hash; it is the stable client-side correlation identifier.
+historical_state:
+  parameter: at
+  used_by: 70 of 119 operations
+  values: block height, 0x-prefixed block hash, or omitted for the latest finalized block
+  significance: >-
+    This is the single most important convention in the API. Omitting `at` returns state at the head,
+    which moves roughly every 6 seconds; supplying `at` makes a call reproducible forever. Any indexer,
+    reconciliation job, or agent that compares two reads must pin `at` or it will read across a block
+    boundary and see inconsistent results.
+  response_envelope: >-
+    Responses carry an `at` object of shape {height, hash} naming the block they were computed against —
+    always record it.
+  pruning_caveat: >-
+    Non-archive nodes prune historical state. Querying an old `at` against a pruned node fails rather
+    than returning stale data. Use an archive node (--pruning=archive) or the archive_v1 JSON-RPC family
+    for deep history.
+pagination:
+  style: none in the cursor/offset sense
+  detail: >-
+    There are no limit/offset/cursor/page parameters anywhere in the 119 operations. Bulk reads are
+    bounded by block ranges and by explicit depth, and large enumerations are expected to be done by
+    walking blocks or by using a dedicated indexer rather than by paging this API.
+  parameters:
+  - name: range
+    used_by: 2 operations (GET /blocks)
+    description: Fetch a span of blocks by height, e.g. range=0-9. The service caps the span; oversized
+      ranges return 400.
+  - name: depth
+    used_by: 3 operations
+    description: How far back to look from the reference block.
+  - name: onlyIds
+    used_by: 10 operations
+    description: Return only identifiers rather than full objects — the primary payload-reduction lever.
+  - name: keys
+    used_by: 2 operations
+    description: Restrict a storage query to specific keys.
+  guidance: >-
+    For historical sweeps, iterate block heights and pin `at`; for analytical queries over ranges,
+    prefer an indexer (Subscan, SubQuery, Subsquid) over walking this API.
+field_selection:
+  supported: true
+  style: boolean toggles on the operation, not a generic sparse-fieldset syntax
+  parameters:
+  - name: metadata
+    used_by: 14 operations
+    description: Include the associated metadata for the returned entity.
+  - name: eventDocs
+    used_by: 8 operations
+    description: Include human-readable documentation for emitted events. Substantially inflates payloads.
+  - name: extrinsicDocs
+    used_by: 8 operations
+    description: Include human-readable documentation for extrinsics.
+  - name: noFees
+    used_by: 8 operations
+    description: Skip fee calculation. A significant latency win on block queries when fees are not needed.
+  - name: noMeta
+    used_by: 2 operations
+    description: Omit metadata from the response.
+  - name: decodedXcmMsgs
+    used_by: 2 operations
+    description: Include decoded XCM messages in block responses.
+  - name: includeFee
+    used_by: 2 operations
+  - name: includeClaimable
+    used_by: 2 operations
+  - name: includeClaimedRewards
+    used_by: 2 operations
+  - name: unclaimedOnly
+    used_by: 2 operations
+  guidance: These default to the cheaper option. Turn on eventDocs/extrinsicDocs only for human
+    inspection, never in a hot path.
+relay_chain_context:
+  parameters:
+  - name: useRcBlock
+    used_by: 37 operations
+    description: Interpret the query against relay-chain block context rather than the local chain.
+  - name: useRcBlockFormat
+    used_by: 37 operations
+    description: 'With useRcBlock=true, set to `object` to wrap the response in an object carrying
+      rcBlock info and a parachainDataPerBlock array. Added in v20.14.0.'
+  note: Relevant when the sidecar is attached to a parachain (e.g. Kusama Asset Hub) and you need the
+    corresponding relay-chain position.
+data_types:
+  numbers_as_strings: true
+  detail: >-
+    Balances, block heights, and all chain integers are returned as JSON strings, not JSON numbers, because
+    they routinely exceed IEEE-754 safe integer range (KSM has 12 decimals; u128 balances are standard).
+    Parse with BigInt/decimal libraries. Silently doing JSON.parse into a JS number is a real correctness
+    bug against this API.
+  balances_are_planck: >-
+    All KSM amounts are in the smallest unit (Planck). 1 KSM = 10^12 Planck. The `denominated` query
+    parameter (2 operations) is the only place a human-scaled value is offered.
+  addresses:
+    format: SS58
+    kusama_prefix: 2
+    note: Addresses are prefix-encoded per network. A Polkadot-prefix (0) address is a valid string but
+      the wrong account here. GET /accounts/{accountId}/convert and /accounts/{address}/validate exist
+      specifically to normalize and check this.
+  hashes: 0x-prefixed lowercase hex.
+  enums_as_tagged_objects: 'Rust enums serialize as single-key objects, e.g. chainType renders as
+    {"live": null}, not as the string "Live" the JSON-RPC returns. The two interfaces differ here.'
+versioning:
+  chain: runtime spec_version (currently 2003000), bumped by on-chain governance
+  breaking_signal: transaction_version (currently 26) — a bump breaks extrinsic encoding for offline signers
+  json_rpc: method-suffixed families (chainHead_v1, archive_v1, transaction_v1) per the interface spec
+  rest: semver on the substrate-api-sidecar release (currently 20.14.1)
+  url_versioning: 'None in the current sidecar. The successor polkadot-rest-api serves the same routes
+    under a /v1/ prefix.'
+  detail: See lifecycle/kusama-lifecycle.yml.
+errors:
+  rest_envelope: '{code, message, stack} as application/json — not RFC 9457'
+  json_rpc_envelope: standard JSON-RPC 2.0 error object
+  critical_note: HTTP 200 on extrinsic submission means accepted into the pool, not executed successfully.
+    Inspect the ExtrinsicSuccess/ExtrinsicFailed event.
+  detail: See errors/kusama-problem-types.yml.
+rate_limiting:
+  documented: false
+  headers: none observed on live responses
+  detail: >-
+    No rate-limit headers, quotas, or retry-after semantics are published for the public endpoints. They
+    are best-effort community infrastructure and may throttle or drop at the infrastructure layer without
+    signaling it. Production consumers should run their own node or use a commercial RPC provider rather
+    than depend on undocumented public-endpoint capacity.
+request_tracing:
+  correlation_header: none
+  detail: >-
+    No request-id or trace header is issued or echoed. The durable correlation identifiers in this system
+    are chain-native: the extrinsic hash for writes, and the (block hash, extrinsic index) timepoint for
+    lookups via GET /blocks/{blockId}/extrinsics/{extrinsicIndex}.
+transport:
+  json_rpc:
+    http: 'POST only — any GET returns 405 Method Not Allowed, including /.well-known/ paths.'
+    websocket: wss://kusama-rpc.polkadot.io — required for all subscription methods.
+  rest:
+    methods: 'GET for all reads; POST for /transaction, /transaction/dry-run, /transaction/fee-estimate,
+      /transaction/metadata-blob, and /contracts/ink/{address}/query.'
+    body_limit: 100kb by default (SAS_EXPRESS_MAX_BODY when self-hosting).
+cross_references:
+  authentication: authentication/kusama-authentication.yml
+  errors: errors/kusama-problem-types.yml
+  lifecycle: lifecycle/kusama-lifecycle.yml
+  conformance: conformance/kusama-conformance.yml
+  examples: examples/kusama-jsonrpc-examples.json

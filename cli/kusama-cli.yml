@@ -1,0 +1,74 @@
+generated: '2026-07-19'
+method: searched
+source: crates.io, npm registry, github.com/paritytech (probed 2026-07-19)
+notes: >-
+  There is no CLI branded "kusama". The command-line surface for working against Kusama is the Polkadot
+  SDK toolchain: the polkadot node binary itself (run with --chain=kusama), subxt-cli for generating typed
+  Rust interfaces from Kusama metadata, and the papi CLI for generating typed TypeScript descriptors.
+clis:
+- name: polkadot
+  purpose: The Kusama/Polkadot relay-chain node. Running it is how you join the network or operate your
+    own RPC endpoint.
+  repository: https://github.com/paritytech/polkadot-sdk
+  docs: https://docs.polkadot.com/node-infrastructure/run-a-node/relay-chain/full-node/
+  install:
+  - method: source
+    command: cargo install --git https://github.com/paritytech/polkadot-sdk polkadot
+  - method: docker
+    command: docker run -p 9944:9944 parity/polkadot:latest --chain=kusama
+  key_flags:
+  - flag: --chain=kusama
+    description: Select the Kusama relay-chain spec.
+  - flag: --rpc-external
+    description: Expose the JSON-RPC interface beyond localhost.
+  - flag: --validator
+    description: Run in validator mode.
+  - flag: --pruning=archive
+    description: Retain full historical state (required for archive_v1 RPC methods).
+  official: true
+- name: subxt-cli
+  purpose: Download Kusama runtime metadata and generate typed Rust bindings for it.
+  registry: crates.io
+  url: https://crates.io/crates/subxt-cli
+  repository: https://github.com/paritytech/subxt
+  install:
+  - method: cargo
+    command: cargo install subxt-cli
+  source: https://github.com/paritytech/subxt/blob/master/cli/README.md
+  commands:
+  - group: metadata
+    description: Download metadata from a Substrate node, for use with subxt codegen. Options -f/--format
+      (json|hex|bytes) and --url.
+    example: subxt metadata --url wss://kusama-rpc.polkadot.io -f bytes > kusama_metadata.scale
+  - group: codegen
+    description: Generate runtime API client code from metadata. Options -f/--file and --url.
+    example: subxt codegen --url wss://kusama-rpc.polkadot.io > kusama.rs
+  official: true
+- name: polkadot-api
+  aka: papi
+  purpose: Generate typed TypeScript descriptors from Kusama chain metadata for the polkadot-api client.
+  registry: npm
+  url: https://www.npmjs.com/package/@polkadot-api/cli
+  version: 0.21.7
+  repository: https://github.com/polkadot-api/polkadot-api
+  source: https://github.com/polkadot-api/polkadot-api/blob/main/packages/cli/README.md
+  install:
+  - method: npm
+    command: npm install -D @polkadot-api/cli
+  config_file: polkadot-api.json (or a "polkadot-api" key in package.json); --config overrides
+  output: '@polkadot-api/descriptors'
+  commands:
+  - group: add
+    description: Add a new chain spec to the list. The documented Kusama example uses the well-known
+      chain id ksmcc3.
+    example: polkadot-api add ksm -n ksmcc3
+  - group: generate
+    description: Generate descriptor files for all configured chains, or one via -k/--key.
+    example: polkadot-api generate -k ksm
+  - group: update
+    description: Update the metadata files (re-run after a Kusama runtime upgrade).
+    example: polkadot-api update ksm
+  - group: remove
+    description: Remove a chain spec from the list.
+    example: polkadot-api remove ksm
+  official: true

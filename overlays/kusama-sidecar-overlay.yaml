@@ -1,0 +1,184 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Kusama Substrate API Sidecar
+  version: 1.0.0
+  x-generated: '2026-07-19'
+  x-method: generated
+  x-source: openapi/kusama-sidecar-openapi.yaml
+  x-notes: >-
+    Non-destructive enhancements over Parity's published specification. The original spec is never
+    mutated. Every statement here is grounded in the published document or in live probes of
+    https://kusama-public-sidecar.parity-chains.parity.io/ on 2026-07-19. Applying this overlay narrows
+    the spec to the Kusama server, records the deprecation state Parity announced in prose, and attaches
+    the operating semantics (idempotency, historical-state pinning, numeric encoding) that the spec
+    itself does not carry.
+extends: openapi/kusama-sidecar-openapi.yaml
+actions:
+- target: $.info
+  description: Record enrichment provenance and the Kusama-specific framing.
+  update:
+    x-apis-io-provider: kusama
+    x-apis-io-enriched: '2026-07-19'
+    x-chain: kusama
+    x-native-token: KSM
+    x-token-decimals: 12
+    x-ss58-prefix: 2
+    x-observed-spec-version: 2003000
+    x-observed-transaction-version: 26
+    x-observed-node-version: 1.24.0-660acefe665
+    x-observed-at: '2026-07-19'
+- target: $.info
+  description: Flag the API-level deprecation Parity announced in prose so tooling can detect it.
+  update:
+    x-lifecycle-status: deprecated
+    x-superseded-by: https://github.com/paritytech/polkadot-rest-api
+    x-migration-guide: https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md
+    x-successor-path-prefix: /v1/
+    x-support-commitment: Final feature release; only critical-security fixes backported.
+- target: $.servers
+  description: Narrow the server list to the Kusama relay-chain instance verified live, and annotate the
+    others rather than silently carrying them.
+  update:
+  - url: https://kusama-public-sidecar.parity-chains.parity.io/
+    description: Kusama relay chain — Parity public sidecar. Verified live 2026-07-19 (GET /node/version
+      returned chain "Kusama", clientImplName "parity-kusama").
+    x-verified: true
+    x-verified-at: '2026-07-19'
+  - url: https://kusama-asset-hub-public-sidecar.parity-chains.parity.io/
+    description: Kusama Asset Hub — Parity public sidecar.
+    x-verified: false
+    x-verified-at: '2026-07-19'
+    x-probe-result: 'HTTP 500 "WebSocket is not connected" — not serving at probe time.'
+- target: $
+  description: Attach the operating semantics an integrator or agent needs and the spec does not state.
+  update:
+    x-api-conventions:
+      authentication: none — public, unauthenticated. No API keys, no OAuth, no securitySchemes declared.
+      idempotency:
+        http_header: null
+        mechanism: account nonce plus mortal era, enforced on-chain
+        description: >-
+          Exactly-once execution is a runtime property, not an HTTP one. A signed extrinsic embeds the
+          signing account's nonce; the runtime executes a given (account, nonce) pair at most once, and
+          the nonce is bound inside the signature. On timeout, re-broadcast the same signed payload —
+          re-signing with a fresh nonce is how double-submits occur.
+        artifact: conventions/kusama-conventions.yml
+      historical_state:
+        parameter: at
+        applies_to_operations: 70
+        description: Block height or hash. Omitted means latest finalized, which moves every ~6 seconds.
+          Pin it whenever two reads must be mutually consistent.
+      pagination:
+        style: none — no limit/offset/cursor/page parameters and no Link headers anywhere in the spec
+        bounded_by: [range, depth]
+        payload_reduction: [onlyIds, noFees, noMeta, keys]
+      numeric_encoding:
+        integers_as_strings: true
+        description: Balances and heights are JSON strings because u128 values exceed IEEE-754 safe
+          integer range. Parse with BigInt or a decimal library.
+        balance_unit: Planck (1 KSM = 10^12 Planck)
+      addresses:
+        format: SS58
+        kusama_prefix: 2
+        warning: A Polkadot-prefix (0) address is well-formed but a different account. Validate first.
+      rate_limiting:
+        documented: false
+        headers: none observed
+      error_format:
+        rfc9457: false
+        envelope: '{code, message, stack} as application/json'
+        warning: The stack field leaks internal server paths to unauthenticated callers.
+        artifact: errors/kusama-problem-types.yml
+      write_path_semantics:
+        warning: >-
+          HTTP 200 on POST /transaction means accepted into the transaction pool, NOT executed
+          successfully. Inclusion and on-chain success are separate. Inspect the ExtrinsicSuccess or
+          ExtrinsicFailed event; failures carry a pallet-specific DispatchError whose catalog is at
+          GET /pallets/{palletId}/errors.
+      event_surface:
+        webhooks: false
+        mechanism: WebSocket subscriptions on the JSON-RPC endpoint (wss://kusama-rpc.polkadot.io)
+        artifact: asyncapi/kusama-jsonrpc-asyncapi.yml
+        finality_warning: Subscribe to chain_subscribeFinalizedHeads rather than newHeads for anything
+          financial — best-chain blocks can be reorged away.
+- target: $.paths['/transaction'].post
+  description: Mark the only state-changing operation in the API so agent tooling can gate it.
+  update:
+    x-agentic-access:
+      action_class: write
+      consequence: irreversible
+      requires_human_confirmation: true
+      requires_signing_key: true
+      description: >-
+        Submits a signed extrinsic to the network. Spends real KSM and cannot be undone. Must never be
+        exposed to an autonomous agent without explicit human confirmation, and the agent must never hold
+        the signing key — build the payload, sign out of band, submit only signed bytes.
+      safe_alternative: POST /transaction/dry-run
+- target: $.paths['/transaction/dry-run'].post
+  description: Mark the safe rehearsal path.
+  update:
+    x-agentic-access:
+      action_class: read
+      consequence: none
+      description: Executes a signed extrinsic against current state without submitting it. The correct
+        way for an agent to answer "would this succeed?".
+- target: $.paths['/transaction/fee-estimate'].post
+  description: Mark fee estimation as read-only despite being a POST.
+  update:
+    x-agentic-access:
+      action_class: read
+      consequence: none
+- target: $.paths['/contracts/ink/{address}/query'].post
+  description: Mark ink! contract query as read-only despite being a POST.
+  update:
+    x-agentic-access:
+      action_class: read
+      consequence: none
+      note: Executes contract code in a query context; no state is committed, but cost is bounded by
+        gasLimit.
+- target: $.tags[?(@.name=='paras')]
+  description: Record the phase-out that the operation summaries state in prose.
+  update:
+    x-lifecycle-status: deprecated
+    x-superseded-by: coretime
+    x-deprecation-note: >-
+      The paras/auctions/crowdloans/leases model is being phased out in favor of Agile Coretime. Eight
+      operations under /paras carry "DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME" in their
+      summaries. New integrations should model cores, regions, workloads and renewals under the coretime
+      tag instead.
+- target: $.tags[?(@.name=='trace')]
+  description: Flag the trace family as experimental and expensive.
+  update:
+    x-stability: experimental
+    x-cost: high
+    x-note: Block tracing is computationally expensive and served under /experimental/ for the relay-chain
+      variants. Unsuitable as a default tool in an agent surface.
+- target: $.components
+  description: Name the schema that anchors the whole data model.
+  update:
+    x-core-schema: BlockIdentifiers
+    x-core-schema-note: >-
+      Referenced by 46 of the 156 component schemas — more than ten times any other type. Shape is
+      {height, hash}, returned as `at` on nearly every stateful response. It is the version stamp on
+      every object in this API; two responses are only mutually consistent if their `at` matches.
+    x-data-model-artifact: data-model/kusama-data-model.yml
+- target: $
+  description: Record the specification-quality gaps found during enrichment, for a follow-up upstream.
+  update:
+    x-spec-quality-findings:
+    - finding: 35 of 119 operations declare no operationId.
+      impact: Weakens code generation, MCP tool naming, and agent grounding. Affects the entire
+        /pallets/{palletId}/* introspection family and all of /paras and /runtime.
+      recommendation: Add stable operationIds to every operation.
+    - finding: Only 1 of 119 operations declares a 500 response, yet 500s are trivially reproducible in
+        production (captured live on 2026-07-19 from /pallets/staking/progress).
+      impact: Generated clients do not model the error path that callers actually hit.
+      recommendation: Declare 500 on every operation that touches the upstream node WebSocket.
+    - finding: 43 operations declare no 4xx response at all.
+      impact: Incomplete error contract.
+    - finding: No securitySchemes are declared.
+      impact: Correct for the public deployment, but self-hosted operators put auth in front of this and
+        the spec offers them no scheme to reference.
+    - finding: Errors are not RFC 9457, and the error body includes a server stack trace.
+      impact: Callers must string-match on message; the stack field discloses internal paths.
+      recommendation: Adopt application/problem+json with stable type URIs, and strip stack in production.
