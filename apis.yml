@@ -351,6 +351,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/kusama-sidecar-overlay.yaml
 - type: Website
   url: https://kusama.network/
 - type: DeveloperPortal
