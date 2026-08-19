@@ -1,0 +1,178 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts staking API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "staking",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get staking information for a _Stash_ account.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/accounts/:accountId/staking-info",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "SS58 address of the account. Must be a _Stash_ account."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query the staking info for the specified account."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving staking info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              },
+              {
+                "name": "includeClaimedRewards",
+                "value": "",
+                "type": "query",
+                "description": "When set to `false`, the `claimedRewards` field is not included in the response."
+              }
+            ]
+          },
+          "docs": "Returns information about a _Stash_ account's staking activity. Replaces `/staking/{address}` from versions < v1.0.0. The _Stash_ account can be either a validator or nominator account."
+        },
+        {
+          "info": {
+            "name": "Get payout information for a _Stash_ account.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/accounts/:accountId/staking-payouts",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "SS58 address of the account. Must be a _Stash_ account."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query staking payouts."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving staking payouts. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              },
+              {
+                "name": "depth",
+                "value": "",
+                "type": "query",
+                "description": "The number of eras to query for payouts of. Must be less than or equal to `HISTORY_DEPTH`. In cases where `era - (depth -1)` is less than 0, the first era queried will be 0."
+              },
+              {
+                "name": "era",
+                "value": "",
+                "type": "query",
+                "description": "The era to query at."
+              },
+              {
+                "name": "unclaimedOnly",
+                "value": "",
+                "type": "query",
+                "description": "Only return unclaimed rewards."
+              }
+            ]
+          },
+          "docs": "Returns payout information for the last specified eras. If specifying both the depth and era query params, this endpoint will return information for (era - depth) through era. (i.e. if depth=5 and era=20 information will be returned for eras 16 through 20).\n\n**Asset Hub Migration Support:**\nFor Asset Hub chains that have migrated staking from the relay chain, this endpoint automatically handles era query routing:\n- **Pre-migration eras**: Queries historical data from the relay chain\n- **Post-mig"
+        },
+        {
+          "info": {
+            "name": "Get progress on the general Staking pallet system.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/staking/progress",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve a staking progress report."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving staking progress report. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns information on the progress of key components of the staking system and estimates of future points of interest. If you are querying from Asset Hub for staking progress, this endpoint requires multi chain connections between the relay chain, and asset hub itself. Set the asset hub rpc to SAS_SUBSTRATE_URL, and add the relay chain to the SAS_SUBSTRATE_MULTI_CHAIN_URL env var. Refer to the README for the structure of the env vars. The `useRcBlock` parameter allows querying Asset Hub state u"
+        },
+        {
+          "info": {
+            "name": "Get all validators (active/waiting) of a specific chain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/staking/validators",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the list of validators."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving staking validators. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns a list of all validators addresses and their corresponding status which can be either active or waiting. For declared validators, it also includes their commission rate and nomination blocking status. It will also return a list of active validators that will not be part of the next era for staking. They will be under the key \"validatorsToBeChilled\". It's important to note, that addresses can be present in both the \"validators\" key, and \"validatorsToBeChilled\". Commission and blocked prop"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

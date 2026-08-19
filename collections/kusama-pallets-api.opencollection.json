@@ -1,0 +1,812 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts pallets API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "pallets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get information and metadata associated with an asset.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/assets/:assetId/asset-info",
+            "params": [
+              {
+                "name": "assetId",
+                "value": "",
+                "type": "path",
+                "description": "The unsignedInteger Id of an asset."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the assetInfo."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving asset info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns information associated with an asset which includes the assets `AssetDetails` and `AssetMetadata`."
+        },
+        {
+          "info": {
+            "name": "Get information related to existing liquidity pools.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/asset-conversion/liquidity-pools",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the liquidity pools information."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving liquidity pools info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns a list of the existing liquidity pools and its corresponding tokens at a given block height. If no block is specified, it returns the latest list available."
+        },
+        {
+          "info": {
+            "name": "Get the next available liquidity pool id.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/asset-conversion/next-available-id",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the next liquidity pool's id."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving next available id. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns the next available liquidity pool's id at a given block height. If no block is specified, it returns the latest list available."
+        },
+        {
+          "info": {
+            "name": "Get information and metadata associated with foreign assets.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/foreign-assets",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the foreign assets."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving foreign assets info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns information associated with every foreign asset which includes the assets `AssetDetails` and `AssetMetadata`."
+        },
+        {
+          "info": {
+            "name": "Get information associated with nomination pools.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/nomination-pools/info",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the nomination pool info."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving nomination pools info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns information and metadata for nomination pools including pool counters and limits."
+        },
+        {
+          "info": {
+            "name": "Get information and metadata associated with a nomination pool.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/nomination-pools/:poolId",
+            "params": [
+              {
+                "name": "poolId",
+                "value": "",
+                "type": "path",
+                "description": "The unsignedInteger Id of a nomination pool."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the nomination pool."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving nomination pool info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns information associated with a nomination pool which includes the nomination pools' `bondedPool`, `rewardPool` and `metadata`."
+        },
+        {
+          "info": {
+            "name": "Get a list of all on-going referenda that have track `root (0)` and `whitelisted (1)`, along with their associated information.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/on-going-referenda",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the on-going referenda."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving on-going referenda info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns information associated with on-going referenda which includes the referendum's `enactment`, `submitted` and `deciding` fields."
+        },
+        {
+          "info": {
+            "name": "Get a list of constants for a pallet.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/:palletId/consts",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read constant metadata for. Note: the pallet name must match what is specified in the runtime metadata."
+              },
+              {
+                "name": "onlyIds",
+                "value": "",
+                "type": "query",
+                "description": "Only return the names (IDs) of the const items instead of every constant's metadata."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve a list of the pallet's constant items."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving pallet constants. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns a list of const item metadata for constant items of the specified palletId."
+        },
+        {
+          "info": {
+            "name": "Get the value of a constant item.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/:palletId/consts/:constantItemId",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read constant metadata for. Note: the pallet name must match what is specified in the runtime metadata."
+              },
+              {
+                "name": "constantItemId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the const item to query for."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query the const item at."
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Include the const items metadata (including documentation) if set to true."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving pallet constant item. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns the value stored under the constantItemId."
+        },
+        {
+          "info": {
+            "name": "Get a list of dispatchables for a pallet.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/:palletId/dispatchables",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read dispatchable metadata for. Note: the pallet name must match what is specified in the runtime metadata."
+              },
+              {
+                "name": "onlyIds",
+                "value": "",
+                "type": "query",
+                "description": "Only return the names (IDs) of the dispatchable items instead of every dispatchable's metadata."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve dispatchable metadata."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving dispatchable metadata. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns a list of dispatchable item metadata for distpachable items of the specified palletId."
+        },
+        {
+          "info": {
+            "name": "Get the value of a dispatchable item.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/:palletId/dispatchables/:dispatchableItemId",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read dispatchable metadata for. Note: the pallet name must match what is specified in the runtime metadata."
+              },
+              {
+                "name": "dispatchableItemId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the dispatchable item to query for."
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Include the dispatchable items metadata (including documentation) if set to true."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve dispatchable metadata."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving dispatchable metadata. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns the value stored under the dispatchableItemId."
+        },
+        {
+          "info": {
+            "name": "Get a list of errors for a pallet.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/:palletId/errors",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read error metadata for. Note: the pallet name must match what is specified in the runtime metadata."
+              },
+              {
+                "name": "onlyIds",
+                "value": "",
+                "type": "query",
+                "description": "Only return the names (IDs) of the error items instead of every error's metadata."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve a list of the pallet's error items."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving pallet errors. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns a list of error item metadata for error items of the specified palletId."
+        },
+        {
+          "info": {
+            "name": "Get the value of an error item.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/:palletId/errors/:errorItemId",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read error metadata for. Note: the pallet name must match what is specified in the runtime metadata."
+              },
+              {
+                "name": "errorItemId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the error item to query for."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query the error item at."
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Include the error items metadata (including documentation) if set to true."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving pallet error item. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns the value stored under the errorItemId."
+        },
+        {
+          "info": {
+            "name": "Get a list of events for a pallet.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/:palletId/events",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read event metadata for. Note: the pallet name must match what is specified in the runtime metadata."
+              },
+              {
+                "name": "onlyIds",
+                "value": "",
+                "type": "query",
+                "description": "Only return the names (IDs) of the event items instead of every event's metadata."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve a list of the pallet's event items."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving pallet events. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns a list of event item metadata for event items of the specified palletId."
+        },
+        {
+          "info": {
+            "name": "Get the value of an event item.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/:palletId/events/:eventItemId",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read event metadata for. Note: the pallet name must match what is specified in the runtime metadata."
+              },
+              {
+                "name": "eventItemId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the event item to query for."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query the event item at."
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Include the event items metadata (including documentation) if set to true."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving pallet event item. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns the value stored under the eventItemId."
+        },
+        {
+          "info": {
+            "name": "Get a list of storage items for a pallet.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/:palletId/storage",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to query the storage of. Note: the pallet name must match what is specified in the runtime metadata."
+              },
+              {
+                "name": "onlyIds",
+                "value": "",
+                "type": "query",
+                "description": "Only return the names (IDs) of the storage items instead of all of each storage item's metadata."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve a list of the pallet's storage items."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving pallet storage. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns a list of storage item metadata for storage items of the specified palletId."
+        },
+        {
+          "info": {
+            "name": "Get the value of a storage item.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/:palletId/storage/:storageItemId",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to query the storage of. Note: pallet name aligns with pallet name as specified in runtime metadata."
+              },
+              {
+                "name": "storageItemId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the storage item to query for."
+              },
+              {
+                "name": "keys",
+                "value": "",
+                "type": "query",
+                "description": "Set of N keys used for querying a storage map. It should be queried using the following format - ?keys[]=key1&keys[]=key2. Order matters, as it will determine the order the keys are passed into the storage calls."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query the storage item at."
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Include the storage items metadata (including documentation) if set to true."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving pallet storage item. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns the value stored under the storageItemId. If it is a map, query param key1 is required. If the storage item is double map query params key1 and key2 are required."
+        },
+        {
+          "info": {
+            "name": "Get information and metadata associated with a pool asset.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/pool-assets/:assetId/asset-info",
+            "params": [
+              {
+                "name": "assetId",
+                "value": "",
+                "type": "path",
+                "description": "The unsignedInteger Id of a pool asset."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the assetInfo."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving pool asset info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns information associated with a pool asset which includes the assets `AssetDetails` and `AssetMetadata`."
+        },
+        {
+          "info": {
+            "name": "Get progress on the general Staking pallet system.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/staking/progress",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve a staking progress report."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving staking progress report. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns information on the progress of key components of the staking system and estimates of future points of interest. If you are querying from Asset Hub for staking progress, this endpoint requires multi chain connections between the relay chain, and asset hub itself. Set the asset hub rpc to SAS_SUBSTRATE_URL, and add the relay chain to the SAS_SUBSTRATE_MULTI_CHAIN_URL env var. Refer to the README for the structure of the env vars. The `useRcBlock` parameter allows querying Asset Hub state u"
+        },
+        {
+          "info": {
+            "name": "Get all validators (active/waiting) of a specific chain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/pallets/staking/validators",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the list of validators."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving staking validators. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns a list of all validators addresses and their corresponding status which can be either active or waiting. For declared validators, it also includes their commission rate and nomination blocking status. It will also return a list of active validators that will not be part of the next era for staking. They will be under the key \"validatorsToBeChilled\". It's important to note, that addresses can be present in both the \"validators\" key, and \"validatorsToBeChilled\". Commission and blocked prop"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

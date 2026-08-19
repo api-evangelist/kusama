@@ -1,0 +1,1188 @@
+{
+  "item": [
+    {
+      "id": "ec601583-57cb-4b5d-9d7f-badc8fe91580",
+      "name": "rc accounts",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f17f1791-7ea2-45e4-ba8e-fa32b0ce9101",
+          "name": "Get balance information for an account on the relay chain.",
+          "request": {
+            "name": "Get balance information for an account on the relay chain.",
+            "description": {
+              "content": "Returns information about an account's balance on the relay chain. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for balance information.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "accounts",
+                ":address",
+                "balance-info"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to query balance info for the specified account."
+                },
+                {
+                  "disabled": false,
+                  "key": "token",
+                  "value": "<string>",
+                  "description": "Token to query the balance of. If not specified it will query the chains native token (e.g. DOT for Polkadot). Note: this is only relevant for chains that support multiple tokens through the ORML tokens pallet."
+                },
+                {
+                  "disabled": false,
+                  "key": "denominated",
+                  "value": "false",
+                  "description": "When set to `true` it will denominate any balance's given atomic value using the chains given decimal value."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<SS58>",
+                  "key": "address",
+                  "description": "(Required) SS58 address of the account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5719e1ab-7e3a-4f00-8a7c-28254040c26d",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "accounts",
+                    ":address",
+                    "balance-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "denominated",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "address",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"nonce\": \"string\",\n  \"tokenSymbol\": \"string\",\n  \"free\": \"string\",\n  \"reserved\": \"string\",\n  \"miscFrozen\": \"string\",\n  \"feeFrozen\": \"string\",\n  \"frozen\": \"string\",\n  \"transferable\": \"string\",\n  \"locks\": [\n    {\n      \"id\": \"string\",\n      \"amount\": \"string\",\n      \"reasons\": \"Misc = 1\"\n    },\n    {\n      \"id\": \"string\",\n      \"amount\": \"string\",\n      \"reasons\": \"Misc = 1\"\n    }\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "592f6a67-d48b-403d-8d58-eccaca5eeb26",
+              "name": "Invalid Address",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "accounts",
+                    ":address",
+                    "balance-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "denominated",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "address",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9493.637899345882,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0ae74d43-bcab-4171-ab7c-28e7f86738b4",
+              "name": "account not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "accounts",
+                    ":address",
+                    "balance-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "denominated",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "address",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9493.637899345882,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "321d4639-a71b-406c-ba1e-c5f6fbbddc1f",
+          "name": "Get proxy information for an account on the relay chain.",
+          "request": {
+            "name": "Get proxy information for an account on the relay chain.",
+            "description": {
+              "content": "Returns information about an account's proxy configuration on the relay chain. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for proxy information.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "accounts",
+                ":address",
+                "proxy-info"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to query proxy info for the specified account."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<SS58>",
+                  "key": "address",
+                  "description": "(Required) SS58 address of the account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6b82dd78-14ca-4902-97c2-260854276740",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "accounts",
+                    ":address",
+                    "proxy-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "address",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"delegatedAccounts\": [\n    {\n      \"delegate\": \"string\",\n      \"delay\": \"string\",\n      \"proxyType\": \"string\"\n    },\n    {\n      \"delegate\": \"string\",\n      \"delay\": \"string\",\n      \"proxyType\": \"string\"\n    }\n  ],\n  \"depositHeld\": \"string\",\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6ccaed21-da2b-4c3b-9f0d-cab736d994f0",
+              "name": "Invalid Address",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "accounts",
+                    ":address",
+                    "proxy-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "address",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9493.637899345882,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9b75a7f-1fe5-4748-9aca-19a82141c8c8",
+              "name": "account not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "accounts",
+                    ":address",
+                    "proxy-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "address",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9493.637899345882,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "17828362-c705-49d4-b86d-e87899b58c17",
+          "name": "Get vesting information for an account on the relay chain.",
+          "request": {
+            "name": "Get vesting information for an account on the relay chain.",
+            "description": {
+              "content": "Returns the vesting schedule for an account on the relay chain. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for vesting information.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "accounts",
+                ":address",
+                "vesting-info"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to query the vesting info for the specified account."
+                },
+                {
+                  "disabled": false,
+                  "key": "includeClaimable",
+                  "value": "<boolean>",
+                  "description": "When set to 'true', calculates and includes vested amounts for each vesting schedule plus the claimable amount. For relay chain pre-migration queries, vested amounts are calculated using the relay chain's own block number."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<SS58>",
+                  "key": "address",
+                  "description": "(Required) SS58 address of the account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7a13a89b-cccd-4393-9d58-f72c6aecd16a",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "accounts",
+                    ":address",
+                    "vesting-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "includeClaimable",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "address",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"vesting\": [\n    {\n      \"locked\": \"string\",\n      \"perBlock\": \"string\",\n      \"startingBlock\": \"string\",\n      \"vested\": \"string\"\n    },\n    {\n      \"locked\": \"string\",\n      \"perBlock\": \"string\",\n      \"startingBlock\": \"string\",\n      \"vested\": \"string\"\n    }\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\",\n  \"vestedBalance\": \"string\",\n  \"vestingTotal\": \"string\",\n  \"vestedClaimable\": \"string\",\n  \"blockNumberForCalculation\": \"string\",\n  \"blockNumberSource\": \"relay\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c4706deb-c6a1-489a-82d9-be554359d81f",
+              "name": "Invalid Address",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "accounts",
+                    ":address",
+                    "vesting-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "includeClaimable",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "address",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9493.637899345882,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "abecb89c-7959-468b-b8c1-c3fda7ddd7f8",
+              "name": "account not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "accounts",
+                    ":address",
+                    "vesting-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "includeClaimable",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "address",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9493.637899345882,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f06a06fa-585f-4797-a881-79eb0c194fe0",
+          "name": "Get staking information for a _Stash_ account on the relay chain.",
+          "request": {
+            "name": "Get staking information for a _Stash_ account on the relay chain.",
+            "description": {
+              "content": "Returns information about a _Stash_ account's staking activity on the relay chain. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for staking information. The _Stash_ account can be either a validator or nominator account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "accounts",
+                ":address",
+                "staking-info"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to query the staking info for the specified account."
+                },
+                {
+                  "disabled": false,
+                  "key": "includeClaimedRewards",
+                  "value": "true",
+                  "description": "When set to `false`, the `claimedRewards` field is not included in the response."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<SS58>",
+                  "key": "address",
+                  "description": "(Required) SS58 address of the account. Must be a _Stash_ account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6aebc6e8-2659-410f-a43f-7738d1c1ac21",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "accounts",
+                    ":address",
+                    "staking-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "includeClaimedRewards",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "address",
+                      "description": "(Required) SS58 address of the account. Must be a _Stash_ account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"rewardDestination\": \"Staked\",\n  \"controller\": \"string\",\n  \"numSlashingSpans\": \"string\",\n  \"nominations\": {\n    \"targets\": [\n      \"string\",\n      \"string\"\n    ],\n    \"submittedIn\": \"string\",\n    \"suppressed\": false\n  },\n  \"staking\": {\n    \"stash\": \"string\",\n    \"total\": \"string\",\n    \"active\": \"string\",\n    \"unlocking\": \"string\",\n    \"claimedRewards\": [\n      {\n        \"era\": \"string\",\n        \"status\": \"partially claimed\"\n      },\n      {\n        \"era\": \"string\",\n        \"status\": \"partially claimed\"\n      }\n    ]\n  },\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3118953c-bc4a-4f83-8061-0454a8983520",
+              "name": "Invalid Address",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "accounts",
+                    ":address",
+                    "staking-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "includeClaimedRewards",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "address",
+                      "description": "(Required) SS58 address of the account. Must be a _Stash_ account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9493.637899345882,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ccd8c49-72d6-41e9-8160-6b90534e6681",
+              "name": "account not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "accounts",
+                    ":address",
+                    "staking-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "includeClaimedRewards",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "address",
+                      "description": "(Required) SS58 address of the account. Must be a _Stash_ account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9493.637899345882,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d9bf2756-e1cb-479a-92f0-5369e74e48cd",
+          "name": "Get payout information for a _Stash_ account on the relay chain.",
+          "request": {
+            "name": "Get payout information for a _Stash_ account on the relay chain.",
+            "description": {
+              "content": "Returns payout information for the last specified eras on the relay chain. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for staking payout information. If specifying both the depth and era query params, this endpoint will return information for (era - depth) through era. (i.e. if depth=5 and era=20 information will be returned for eras 16 through 20). The _Stash_ account can be either a validator or nominator account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "accounts",
+                ":address",
+                "staking-payouts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to query staking payouts."
+                },
+                {
+                  "disabled": false,
+                  "key": "depth",
+                  "value": "1",
+                  "description": "The number of eras to query for payouts of. Must be less than or equal to `HISTORY_DEPTH`. In cases where `era - (depth -1)` is less than 0, the first era queried will be 0."
+                },
+                {
+                  "disabled": false,
+                  "key": "era",
+                  "value": "<unsignedInteger>",
+                  "description": "The era to query at. Max era payout info is available for is the latest finished era (active_era - 1)."
+                },
+                {
+                  "disabled": false,
+                  "key": "unclaimedOnly",
+                  "value": "true",
+                  "description": "Only return unclaimed rewards."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<SS58>",
+                  "key": "address",
+                  "description": "(Required) SS58 address of the account. Must be a _Stash_ account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "be1ed3ee-96a6-42f5-b67f-17fdc1a286f0",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "accounts",
+                    ":address",
+                    "staking-payouts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "1"
+                    },
+                    {
+                      "key": "era",
+                      "value": "<unsignedInteger>"
+                    },
+                    {
+                      "key": "unclaimedOnly",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "address",
+                      "description": "(Required) SS58 address of the account. Must be a _Stash_ account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"erasPayouts\": [\n    {\n      \"era\": \"string\",\n      \"totalEraRewardPoints\": \"string\",\n      \"totalEraPayout\": \"string\",\n      \"payouts\": [\n        {\n          \"validatorId\": \"string\",\n          \"nominatorStakingPayout\": \"string\",\n          \"claimed\": false,\n          \"totalValidatorRewardPoints\": \"string\",\n          \"validatorCommission\": \"string\",\n          \"totalValidatorExposure\": \"string\",\n          \"nominatorExposure\": \"string\"\n        },\n        {\n          \"validatorId\": \"string\",\n          \"nominatorStakingPayout\": \"string\",\n          \"claimed\": false,\n          \"totalValidatorRewardPoints\": \"string\",\n          \"validatorCommission\": \"string\",\n          \"totalValidatorExposure\": \"string\",\n          \"nominatorExposure\": \"string\"\n        }\n      ]\n    },\n    {\n      \"era\": \"string\",\n      \"totalEraRewardPoints\": \"string\",\n      \"totalEraPayout\": \"string\",\n      \"payouts\": [\n        {\n          \"validatorId\": \"string\",\n          \"nominatorStakingPayout\": \"string\",\n          \"claimed\": true,\n          \"totalValidatorRewardPoints\": \"string\",\n          \"validatorCommission\": \"string\",\n          \"totalValidatorExposure\": \"string\",\n          \"nominatorExposure\": \"string\"\n        },\n        {\n          \"validatorId\": \"string\",\n          \"nominatorStakingPayout\": \"string\",\n          \"claimed\": true,\n          \"totalValidatorRewardPoints\": \"string\",\n          \"validatorCommission\": \"string\",\n          \"totalValidatorExposure\": \"string\",\n          \"nominatorExposure\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ff8df81f-ae30-401a-bded-3929eab8e79c",
+              "name": "Invalid Address",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "accounts",
+                    ":address",
+                    "staking-payouts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "1"
+                    },
+                    {
+                      "key": "era",
+                      "value": "<unsignedInteger>"
+                    },
+                    {
+                      "key": "unclaimedOnly",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "address",
+                      "description": "(Required) SS58 address of the account. Must be a _Stash_ account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9493.637899345882,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7a3b7b2f-0163-433c-9221-ec356f4fc201",
+              "name": "account not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "accounts",
+                    ":address",
+                    "staking-payouts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "1"
+                    },
+                    {
+                      "key": "era",
+                      "value": "<unsignedInteger>"
+                    },
+                    {
+                      "key": "unclaimedOnly",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "address",
+                      "description": "(Required) SS58 address of the account. Must be a _Stash_ account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 9493.637899345882,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://polkadot-public-sidecar.parity-chains.parity.io/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "30351ca2-3529-4ad9-a1aa-ff8bdcb4b988",
+    "name": "Substrate API Sidecar accounts rc accounts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of\n> [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite\n> built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints\n> served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly\n> lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.\n>\n> **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·\n> [crate](https://crates.io/crates/polkadot-rest-api) ·\n> [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·\n> [docs](https://paritytech.github.io/polkadot-rest-api/) ·\n> [issues](https://github.com/paritytech/polkadot-rest-api/issues)\n\nSubstrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes\nbuilt using Substrate's FRAME framework.\n",
+      "type": "text/plain"
+    }
+  }
+}

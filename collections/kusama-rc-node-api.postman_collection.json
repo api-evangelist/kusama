@@ -1,0 +1,266 @@
+{
+  "item": [
+    {
+      "id": "05ee3d28-9fd5-4842-9ac4-2288ef8c8eaa",
+      "name": "rc node",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1329fb5c-9860-48d2-bf49-a8a768ddf5bc",
+          "name": "Get relay chain node network information from Asset Hub.",
+          "request": {
+            "name": "Get relay chain node network information from Asset Hub.",
+            "description": {
+              "content": "Returns network related information of the relay chain node. This endpoint is specifically for Asset Hub instances to query relay chain node networking details.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "node",
+                "network"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0783b279-bac0-4f63-b018-86705111b6ca",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "node",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"nodeRoles\": \"LightClient\",\n  \"numPeers\": \"string\",\n  \"isSyncing\": true,\n  \"shouldHavePeers\": false,\n  \"localPeerId\": \"string\",\n  \"localListenAddresses\": [\n    \"string\",\n    \"string\"\n  ],\n  \"peersInfo\": [\n    {\n      \"peerId\": \"string\",\n      \"roles\": \"string\",\n      \"protocolVersion\": \"string\",\n      \"bestHash\": \"string\",\n      \"bestNumber\": \"string\"\n    },\n    {\n      \"peerId\": \"string\",\n      \"roles\": \"string\",\n      \"protocolVersion\": \"string\",\n      \"bestHash\": \"string\",\n      \"bestNumber\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cfe5775e-d3b2-44ed-b75d-8815d78cca87",
+          "name": "Get relay chain pending extrinsics from Asset Hub.",
+          "request": {
+            "name": "Get relay chain pending extrinsics from Asset Hub.",
+            "description": {
+              "content": "Returns pending extrinsics from the relay chain transaction pool. This endpoint is specifically for Asset Hub instances to query relay chain pending transactions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "node",
+                "transaction-pool"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "includeFee",
+                  "value": "false",
+                  "description": "Boolean representing whether or not to include tips, partialFee, and priority in each extrinsic."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "89ff8a78-a4c5-4b4c-9d23-fe1aa899d705",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "node",
+                    "transaction-pool"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "includeFee",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pool\": [\n    {\n      \"hash\": \"string\",\n      \"encodedExtrinsic\": \"string\",\n      \"tip\": \"string\",\n      \"priority\": \"string\",\n      \"partialFee\": \"string\"\n    },\n    {\n      \"hash\": \"string\",\n      \"encodedExtrinsic\": \"string\",\n      \"tip\": \"string\",\n      \"priority\": \"string\",\n      \"partialFee\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ebd628d4-a2f5-4df3-85e5-5d6922810e2e",
+          "name": "Get relay chain node version information from Asset Hub.",
+          "request": {
+            "name": "Get relay chain node version information from Asset Hub.",
+            "description": {
+              "content": "Returns versioning information of the relay chain node. This endpoint is specifically for Asset Hub instances to query relay chain node version details.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "node",
+                "version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "10bbb5bf-65a9-430a-8119-01017f0bd379",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "node",
+                    "version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clientVersion\": \"string\",\n  \"clientImplName\": \"string\",\n  \"chain\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://polkadot-public-sidecar.parity-chains.parity.io/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "68815563-53c1-43b7-b328-ac8714f2be3c",
+    "name": "Substrate API Sidecar accounts rc node API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of\n> [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite\n> built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints\n> served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly\n> lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.\n>\n> **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·\n> [crate](https://crates.io/crates/polkadot-rest-api) ·\n> [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·\n> [docs](https://paritytech.github.io/polkadot-rest-api/) ·\n> [issues](https://github.com/paritytech/polkadot-rest-api/issues)\n\nSubstrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes\nbuilt using Substrate's FRAME framework.\n",
+      "type": "text/plain"
+    }
+  }
+}

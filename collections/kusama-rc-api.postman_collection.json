@@ -1,0 +1,504 @@
+{
+  "item": [
+    {
+      "id": "e213fcb4-3473-474c-b263-ff20094acd34",
+      "name": "rc",
+      "description": {
+        "content": "relay chain specific endpoints for asset hub",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1f0b525e-622e-4ffa-a75c-d619cc0006f5",
+          "name": "Get the latest relay chain block's traces.",
+          "request": {
+            "name": "Get the latest relay chain block's traces.",
+            "description": {
+              "content": "Returns the latest relay chain block's traces.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "experimental",
+                "rc",
+                "blocks",
+                "head",
+                "traces"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8ef1b17b-7fd4-4d4f-b4c3-6efa949d3a16",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experimental",
+                    "rc",
+                    "blocks",
+                    "head",
+                    "traces"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"blockHash\": \"string\",\n  \"events\": [\n    {\n      \"data\": {\n        \"stringValues\": {\n          \"key\": \"string\",\n          \"method\": \"string\",\n          \"result\": \"string\"\n        }\n      },\n      \"parentId\": \"string\",\n      \"target\": \"string\"\n    },\n    {\n      \"data\": {\n        \"stringValues\": {\n          \"key\": \"string\",\n          \"method\": \"string\",\n          \"result\": \"string\"\n        }\n      },\n      \"parentId\": \"string\",\n      \"target\": \"string\"\n    }\n  ],\n  \"parentHash\": \"string\",\n  \"spans\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"parentId\": \"string\",\n      \"target\": \"string\",\n      \"wasm\": false\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"parentId\": \"string\",\n      \"target\": \"string\",\n      \"wasm\": true\n    }\n  ],\n  \"storageKeys\": \"string\",\n  \"tracingTargets\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "42083a20-6500-43a2-9bec-f5f0b964f396",
+          "name": "Get a relay chain block's traces by its height or hash.",
+          "request": {
+            "name": "Get a relay chain block's traces by its height or hash.",
+            "description": {
+              "content": "Returns a relay chain block's traces. Can be identified by either its height or hash.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "experimental",
+                "rc",
+                "blocks",
+                ":blockId",
+                "traces"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "blockId",
+                  "description": "(Required) Block identifier, as the block height or block hash."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "93f75d95-7096-4b90-b881-c5ef979e5768",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experimental",
+                    "rc",
+                    "blocks",
+                    ":blockId",
+                    "traces"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"blockHash\": \"string\",\n  \"events\": [\n    {\n      \"data\": {\n        \"stringValues\": {\n          \"key\": \"string\",\n          \"method\": \"string\",\n          \"result\": \"string\"\n        }\n      },\n      \"parentId\": \"string\",\n      \"target\": \"string\"\n    },\n    {\n      \"data\": {\n        \"stringValues\": {\n          \"key\": \"string\",\n          \"method\": \"string\",\n          \"result\": \"string\"\n        }\n      },\n      \"parentId\": \"string\",\n      \"target\": \"string\"\n    }\n  ],\n  \"parentHash\": \"string\",\n  \"spans\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"parentId\": \"string\",\n      \"target\": \"string\",\n      \"wasm\": false\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"parentId\": \"string\",\n      \"target\": \"string\",\n      \"wasm\": true\n    }\n  ],\n  \"storageKeys\": \"string\",\n  \"tracingTargets\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "411d45b2-e424-423a-b037-1016676294c0",
+              "name": "invalid blockId supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experimental",
+                    "rc",
+                    "blocks",
+                    ":blockId",
+                    "traces"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7915.824198560661,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7f09c7dc-669a-4caa-972c-62a0e2f59e9e",
+          "name": "Get the latest relay chain block's trace operations.",
+          "request": {
+            "name": "Get the latest relay chain block's trace operations.",
+            "description": {
+              "content": "Returns the latest relay chain block's trace operations.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "experimental",
+                "rc",
+                "blocks",
+                "head",
+                "traces",
+                "operations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "actions",
+                  "value": "false",
+                  "description": "Include action traces."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7f9d1ca7-e02d-4161-bec1-953c517346be",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experimental",
+                    "rc",
+                    "blocks",
+                    "head",
+                    "traces",
+                    "operations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "actions",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"operations\": [\n    {\n      \"phase\": {\n        \"variant\": \"initialChecks\",\n        \"extrinsicIndex\": \"string\"\n      },\n      \"parentSpanId\": {\n        \"name\": \"string\",\n        \"target\": \"string\",\n        \"id\": \"string\"\n      },\n      \"primarySpanId\": {\n        \"name\": \"string\",\n        \"target\": \"string\",\n        \"id\": \"string\"\n      },\n      \"eventIndex\": \"string\",\n      \"address\": \"string\",\n      \"storage\": {\n        \"pallet\": \"string\",\n        \"item\": \"string\",\n        \"field1\": \"string\",\n        \"field2\": \"string\"\n      },\n      \"amount\": {\n        \"values\": \"string\",\n        \"currency\": {\n          \"symbol\": \"KSM\"\n        }\n      }\n    },\n    {\n      \"phase\": {\n        \"variant\": \"applyExtrinsic\",\n        \"extrinsicIndex\": \"string\"\n      },\n      \"parentSpanId\": {\n        \"name\": \"string\",\n        \"target\": \"string\",\n        \"id\": \"string\"\n      },\n      \"primarySpanId\": {\n        \"name\": \"string\",\n        \"target\": \"string\",\n        \"id\": \"string\"\n      },\n      \"eventIndex\": \"string\",\n      \"address\": \"string\",\n      \"storage\": {\n        \"pallet\": \"string\",\n        \"item\": \"string\",\n        \"field1\": \"string\",\n        \"field2\": \"string\"\n      },\n      \"amount\": {\n        \"values\": \"string\",\n        \"currency\": {\n          \"symbol\": \"KSM\"\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2c65bafc-bd67-4770-b18f-1ade2c9e7da2",
+          "name": "Get a relay chain block's trace operations by its height or hash.",
+          "request": {
+            "name": "Get a relay chain block's trace operations by its height or hash.",
+            "description": {
+              "content": "Returns a relay chain block's trace operations. Can be identified by either its height or hash.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "experimental",
+                "rc",
+                "blocks",
+                ":blockId",
+                "traces",
+                "operations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "actions",
+                  "value": "false",
+                  "description": "Include action traces."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "blockId",
+                  "description": "(Required) Block identifier, as the block height or block hash."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cd0ab94d-6ca5-4184-858d-f8442ecb71e7",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experimental",
+                    "rc",
+                    "blocks",
+                    ":blockId",
+                    "traces",
+                    "operations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "actions",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"operations\": [\n    {\n      \"phase\": {\n        \"variant\": \"finalChecks\",\n        \"extrinsicIndex\": \"string\"\n      },\n      \"parentSpanId\": {\n        \"name\": \"string\",\n        \"target\": \"string\",\n        \"id\": \"string\"\n      },\n      \"primarySpanId\": {\n        \"name\": \"string\",\n        \"target\": \"string\",\n        \"id\": \"string\"\n      },\n      \"eventIndex\": \"string\",\n      \"address\": \"string\",\n      \"storage\": {\n        \"pallet\": \"string\",\n        \"item\": \"string\",\n        \"field1\": \"string\",\n        \"field2\": \"string\"\n      },\n      \"amount\": {\n        \"values\": \"string\",\n        \"currency\": {\n          \"symbol\": \"KSM\"\n        }\n      }\n    },\n    {\n      \"phase\": {\n        \"variant\": \"onFinalize\",\n        \"extrinsicIndex\": \"string\"\n      },\n      \"parentSpanId\": {\n        \"name\": \"string\",\n        \"target\": \"string\",\n        \"id\": \"string\"\n      },\n      \"primarySpanId\": {\n        \"name\": \"string\",\n        \"target\": \"string\",\n        \"id\": \"string\"\n      },\n      \"eventIndex\": \"string\",\n      \"address\": \"string\",\n      \"storage\": {\n        \"pallet\": \"string\",\n        \"item\": \"string\",\n        \"field1\": \"string\",\n        \"field2\": \"string\"\n      },\n      \"amount\": {\n        \"values\": \"string\",\n        \"currency\": {\n          \"symbol\": \"KSM\"\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "623bab6e-461f-458a-a28e-09026403c290",
+              "name": "invalid blockId supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "experimental",
+                    "rc",
+                    "blocks",
+                    ":blockId",
+                    "traces",
+                    "operations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "actions",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7915.824198560661,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://polkadot-public-sidecar.parity-chains.parity.io/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "be149d43-1fbb-4f32-b4b0-ae3b28c92422",
+    "name": "Substrate API Sidecar accounts rc API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of\n> [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite\n> built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints\n> served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly\n> lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.\n>\n> **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·\n> [crate](https://crates.io/crates/polkadot-rest-api) ·\n> [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·\n> [docs](https://paritytech.github.io/polkadot-rest-api/) ·\n> [issues](https://github.com/paritytech/polkadot-rest-api/issues)\n\nSubstrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes\nbuilt using Substrate's FRAME framework.\n",
+      "type": "text/plain"
+    }
+  }
+}

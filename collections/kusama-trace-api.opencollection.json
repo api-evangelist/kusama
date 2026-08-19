@@ -1,0 +1,92 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts trace API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "trace",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "[Experimental - subject to breaking change.] Get traces for the most\nrecently finalized block.\n",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/experimental/blocks/head/traces"
+          },
+          "docs": "Returns traces (spans and events) of the most recently finalized block from\nRPC `state_straceBlock`. Consult the [RPC docs](https://github.com/paritytech/substrate/blob/aba876001651506f85c14baf26e006b36092e1a0/client/rpc-api/src/state/mod.rs#L140)\nfor conceptual info.\n"
+        },
+        {
+          "info": {
+            "name": "[Experimental - subject to breaking change.] Get traces for the given `blockId`.\n",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/experimental/blocks/:blockId/traces",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "path",
+                "description": "Block identifier, as the block height or block hash."
+              }
+            ]
+          },
+          "docs": "Returns traces (spans and events) of the specified block from\nRPC `state_straceBlock`. Consult the [RPC docs](https://github.com/paritytech/substrate/blob/aba876001651506f85c14baf26e006b36092e1a0/client/rpc-api/src/state/mod.rs#L140) for conceptual info.\n"
+        },
+        {
+          "info": {
+            "name": "[Experimental - subject to breaking change.] Get the operations from the\nmost recently finalized block.\n",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/experimental/blocks/head/traces/operations",
+            "params": [
+              {
+                "name": "actions",
+                "value": "",
+                "type": "query",
+                "description": "Whether or not to include action groups."
+              }
+            ]
+          },
+          "docs": "Returns the operations from the most recently finalized block. Operations\nrepresent one side of a balance change. For example if Alice transfers\n100unit to Bob there will be two operations; 1) Alice - 100 2) Bob + 100.\n\nGiven account A and A's balance at block k0 (Ak0), if we sum all the\noperations for A from block k1 through kn against Ak0, we will end up\nwith A's balance at block kn (Akn). Thus, operations can be used to audit\nthat balances change as expected.\n\nThis is useful for Substrate bas"
+        },
+        {
+          "info": {
+            "name": "[Experimental - subject to breaking change.] Get the operations from the\nspecified block.\n",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/experimental/blocks/:blockId/traces/operations",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "path",
+                "description": "Block identifier, as the block height or block hash."
+              },
+              {
+                "name": "actions",
+                "value": "",
+                "type": "query",
+                "description": "Whether or not to include action groups."
+              }
+            ]
+          },
+          "docs": "Returns the operations from the most recently finalized block. Operations\nrepresent one side of a balance change. For example if Alice transfers\n100unit to Bob there will be two operations; 1) Alice - 100 2) Bob + 100.\n\nGiven account A and A's balance at block k0 (Ak0), if we sum all the\noperations for A from block k1 through kn against Ak0, we will end up\nwith A's balance at block kn (Akn). Thus, operations can be used to audit\nthat balances change as expected.\n\nThis is useful for Substrate bas"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

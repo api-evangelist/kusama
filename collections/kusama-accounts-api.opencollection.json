@@ -1,0 +1,449 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get an array of asset-balances for an account.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/accounts/:accountId/asset-balances",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "SS58 address of the account."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query asset-balance info for the specified account."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s). Only supported for Asset Hub endpoints. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              },
+              {
+                "name": "assets",
+                "value": "",
+                "type": "query",
+                "description": "An array of AssetId's to be queried. If not supplied, defaults to providing all asset balances associated with the `accountId` will be returned. The array query param format follows Express 4.x API. ex:`?assets[]=1&assets[]=2&assets[]=3`."
+              }
+            ]
+          },
+          "docs": "Returns information about an account's asset-balances. This is specific to the assets pallet for parachains. If no `assets` query parameter is provided, all asset-balances for the given account will be returned."
+        },
+        {
+          "info": {
+            "name": "Get an asset approval for an account.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/accounts/:accountId/asset-approvals",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "SS58 address of the account."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query asset approval info for the specified account."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s). Only supported for Asset Hub endpoints. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              },
+              {
+                "name": "assetId",
+                "value": "",
+                "type": "query",
+                "description": "The `assetId` associated with the asset-approval."
+              },
+              {
+                "name": "delegate",
+                "value": "",
+                "type": "query",
+                "description": "The delegate's `accountId` associated with an asset-approval."
+              }
+            ]
+          },
+          "docs": "Returns information about an account's asset approval transaction. It is required to pass in a delegate and an assetId as query parameters."
+        },
+        {
+          "info": {
+            "name": "Get balance information for an account.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/accounts/:accountId/balance-info",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "SS58 address of the account."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query balance info for the specified account."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving balance info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              },
+              {
+                "name": "token",
+                "value": "",
+                "type": "query",
+                "description": "Token to query the balance of. If not specified it will query the chains native token (e.g. DOT for Polkadot). Note: this is only relevant for chains that support multiple tokens through the ORML tokens pallet."
+              },
+              {
+                "name": "denominated",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true` it will denominate any balance's given atomic value using the chains given decimal value."
+              }
+            ]
+          },
+          "docs": "Returns information about an account's balance. Replaces `/balance/{address}` from versions < v1.0.0."
+        },
+        {
+          "info": {
+            "name": "Convert a given AccountId to an SS58 address.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/accounts/:accountId/convert",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "AccountId or Public Key (hex)."
+              },
+              {
+                "name": "scheme",
+                "value": "",
+                "type": "query",
+                "description": "The cryptographic scheme to be used in order to convert the AccountId to an SS58 address. It can take one of three values [sr25519, ed25519, ecdsa]. The default scheme that is used is `sr25519` (if it is not set in the query parameter)."
+              },
+              {
+                "name": "prefix",
+                "value": "",
+                "type": "query",
+                "description": "The address prefix which can be one of the values found in the SS58-registry."
+              },
+              {
+                "name": "publicKey",
+                "value": "",
+                "type": "query",
+                "description": "Defines if the given value in the path parameter is a Public Key (hex) or not (hence AccountId)."
+              }
+            ]
+          },
+          "docs": "Returns the SS58 prefix, the network address format, the SS58 address, and the AccountId that was given as input parameter, the scheme that was used and if it is a public key or not (boolean)."
+        },
+        {
+          "info": {
+            "name": "Get an array of pool-asset-balances for an account.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/accounts/:accountId/pool-asset-balances",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "SS58 address of the account."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query pool-asset-balance info for the specified account."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving pool-asset-balance info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              },
+              {
+                "name": "assets",
+                "value": "",
+                "type": "query",
+                "description": "An array of AssetId's to be queried. If not supplied, defaults to providing all asset balances associated with the `accountId` will be returned. The array query param format follows Express 4.x API. ex:`?assets[]=1&assets[]=2&assets[]=3`."
+              }
+            ]
+          },
+          "docs": "Returns information about an account's pool-asset-balances. This is specific to the pool assets pallet for parachains. If no `assets` query parameter is provided, all pool-asset-balances for the given account will be returned."
+        },
+        {
+          "info": {
+            "name": "Get an asset approval for an account.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/accounts/:accountId/pool-asset-approvals",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "SS58 address of the account."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query asset approval info for the specified account."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving pool-asset-approval info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              },
+              {
+                "name": "assetId",
+                "value": "",
+                "type": "query",
+                "description": "The `assetId` associated with the asset-approval."
+              },
+              {
+                "name": "delegate",
+                "value": "",
+                "type": "query",
+                "description": "The delegate's `accountId` associated with an asset-approval."
+              }
+            ]
+          },
+          "docs": "Returns information about an account's asset approval transaction. It is required to pass in a delegate and an assetId as query parameters."
+        },
+        {
+          "info": {
+            "name": "Get an array of foreign-asset-balances for an account.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/accounts/:accountId/foreign-asset-balances",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "SS58 address of the account."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query foreign-asset-balance info for the specified account."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving foreign-asset-balance info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              },
+              {
+                "name": "foreignAssets",
+                "value": "",
+                "type": "query",
+                "description": "An array of multilocation JSON strings to be queried. If not supplied, all foreign asset balances associated with the `accountId` will be returned. The array query param format follows Express 4.x API. ex:`?foreignAssets[]={\"parents\":\"1\",\"interior\":{\"X1\":{\"Parachain\":\"2125\"}}}&foreignAssets[]={\"parents\":\"2\",\"interior\":{\"X1\":{\"GlobalConsensus\":\"Polkadot\"}}}`."
+              }
+            ]
+          },
+          "docs": "Returns information about an account's foreign-asset-balances. This is specific to the foreignAssets pallet for parachains. If no `foreignAssets` query parameter is provided, all foreign-asset-balances for the given account will be returned."
+        },
+        {
+          "info": {
+            "name": "Get proxy account information.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/accounts/:accountId/proxy-info",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "SS58 address of the account."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query proxy info for the specified account."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving proxy info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns information about a proxy account. This will include delegated accounts and deposits held."
+        },
+        {
+          "info": {
+            "name": "Get vesting information for an account.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/accounts/:accountId/vesting-info",
+            "params": [
+              {
+                "name": "accountId",
+                "value": "",
+                "type": "path",
+                "description": "SS58 address of the account."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query the vesting info for the specified account."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving vesting info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              },
+              {
+                "name": "includeClaimable",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', calculates and includes vested amounts for each vesting schedule plus the claimable amount. For Asset Hub post-migration queries, this requires a relay chain connection since vesting schedules use relay chain block numbers."
+              }
+            ]
+          },
+          "docs": "Returns the vesting schedule for an account. Replaces `/vesting/{address}` from versions < v1.0.0."
+        },
+        {
+          "info": {
+            "name": "Validate a given address.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/accounts/:address/validate",
+            "params": [
+              {
+                "name": "address",
+                "value": "",
+                "type": "path",
+                "description": "SS58 or Hex address of the account."
+              }
+            ]
+          },
+          "docs": "Returns whether the given address is valid ss58 format, the ss58 prefix if the address has one, the network address format, and what the account ID is for this address."
+        },
+        {
+          "info": {
+            "name": "Compares up to 30 SS58 addresses.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/accounts/compare",
+            "params": [
+              {
+                "name": "addresses",
+                "value": "",
+                "type": "query",
+                "description": "An array or a comma separated string of SS58 addresses. Provide up to 30 addresses using one of these formats `?addresses=...&addresses=...` or `?addresses[]=...&addresses[]=...` or `?addresses=...,...`."
+              }
+            ]
+          },
+          "docs": "Returns if the given addresses are equal or not, along with details of each address. Equality is determined by comparing the accountId/publicKey of each address."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,119 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts rc runtime API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "rc runtime",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get version information of the relay chain Substrate runtime.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/runtime/spec",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve runtime version information at."
+              }
+            ]
+          },
+          "docs": "Returns version information related to the relay chain runtime. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for runtime specification."
+        },
+        {
+          "info": {
+            "name": "Get the relay chain's metadata.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/runtime/metadata",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block hash or height at which to query. If not provided, queries finalized head."
+              }
+            ]
+          },
+          "docs": "Returns the relay chain's runtime metadata in decoded JSON format. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for metadata."
+        },
+        {
+          "info": {
+            "name": "Get the available versions of relay chain's metadata.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/runtime/metadata/versions",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block hash or height at which to query. If not provided, queries finalized head."
+              }
+            ]
+          },
+          "docs": "Returns the available versions of the relay chain's metadata. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for metadata versions."
+        },
+        {
+          "info": {
+            "name": "Get the relay chain's metadata at a specific version.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/runtime/metadata/:metadataVersion",
+            "params": [
+              {
+                "name": "metadataVersion",
+                "value": "",
+                "type": "path",
+                "description": "The specific version of the Metadata to query. The input must conform to the 'vX' format, where 'X' represents the version number (examples 'v14', 'v15')."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block hash or height at which to query. If not provided, queries finalized head."
+              }
+            ]
+          },
+          "docs": "Returns the relay chain's runtime metadata at a specific version in decoded JSON format. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for versioned metadata."
+        },
+        {
+          "info": {
+            "name": "Get the Wasm code blob of the relay chain Substrate runtime.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/runtime/code",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve runtime code information at."
+              }
+            ]
+          },
+          "docs": "Returns the relay chain's runtime code in Wasm format. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for runtime code."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

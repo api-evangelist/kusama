@@ -18,8 +18,8 @@ search_result:
     result: no Polkadot/Substrate-blockchain server (only an unrelated project named SUBSTRATE)
     probed_at: '2026-07-19'
   conclusion: Neither Parity Technologies nor the Kusama ecosystem publishes an official hosted or remote
-    MCP server. The tool list below is a CANDIDATE derived from real, verified operations — it is not a
-    published server and no endpoint is claimed.
+    MCP server. The tool list below is a CANDIDATE derived from real, verified operations — it is not
+    a published server and no endpoint is claimed.
 server:
   name: kusama
   transport: stdio
@@ -30,20 +30,16 @@ server:
   - https://kusama-rpc.polkadot.io/
   auth: none required — both backing endpoints are public and unauthenticated
 agent_safety_notes:
-- >-
-  Every tool below is READ-ONLY. Write access to Kusama means submitting a signed extrinsic that spends
-  real KSM irreversibly, and it requires private key custody. A read-only server needs no key material at
-  all, which is the correct default for an agent.
-- >-
-  If a write tool is ever added, it must be gated behind explicit human confirmation and must never hold
+- Every tool below is READ-ONLY. Write access to Kusama means submitting a signed extrinsic that spends
+  real KSM irreversibly, and it requires private key custody. A read-only server needs no key material
+  at all, which is the correct default for an agent.
+- If a write tool is ever added, it must be gated behind explicit human confirmation and must never hold
   the signing key itself — the correct pattern is to build the payload, return it for out-of-band signing,
   and submit only the already-signed bytes.
-- >-
-  Agents must pin the `at` parameter when comparing two reads. Without it each call resolves against a
+- Agents must pin the `at` parameter when comparing two reads. Without it each call resolves against a
   head that moves every ~6 seconds and the agent will silently reason across inconsistent state.
-- >-
-  Balances are returned as strings in Planck (1 KSM = 10^12 Planck). An agent that formats these as
-  human KSM without dividing will report values a trillion times too large.
+- Balances are returned as strings in Planck (1 KSM = 10^12 Planck). An agent that formats these as human
+  KSM without dividing will report values a trillion times too large.
 tools:
 - name: get_chain_identity
   description: Confirm which chain the endpoint is serving, its client version, and its token/address
@@ -108,8 +104,7 @@ tools:
   source_operation: openapi/kusama-sidecar-openapi.yaml#getVestingSummaryByAccountId
   read_only: true
 - name: get_account_proxies
-  description: Get proxy delegations for an account — the chain-level equivalent of scoped delegated
-    authority.
+  description: Get proxy delegations for an account — the chain-level equivalent of scoped delegated authority.
   source_operation: openapi/kusama-sidecar-openapi.yaml#getProxyInfo
   read_only: true
 - name: get_account_asset_balances
@@ -117,8 +112,7 @@ tools:
   source_operation: openapi/kusama-sidecar-openapi.yaml#getAssetBalances
   read_only: true
 - name: get_staking_progress
-  description: Get chain-wide staking progress — current era and session, election status, unapplied
-    slashes.
+  description: Get chain-wide staking progress — current era and session, election status, unapplied slashes.
   source_operation: openapi/kusama-sidecar-openapi.yaml#/pallets/staking/progress
   note: This operation has no operationId in the specification.
   read_only: true
@@ -174,8 +168,8 @@ excluded_operations:
   reason: Write path. Submits a signed extrinsic that irreversibly spends real KSM. Deliberately excluded
     from the candidate read-only tool surface; if exposed it must require explicit human confirmation.
 - operation: callContractQuery
-  reason: Executes an ink! contract query; excluded from the baseline surface pending review of its
-    resource cost.
+  reason: Executes an ink! contract query; excluded from the baseline surface pending review of its resource
+    cost.
 - operation: getRcBlockHeadTraces and the trace family
   reason: Experimental and very expensive to compute; unsuitable as a default agent tool.
 resources:
@@ -188,3 +182,9 @@ resources:
 - name: errors
   description: Error envelopes for both REST and JSON-RPC, and the extrinsic-failure distinction.
   file: errors/kusama-problem-types.yml
+deployment:
+  mode: none
+  verified: derived
+  tools: 27
+  checked: '2026-08-12'
+  source: catalog MCP census

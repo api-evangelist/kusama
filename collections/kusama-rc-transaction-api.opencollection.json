@@ -1,0 +1,125 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts rc transaction API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "rc transaction",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a transaction to the relay chain node's transaction pool.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/transaction",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Accepts a valid signed extrinsic for the relay chain. Replaces `/tx` from versions < v1.0.0."
+        },
+        {
+          "info": {
+            "name": "Dry run an extrinsic on the relay chain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/transaction/dry-run",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Use the `dryRun` call to simulate the submission of a transaction to the relay chain without executing it so that you can check for potential errors and validate the expected outcome."
+        },
+        {
+          "info": {
+            "name": "Receive a fee estimate for a relay chain transaction.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/transaction/fee-estimate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send a serialized transaction and receive back a naive fee estimate for the relay chain. Note: `partialFee` does not include any tips that you may add to increase a transaction's priority. See the reference on `compute_fee`. Replaces `/tx/fee-estimate` from versions < v1.0.0. Substrate Reference: - `RuntimeDispatchInfo`: https://crates.parity.io/pallet_transaction_payment_rpc_runtime_api/struct.RuntimeDispatchInfo.html - `query_info`: https://crates.parity.io/pallet_transaction_payment/struct.Mo"
+        },
+        {
+          "info": {
+            "name": "Get all the relay chain network information needed to construct a transaction offline.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/transaction/material",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the transaction construction material from the relay chain."
+              },
+              {
+                "name": "noMeta",
+                "value": "",
+                "type": "query",
+                "description": "DEPRECATED! This is no longer supported"
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the format of the metadata to be returned. Accepted values are 'json', and 'scale'. 'json' being the decoded metadata, and 'scale' being the SCALE encoded metadata. When `metadata` is not inputted, the `metadata` field will be absent."
+              }
+            ]
+          },
+          "docs": "Returns the material that is universal to constructing any signed transaction offline for the relay chain. Replaces `/tx/artifacts` from versions < v1.0.0."
+        },
+        {
+          "info": {
+            "name": "Get all the relay chain network information needed to construct a transaction offline and the version of metadata specified in `metadataVersion`.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/transaction/material/:metadataVersion",
+            "params": [
+              {
+                "name": "metadataVersion",
+                "value": "",
+                "type": "path",
+                "description": "The version of metadata. The input is expected in a `vX` format, where `X` represents the version number (e.g. `v14`, `v15`). By default, metadata is outputted in 'json' format, unless the `metadata` query parameter is provided, in which case it can be either in 'json' or 'scale' format."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the transaction construction material from the relay chain."
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the format of the metadata to be returned. Accepted values are 'json', and 'scale'. 'json' being the decoded metadata, and 'scale' being the SCALE encoded metadata."
+              }
+            ]
+          },
+          "docs": "Returns all the materials necessary for constructing any signed transactions offline for the relay chain."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

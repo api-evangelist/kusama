@@ -1,0 +1,65 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts contracts API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "contracts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Query an !Ink contract with a given message (method).",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/contracts/ink/:address/query",
+            "params": [
+              {
+                "name": "address",
+                "value": "",
+                "type": "path",
+                "description": "SS58 or Hex address of the account associated with the contract."
+              },
+              {
+                "name": "method",
+                "value": "",
+                "type": "query",
+                "description": "The message or method used to query."
+              },
+              {
+                "name": "gasLimit",
+                "value": "",
+                "type": "query",
+                "description": "The gas limit to be used as an option for the queried message."
+              },
+              {
+                "name": "storageDepositLimit",
+                "value": "",
+                "type": "query",
+                "description": "The storage deposit limit to be used as an option for the queried message."
+              },
+              {
+                "name": "args",
+                "value": "",
+                "type": "query",
+                "description": "Abi params used as args specified in the metadata to be passed into a query. The format to use this query param is ?args[]=1&args[]=2&args[]=3."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Will return a valid or invalid result."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

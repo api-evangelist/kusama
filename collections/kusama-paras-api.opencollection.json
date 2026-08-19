@@ -1,0 +1,213 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts paras API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "paras",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] List all registered paras (parathreads & parachains).\n",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/paras",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve paras list at."
+              }
+            ]
+          },
+          "docs": "Returns all registered parachains and parathreads with lifecycle info."
+        },
+        {
+          "info": {
+            "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get general information about the current lease period.\n",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/paras/leases/current",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve current lease period info at."
+              },
+              {
+                "name": "currentLeaseHolders",
+                "value": "",
+                "type": "query",
+                "description": "Wether or not to include the `currentLeaseHolders` property. Inclusion\nof the property will likely result in a larger payload and increased\nresponse time.\n"
+              }
+            ]
+          },
+          "docs": "Returns an overview of the current lease period, including lease holders.\n"
+        },
+        {
+          "info": {
+            "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get the status of the current auction.\n",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/paras/auctions/current",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve auction progress at."
+              }
+            ]
+          },
+          "docs": "Returns an overview of the current auction. There is only one auction\nat a time. If there is no auction most fields will be `null`. If the current\nauction phase is in `vrfDelay` and you are looking to retrieve the latest winning\nbids, it is advised to query one block before `finishEnd` in the `endingPeriod` phase\nfor that auction as there technically are no winners during the `vrfDelay` and thus\nthe field is `null`.\n"
+        },
+        {
+          "info": {
+            "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] List all stored crowdloans.\n",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/paras/crowdloans",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the list of paraIds that have crowdloans at."
+              }
+            ]
+          },
+          "docs": "Returns a list of all the crowdloans and their associated paraIds.\n"
+        },
+        {
+          "info": {
+            "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get crowdloan information for a `paraId`.\n",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/paras/:paraId/crowdloan-info",
+            "params": [
+              {
+                "name": "paraId",
+                "value": "",
+                "type": "path",
+                "description": "paraId to query the crowdloan information of."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve info at."
+              }
+            ]
+          },
+          "docs": "Returns crowdloan's `fundInfo` and the set of `leasePeriods` the crowdloan`\ncovers.\n"
+        },
+        {
+          "info": {
+            "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get current and future leases as well as the lifecycle stage for a given `paraId`.\n",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/paras/:paraId/lease-info",
+            "params": [
+              {
+                "name": "paraId",
+                "value": "",
+                "type": "path",
+                "description": "paraId to query the crowdloan information of."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve para's leases at."
+              }
+            ]
+          },
+          "docs": "Returns a list of leases that belong to the `paraId` as well as the\n`paraId`'s current lifecycle stage.\n"
+        },
+        {
+          "info": {
+            "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get the heads of the included (backed and considered available) parachain candidates at the\nspecified block height or at the most recent finalized head otherwise.\n",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/paras/head/included-candidates",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve para's heads at."
+              }
+            ]
+          },
+          "docs": "Returns an object with all the parachain id's as keys, and their headers as values.\n"
+        },
+        {
+          "info": {
+            "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get the heads of the backed parachain candidates at the specified block height or at the most recent finalized head otherwise.\n",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/paras/head/backed-candidates",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve para's heads at."
+              }
+            ]
+          },
+          "docs": "Returns an object with all the parachain id's as keys, and their headers as values.\n"
+        },
+        {
+          "info": {
+            "name": "Get relay chain inclusion information for a specific parachain block.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/paras/:number/inclusion",
+            "params": [
+              {
+                "name": "number",
+                "value": "",
+                "type": "path",
+                "description": "Parachain block number to find inclusion information for."
+              },
+              {
+                "name": "depth",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of relay chain blocks to search for inclusion (must be divisible by 5, max 100)."
+              }
+            ]
+          },
+          "docs": "Returns the relay chain block number where a parachain block was included,\nalong with the relay parent number used during production. This endpoint helps\ntrack the lifecycle of parachain blocks from production to inclusion.\n\n**Note**: This endpoint requires a multi-chain connection (both parachain and relay chain APIs).\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

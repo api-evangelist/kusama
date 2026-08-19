@@ -1,0 +1,92 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts rc API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "rc",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the latest relay chain block's traces.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/experimental/rc/blocks/head/traces"
+          },
+          "docs": "Returns the latest relay chain block's traces."
+        },
+        {
+          "info": {
+            "name": "Get a relay chain block's traces by its height or hash.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/experimental/rc/blocks/:blockId/traces",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "path",
+                "description": "Block identifier, as the block height or block hash."
+              }
+            ]
+          },
+          "docs": "Returns a relay chain block's traces. Can be identified by either its height or hash."
+        },
+        {
+          "info": {
+            "name": "Get the latest relay chain block's trace operations.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/experimental/rc/blocks/head/traces/operations",
+            "params": [
+              {
+                "name": "actions",
+                "value": "",
+                "type": "query",
+                "description": "Include action traces."
+              }
+            ]
+          },
+          "docs": "Returns the latest relay chain block's trace operations."
+        },
+        {
+          "info": {
+            "name": "Get a relay chain block's trace operations by its height or hash.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/experimental/rc/blocks/:blockId/traces/operations",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "path",
+                "description": "Block identifier, as the block height or block hash."
+              },
+              {
+                "name": "actions",
+                "value": "",
+                "type": "query",
+                "description": "Include action traces."
+              }
+            ]
+          },
+          "docs": "Returns a relay chain block's trace operations. Can be identified by either its height or hash."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

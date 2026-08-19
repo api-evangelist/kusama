@@ -1,0 +1,2249 @@
+{
+  "item": [
+    {
+      "id": "3d263d12-6e5f-4945-8562-031e036c4afc",
+      "name": "accounts",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e8a6fdb7-74c2-48b1-9c5f-dc0a09b07bb4",
+          "name": "Get an array of asset-balances for an account.",
+          "request": {
+            "name": "Get an array of asset-balances for an account.",
+            "description": {
+              "content": "Returns information about an account's asset-balances. This is specific to the assets pallet for parachains. If no `assets` query parameter is provided, all asset-balances for the given account will be returned.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                ":accountId",
+                "asset-balances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to query asset-balance info for the specified account."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlock",
+                  "value": "<boolean>",
+                  "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s). Only supported for Asset Hub endpoints. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlockFormat",
+                  "value": "<string>",
+                  "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+                },
+                {
+                  "disabled": false,
+                  "key": "assets",
+                  "value": "<string>",
+                  "description": "An array of AssetId's to be queried. If not supplied, defaults to providing all asset balances associated with the `accountId` will be returned. The array query param format follows Express 4.x API. ex:`?assets[]=1&assets[]=2&assets[]=3`."
+                },
+                {
+                  "disabled": false,
+                  "key": "assets",
+                  "value": "<string>",
+                  "description": "An array of AssetId's to be queried. If not supplied, defaults to providing all asset balances associated with the `accountId` will be returned. The array query param format follows Express 4.x API. ex:`?assets[]=1&assets[]=2&assets[]=3`."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<SS58>",
+                  "key": "accountId",
+                  "description": "(Required) SS58 address of the account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b0171593-1567-4803-b60c-7415f144df1a",
+              "name": "successfull operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "asset-balances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assets",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assets",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"assets\": [\n    {\n      \"assetId\": \"string\",\n      \"balance\": \"string\",\n      \"isFrozen\": false,\n      \"isSufficient\": false\n    },\n    {\n      \"assetId\": \"string\",\n      \"balance\": \"string\",\n      \"isFrozen\": false,\n      \"isSufficient\": true\n    }\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c2e1db2c-1c04-45d2-9f23-514550034d19",
+              "name": "Invalid Address, invalid blockId supplied for at query param, or invalid parameter combination",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "asset-balances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assets",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assets",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5808.897387503051,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "01ffe89e-27ad-478a-9559-0164aa6c851d",
+          "name": "Get an asset approval for an account.",
+          "request": {
+            "name": "Get an asset approval for an account.",
+            "description": {
+              "content": "Returns information about an account's asset approval transaction. It is required to pass in a delegate and an assetId as query parameters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                ":accountId",
+                "asset-approvals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to query asset approval info for the specified account."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlock",
+                  "value": "<boolean>",
+                  "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s). Only supported for Asset Hub endpoints. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlockFormat",
+                  "value": "<string>",
+                  "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+                },
+                {
+                  "disabled": false,
+                  "key": "assetId",
+                  "value": "<unsignedInteger>",
+                  "description": "(Required) The `assetId` associated with the asset-approval."
+                },
+                {
+                  "disabled": false,
+                  "key": "delegate",
+                  "value": "<SS58>",
+                  "description": "(Required) The delegate's `accountId` associated with an asset-approval."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<SS58>",
+                  "key": "accountId",
+                  "description": "(Required) SS58 address of the account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9d3a8b0a-5876-4fc0-95cd-89908e4e404b",
+              "name": "successfull operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "asset-approvals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assetId",
+                      "value": "<unsignedInteger>"
+                    },
+                    {
+                      "key": "delegate",
+                      "value": "<SS58>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"amount\": \"string\",\n  \"deposit\": \"string\",\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7baec27a-e43b-49e0-afdf-d5de53c5e7a8",
+              "name": "Invalid Address, invalid blockId supplied for at query param, or invalid parameter combination",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "asset-approvals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assetId",
+                      "value": "<unsignedInteger>"
+                    },
+                    {
+                      "key": "delegate",
+                      "value": "<SS58>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5808.897387503051,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f0a82ea9-693e-491c-b310-314b66e07a95",
+          "name": "Get balance information for an account.",
+          "request": {
+            "name": "Get balance information for an account.",
+            "description": {
+              "content": "Returns information about an account's balance. Replaces `/balance/{address}` from versions < v1.0.0.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                ":accountId",
+                "balance-info"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to query balance info for the specified account."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlock",
+                  "value": "<boolean>",
+                  "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving balance info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlockFormat",
+                  "value": "<string>",
+                  "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+                },
+                {
+                  "disabled": false,
+                  "key": "token",
+                  "value": "<string>",
+                  "description": "Token to query the balance of. If not specified it will query the chains native token (e.g. DOT for Polkadot). Note: this is only relevant for chains that support multiple tokens through the ORML tokens pallet."
+                },
+                {
+                  "disabled": false,
+                  "key": "denominated",
+                  "value": "false",
+                  "description": "When set to `true` it will denominate any balance's given atomic value using the chains given decimal value."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<SS58>",
+                  "key": "accountId",
+                  "description": "(Required) SS58 address of the account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b86fd97c-5428-4adb-a516-170e42f6e0d6",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "balance-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "denominated",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"nonce\": \"string\",\n  \"tokenSymbol\": \"string\",\n  \"free\": \"string\",\n  \"reserved\": \"string\",\n  \"miscFrozen\": \"string\",\n  \"feeFrozen\": \"string\",\n  \"frozen\": \"string\",\n  \"transferable\": \"string\",\n  \"locks\": [\n    {\n      \"id\": \"string\",\n      \"amount\": \"string\",\n      \"reasons\": \"All = 2\"\n    },\n    {\n      \"id\": \"string\",\n      \"amount\": \"string\",\n      \"reasons\": \"All = 2\"\n    }\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b3e11e68-fe57-4994-810c-f5817d69c31f",
+              "name": "Invalid Address, invalid blockId supplied for at query param, or invalid parameter combination",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "balance-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "denominated",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5808.897387503051,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2c40c653-1d26-4022-89d0-1b774d249d9b",
+              "name": "account not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "balance-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "denominated",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5808.897387503051,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "858923c8-d360-4992-8086-e5f1286dde7a",
+          "name": "Convert a given AccountId to an SS58 address.",
+          "request": {
+            "name": "Convert a given AccountId to an SS58 address.",
+            "description": {
+              "content": "Returns the SS58 prefix, the network address format, the SS58 address, and the AccountId that was given as input parameter, the scheme that was used and if it is a public key or not (boolean).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                ":accountId",
+                "convert"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "scheme",
+                  "value": "sr25519",
+                  "description": "The cryptographic scheme to be used in order to convert the AccountId to an SS58 address. It can take one of three values [sr25519, ed25519, ecdsa]. The default scheme that is used is `sr25519` (if it is not set in the query parameter)."
+                },
+                {
+                  "disabled": false,
+                  "key": "prefix",
+                  "value": "42",
+                  "description": "The address prefix which can be one of the values found in the SS58-registry."
+                },
+                {
+                  "disabled": false,
+                  "key": "publicKey",
+                  "value": "true",
+                  "description": "Defines if the given value in the path parameter is a Public Key (hex) or not (hence AccountId)."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<AccountId or Hex>",
+                  "key": "accountId",
+                  "description": "(Required) AccountId or Public Key (hex)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "154cdafa-089c-4271-b214-c4c1fd871ba6",
+              "name": "successfully converted the AccountId and retrieved the address info.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "convert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "scheme",
+                      "value": "sr25519"
+                    },
+                    {
+                      "key": "prefix",
+                      "value": "42"
+                    },
+                    {
+                      "key": "publicKey",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<AccountId or Hex>",
+                      "key": "accountId",
+                      "description": "(Required) AccountId or Public Key (hex)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ss58Prefix\": \"string\",\n  \"network\": \"string\",\n  \"address\": \"string\",\n  \"accountId\": \"string\",\n  \"scheme\": \"string\",\n  \"publicKey\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "387f57f1-0fc4-4634-96d9-fbb6e4e33f07",
+              "name": "Invalid AccountId",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "convert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "scheme",
+                      "value": "sr25519"
+                    },
+                    {
+                      "key": "prefix",
+                      "value": "42"
+                    },
+                    {
+                      "key": "publicKey",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<AccountId or Hex>",
+                      "key": "accountId",
+                      "description": "(Required) AccountId or Public Key (hex)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5808.897387503051,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0e0a26e6-d2e8-4eca-885e-571708c24b8e",
+              "name": "AccountId not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "convert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "scheme",
+                      "value": "sr25519"
+                    },
+                    {
+                      "key": "prefix",
+                      "value": "42"
+                    },
+                    {
+                      "key": "publicKey",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<AccountId or Hex>",
+                      "key": "accountId",
+                      "description": "(Required) AccountId or Public Key (hex)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5808.897387503051,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bd026817-c57f-4fd3-91a2-63d144d74c1d",
+          "name": "Get an array of pool-asset-balances for an account.",
+          "request": {
+            "name": "Get an array of pool-asset-balances for an account.",
+            "description": {
+              "content": "Returns information about an account's pool-asset-balances. This is specific to the pool assets pallet for parachains. If no `assets` query parameter is provided, all pool-asset-balances for the given account will be returned.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                ":accountId",
+                "pool-asset-balances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to query pool-asset-balance info for the specified account."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlock",
+                  "value": "<boolean>",
+                  "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving pool-asset-balance info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlockFormat",
+                  "value": "<string>",
+                  "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+                },
+                {
+                  "disabled": false,
+                  "key": "assets",
+                  "value": "<string>",
+                  "description": "An array of AssetId's to be queried. If not supplied, defaults to providing all asset balances associated with the `accountId` will be returned. The array query param format follows Express 4.x API. ex:`?assets[]=1&assets[]=2&assets[]=3`."
+                },
+                {
+                  "disabled": false,
+                  "key": "assets",
+                  "value": "<string>",
+                  "description": "An array of AssetId's to be queried. If not supplied, defaults to providing all asset balances associated with the `accountId` will be returned. The array query param format follows Express 4.x API. ex:`?assets[]=1&assets[]=2&assets[]=3`."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<SS58>",
+                  "key": "accountId",
+                  "description": "(Required) SS58 address of the account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e06a27ef-4b09-4d16-b094-9c483dd81155",
+              "name": "successfull operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "pool-asset-balances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assets",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assets",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"poolAssets\": [\n    {\n      \"assetId\": \"string\",\n      \"balance\": \"string\",\n      \"isFrozen\": false,\n      \"isSufficient\": false\n    },\n    {\n      \"assetId\": \"string\",\n      \"balance\": \"string\",\n      \"isFrozen\": true,\n      \"isSufficient\": true\n    }\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b3252867-1bad-42e4-8ee0-85b8e56a170a",
+              "name": "Invalid Address, invalid blockId supplied for at query param, or invalid parameter combination",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "pool-asset-balances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assets",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assets",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5808.897387503051,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "91784902-c62c-4562-ba05-fd46b08a55f0",
+          "name": "Get an asset approval for an account.",
+          "request": {
+            "name": "Get an asset approval for an account.",
+            "description": {
+              "content": "Returns information about an account's asset approval transaction. It is required to pass in a delegate and an assetId as query parameters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                ":accountId",
+                "pool-asset-approvals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to query asset approval info for the specified account."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlock",
+                  "value": "<boolean>",
+                  "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving pool-asset-approval info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlockFormat",
+                  "value": "<string>",
+                  "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+                },
+                {
+                  "disabled": false,
+                  "key": "assetId",
+                  "value": "<unsignedInteger>",
+                  "description": "(Required) The `assetId` associated with the asset-approval."
+                },
+                {
+                  "disabled": false,
+                  "key": "delegate",
+                  "value": "<SS58>",
+                  "description": "(Required) The delegate's `accountId` associated with an asset-approval."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<SS58>",
+                  "key": "accountId",
+                  "description": "(Required) SS58 address of the account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ce05a6cb-46d1-4083-a3bf-2243deebb883",
+              "name": "successfull operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "pool-asset-approvals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assetId",
+                      "value": "<unsignedInteger>"
+                    },
+                    {
+                      "key": "delegate",
+                      "value": "<SS58>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"amount\": \"string\",\n  \"deposit\": \"string\",\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e79c58af-e214-4f59-b356-40140ba49761",
+              "name": "Invalid Address, invalid blockId supplied for at query param, or invalid parameter combination",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "pool-asset-approvals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "assetId",
+                      "value": "<unsignedInteger>"
+                    },
+                    {
+                      "key": "delegate",
+                      "value": "<SS58>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5808.897387503051,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9c597b38-e70c-4ec0-8e54-5309a53f209f",
+          "name": "Get an array of foreign-asset-balances for an account.",
+          "request": {
+            "name": "Get an array of foreign-asset-balances for an account.",
+            "description": {
+              "content": "Returns information about an account's foreign-asset-balances. This is specific to the foreignAssets pallet for parachains. If no `foreignAssets` query parameter is provided, all foreign-asset-balances for the given account will be returned.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                ":accountId",
+                "foreign-asset-balances"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to query foreign-asset-balance info for the specified account."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlock",
+                  "value": "<boolean>",
+                  "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving foreign-asset-balance info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlockFormat",
+                  "value": "<string>",
+                  "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+                },
+                {
+                  "disabled": false,
+                  "key": "foreignAssets",
+                  "value": "<string>",
+                  "description": "An array of multilocation JSON strings to be queried. If not supplied, all foreign asset balances associated with the `accountId` will be returned. The array query param format follows Express 4.x API. ex:`?foreignAssets[]={\"parents\":\"1\",\"interior\":{\"X1\":{\"Parachain\":\"2125\"}}}&foreignAssets[]={\"parents\":\"2\",\"interior\":{\"X1\":{\"GlobalConsensus\":\"Polkadot\"}}}`."
+                },
+                {
+                  "disabled": false,
+                  "key": "foreignAssets",
+                  "value": "<string>",
+                  "description": "An array of multilocation JSON strings to be queried. If not supplied, all foreign asset balances associated with the `accountId` will be returned. The array query param format follows Express 4.x API. ex:`?foreignAssets[]={\"parents\":\"1\",\"interior\":{\"X1\":{\"Parachain\":\"2125\"}}}&foreignAssets[]={\"parents\":\"2\",\"interior\":{\"X1\":{\"GlobalConsensus\":\"Polkadot\"}}}`."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<SS58>",
+                  "key": "accountId",
+                  "description": "(Required) SS58 address of the account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "99c72151-ba1e-4f35-a69b-ef7a1230f1d3",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "foreign-asset-balances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "foreignAssets",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "foreignAssets",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"foreignAssets\": [\n    {\n      \"multiLocation\": {},\n      \"balance\": \"string\",\n      \"isFrozen\": true,\n      \"isSufficient\": true\n    },\n    {\n      \"multiLocation\": {},\n      \"balance\": \"string\",\n      \"isFrozen\": false,\n      \"isSufficient\": true\n    }\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d7eabca7-08b2-4d07-8af0-1c7e771f50eb",
+              "name": "Invalid Address, invalid blockId supplied for at query param, or invalid parameter combination",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "foreign-asset-balances"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "foreignAssets",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "foreignAssets",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5808.897387503051,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "de8f4f14-92f8-424b-b764-5892fee5ec55",
+          "name": "Get proxy account information.",
+          "request": {
+            "name": "Get proxy account information.",
+            "description": {
+              "content": "Returns information about a proxy account. This will include delegated accounts and deposits held.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                ":accountId",
+                "proxy-info"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to query proxy info for the specified account."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlock",
+                  "value": "<boolean>",
+                  "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving proxy info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlockFormat",
+                  "value": "<string>",
+                  "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<SS58>",
+                  "key": "accountId",
+                  "description": "(Required) SS58 address of the account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4bc82d08-e30a-4942-a4bc-7675a634b9b4",
+              "name": "successfull operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "proxy-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"delegatedAccounts\": [\n    {\n      \"delegate\": \"string\",\n      \"delay\": \"string\",\n      \"proxyType\": \"string\"\n    },\n    {\n      \"delegate\": \"string\",\n      \"delay\": \"string\",\n      \"proxyType\": \"string\"\n    }\n  ],\n  \"depositHeld\": \"string\",\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ed93cf51-888d-42a8-97a7-8f157d3832aa",
+              "name": "Invalid Address, invalid blockId supplied for at query param, or invalid parameter combination",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "proxy-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5808.897387503051,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d9a88f69-ed92-4577-8e26-5fc041a81e47",
+          "name": "Get vesting information for an account.",
+          "request": {
+            "name": "Get vesting information for an account.",
+            "description": {
+              "content": "Returns the vesting schedule for an account. Replaces `/vesting/{address}` from versions < v1.0.0.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                ":accountId",
+                "vesting-info"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to query the vesting info for the specified account."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlock",
+                  "value": "<boolean>",
+                  "description": "When set to 'true', uses the relay chain block specified in the 'at' parameter to determine corresponding Asset Hub block(s) for retrieving vesting info. Only supported for Asset Hub endpoints. Requires 'at' parameter to specify the relay chain block. When used, returns an array of response objects (one for each Asset Hub block found) or empty array if none found."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlockFormat",
+                  "value": "<string>",
+                  "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+                },
+                {
+                  "disabled": false,
+                  "key": "includeClaimable",
+                  "value": "<boolean>",
+                  "description": "When set to 'true', calculates and includes vested amounts for each vesting schedule plus the claimable amount. For Asset Hub post-migration queries, this requires a relay chain connection since vesting schedules use relay chain block numbers."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<SS58>",
+                  "key": "accountId",
+                  "description": "(Required) SS58 address of the account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2058bc6a-381e-4537-b161-c6f7851f71bc",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "vesting-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeClaimable",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"vesting\": [\n    {\n      \"locked\": \"string\",\n      \"perBlock\": \"string\",\n      \"startingBlock\": \"string\",\n      \"vested\": \"string\"\n    },\n    {\n      \"locked\": \"string\",\n      \"perBlock\": \"string\",\n      \"startingBlock\": \"string\",\n      \"vested\": \"string\"\n    }\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\",\n  \"vestedBalance\": \"string\",\n  \"vestingTotal\": \"string\",\n  \"vestedClaimable\": \"string\",\n  \"blockNumberForCalculation\": \"string\",\n  \"blockNumberSource\": \"relay\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "68c0d3d3-85e9-4ee4-892c-4aeeba2dc484",
+              "name": "Invalid Address, invalid blockId supplied for at query param, or invalid parameter combination",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "vesting-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeClaimable",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5808.897387503051,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "023383f0-7e95-4059-9cc3-4da365da59a5",
+              "name": "account not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":accountId",
+                    "vesting-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "includeClaimable",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58>",
+                      "key": "accountId",
+                      "description": "(Required) SS58 address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5808.897387503051,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0792affb-e789-4c65-816f-cb4d0ff6234a",
+          "name": "Validate a given address.",
+          "request": {
+            "name": "Validate a given address.",
+            "description": {
+              "content": "Returns whether the given address is valid ss58 format, the ss58 prefix if the address has one, the network address format, and what the account ID is for this address.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                ":address",
+                "validate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<SS58 or Hex>",
+                  "key": "address",
+                  "description": "(Required) SS58 or Hex address of the account."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5a7d7ecd-4bd2-44c4-898e-d63e1bb2298a",
+              "name": "successfully retrieved address info",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":address",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<SS58 or Hex>",
+                      "key": "address",
+                      "description": "(Required) SS58 or Hex address of the account."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"isValid\": false,\n  \"ss58Prefix\": \"string\",\n  \"network\": \"string\",\n  \"accountId\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ad76fffe-ac2c-4b23-bfd0-8bfd7a7f74a3",
+          "name": "Compares up to 30 SS58 addresses.",
+          "request": {
+            "name": "Compares up to 30 SS58 addresses.",
+            "description": {
+              "content": "Returns if the given addresses are equal or not, along with details of each address. Equality is determined by comparing the accountId/publicKey of each address.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                "compare"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "addresses",
+                  "value": "<string>",
+                  "description": "(Required) An array or a comma separated string of SS58 addresses. Provide up to 30 addresses using one of these formats `?addresses=...&addresses=...` or `?addresses[]=...&addresses[]=...` or `?addresses=...,...`."
+                },
+                {
+                  "disabled": false,
+                  "key": "addresses",
+                  "value": "<string>",
+                  "description": "(Required) An array or a comma separated string of SS58 addresses. Provide up to 30 addresses using one of these formats `?addresses=...&addresses=...` or `?addresses[]=...&addresses[]=...` or `?addresses=...,...`."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "52765e58-aa06-4e74-a8b9-a04e8fdbd938",
+              "name": "successfully compared at least two SS58 addresses.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "compare"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "addresses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "addresses",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"areEqual\": false,\n  \"addresses\": [\n    {\n      \"ss58Format\": \"string\",\n      \"ss58Prefix\": \"string\",\n      \"network\": \"string\",\n      \"publicKey\": \"string\"\n    },\n    {\n      \"ss58Format\": \"string\",\n      \"ss58Prefix\": \"string\",\n      \"network\": \"string\",\n      \"publicKey\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "89751329-4607-4a31-a9e9-78fcef165d6f",
+              "name": "Invalid Address",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    "compare"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "addresses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "addresses",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 5808.897387503051,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://polkadot-public-sidecar.parity-chains.parity.io/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "db83e45f-3623-4108-be3f-19ebc8d2c250",
+    "name": "Substrate API Sidecar accounts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of\n> [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite\n> built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints\n> served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly\n> lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.\n>\n> **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·\n> [crate](https://crates.io/crates/polkadot-rest-api) ·\n> [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·\n> [docs](https://paritytech.github.io/polkadot-rest-api/) ·\n> [issues](https://github.com/paritytech/polkadot-rest-api/issues)\n\nSubstrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes\nbuilt using Substrate's FRAME framework.\n",
+      "type": "text/plain"
+    }
+  }
+}

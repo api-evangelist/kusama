@@ -1,0 +1,2260 @@
+{
+  "item": [
+    {
+      "id": "ca5d4d4a-0ab0-4e3d-9dbe-1148ae881816",
+      "name": "rc pallets",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5a5e9ab8-3c46-4eee-b48a-691d04bd0c5e",
+          "name": "Get relay chain ongoing referenda.",
+          "request": {
+            "name": "Get relay chain ongoing referenda.",
+            "description": {
+              "content": "Returns information about ongoing referenda in the relay chain.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "pallets",
+                "on-going-referenda"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve relay chain referenda information."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "73a2b4f2-8fef-4602-be3d-d44f81bf2a18",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    "on-going-referenda"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"referenda\": [\n    {\n      \"id\": \"string\",\n      \"decisionDeposit\": {\n        \"who\": \"string\",\n        \"amount\": \"string\"\n      },\n      \"enactment\": \"after\",\n      \"submitted\": \"string\",\n      \"deciding\": {\n        \"since\": \"string\",\n        \"confirming\": \"string\"\n      }\n    },\n    {\n      \"id\": \"string\",\n      \"decisionDeposit\": {\n        \"who\": \"string\",\n        \"amount\": \"string\"\n      },\n      \"enactment\": \"at\",\n      \"submitted\": \"string\",\n      \"deciding\": {\n        \"since\": \"string\",\n        \"confirming\": \"string\"\n      }\n    }\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c241179e-cf83-4788-9b43-cd6ef948aab4",
+              "name": "invalid blockId supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    "on-going-referenda"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3306.8014233126264,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "910788e7-a3e5-422d-81e2-e7b184c1b5b0",
+          "name": "Get a list of constants for a relay chain pallet.",
+          "request": {
+            "name": "Get a list of constants for a relay chain pallet.",
+            "description": {
+              "content": "Returns a list of constant metadata for the specified relay chain pallet.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "pallets",
+                ":palletId",
+                "consts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve relay chain pallet constants."
+                },
+                {
+                  "disabled": false,
+                  "key": "onlyIds",
+                  "value": "false",
+                  "description": "Only return constant IDs, not values and metadata."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "palletId",
+                  "description": "(Required) Name or index of the pallet to read constants from."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "61504914-91f0-4dce-b15a-d196d4ab3f22",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "consts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "onlyIds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read constants from."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"pallet\": \"democracy\",\n  \"palletIndex\": \"14\",\n  \"items\": [\n    {\n      \"name\": \"VotingPeriod\",\n      \"type\": \"4\",\n      \"value\": \"0x00270600\",\n      \"docs\": \"Information concerning any given constant.\\n\\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control.\"\n    },\n    {\n      \"name\": \"VotingPeriod\",\n      \"type\": \"4\",\n      \"value\": \"0x00270600\",\n      \"docs\": \"Information concerning any given constant.\\n\\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control.\"\n    }\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3b0ccb74-5039-4cbe-822d-eacf5da01375",
+              "name": "invalid palletId supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "consts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "onlyIds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read constants from."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3306.8014233126264,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "429f5091-9a65-4a9b-899b-33e9c5b48c30",
+          "name": "Get a constant from a relay chain pallet by its ID.",
+          "request": {
+            "name": "Get a constant from a relay chain pallet by its ID.",
+            "description": {
+              "content": "Returns information about a specific constant from the specified relay chain pallet.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "pallets",
+                ":palletId",
+                "consts",
+                ":constantItemId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve relay chain pallet constant."
+                },
+                {
+                  "disabled": false,
+                  "key": "metadata",
+                  "value": "false",
+                  "description": "Include metadata for the constant."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "palletId",
+                  "description": "(Required) Name or index of the pallet to read the constant from."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "constantItemId",
+                  "description": "(Required) Name of the constant to retrieve."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2cb27c42-c118-4d2e-9bec-6bfe068d4f13",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "consts",
+                    ":constantItemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "metadata",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read the constant from."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "constantItemId",
+                      "description": "(Required) Name of the constant to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pallet\": \"democracy\",\n  \"palletIndex\": \"14\",\n  \"errorItem\": \"EnactmentPeriod\",\n  \"metadata\": {\n    \"name\": \"VotingPeriod\",\n    \"type\": \"4\",\n    \"value\": \"0x00270600\",\n    \"docs\": \"Information concerning any given constant.\\n\\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control.\"\n  },\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc51fcfa-dca1-45bd-b1fa-64e2046b5b91",
+              "name": "invalid palletId or constantItemId supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "consts",
+                    ":constantItemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "metadata",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read the constant from."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "constantItemId",
+                      "description": "(Required) Name of the constant to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3306.8014233126264,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8ef1ff95-4a2f-44f8-9b73-114afc1943c4",
+          "name": "Get a list of dispatchables for a relay chain pallet.",
+          "request": {
+            "name": "Get a list of dispatchables for a relay chain pallet.",
+            "description": {
+              "content": "Returns a list of dispatchable metadata for the specified relay chain pallet.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "pallets",
+                ":palletId",
+                "dispatchables"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve relay chain pallet dispatchables."
+                },
+                {
+                  "disabled": false,
+                  "key": "onlyIds",
+                  "value": "false",
+                  "description": "Only return dispatchable IDs, not values and metadata."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "palletId",
+                  "description": "(Required) Name or index of the pallet to read dispatchables from."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b255a5ba-7f1a-4e95-8587-cf2649f9d3c9",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "dispatchables"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "onlyIds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read dispatchables from."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"pallet\": \"democracy\",\n  \"palletIndex\": \"14\",\n  \"items\": [\n    {\n      \"name\": \"propose\",\n      \"fields\": [\n        \"string\",\n        \"string\"\n      ],\n      \"index\": \"0\",\n      \"docs\": \"Information concerning any given dispatchable.\\n\\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control.\",\n      \"args\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"name\": \"propose\",\n      \"fields\": [\n        \"string\",\n        \"string\"\n      ],\n      \"index\": \"0\",\n      \"docs\": \"Information concerning any given dispatchable.\\n\\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control.\",\n      \"args\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "503a1d18-8856-4944-b23f-73a2c92f5fd7",
+              "name": "invalid palletId supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "dispatchables"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "onlyIds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read dispatchables from."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3306.8014233126264,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "de25101b-1a81-49b8-9992-3981363517ad",
+          "name": "Get a dispatchable from a relay chain pallet by its ID.",
+          "request": {
+            "name": "Get a dispatchable from a relay chain pallet by its ID.",
+            "description": {
+              "content": "Returns information about a specific dispatchable from the specified relay chain pallet.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "pallets",
+                ":palletId",
+                "dispatchables",
+                ":dispatchableItemId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve relay chain pallet dispatchable."
+                },
+                {
+                  "disabled": false,
+                  "key": "metadata",
+                  "value": "false",
+                  "description": "Include metadata for the dispatchable."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "palletId",
+                  "description": "(Required) Name or index of the pallet to read the dispatchable from."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "dispatchableItemId",
+                  "description": "(Required) Name of the dispatchable to retrieve."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b547fdf0-0b70-411e-aa92-dc0148775183",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "dispatchables",
+                    ":dispatchableItemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "metadata",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read the dispatchable from."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dispatchableItemId",
+                      "description": "(Required) Name of the dispatchable to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pallet\": \"democracy\",\n  \"palletIndex\": \"14\",\n  \"dispatchableItem\": \"vote\",\n  \"metadata\": {\n    \"name\": \"propose\",\n    \"fields\": [\n      \"string\",\n      \"string\"\n    ],\n    \"index\": \"0\",\n    \"docs\": \"Information concerning any given dispatchable.\\n\\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control.\",\n    \"args\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b913d83b-396d-4953-b768-d2b0569686b5",
+              "name": "invalid palletId or dispatchableItemId supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "dispatchables",
+                    ":dispatchableItemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "metadata",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read the dispatchable from."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "dispatchableItemId",
+                      "description": "(Required) Name of the dispatchable to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3306.8014233126264,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "57e5d57c-9723-4f26-a12e-881788fcf8b7",
+          "name": "Get a list of errors for a relay chain pallet.",
+          "request": {
+            "name": "Get a list of errors for a relay chain pallet.",
+            "description": {
+              "content": "Returns a list of error metadata for the specified relay chain pallet.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "pallets",
+                ":palletId",
+                "errors"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve relay chain pallet errors."
+                },
+                {
+                  "disabled": false,
+                  "key": "onlyIds",
+                  "value": "false",
+                  "description": "Only return error IDs, not values and metadata."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "palletId",
+                  "description": "(Required) Name or index of the pallet to read errors from."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "63e9b7c3-480a-43ef-a981-7a065372689d",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "errors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "onlyIds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read errors from."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"pallet\": \"democracy\",\n  \"palletIndex\": \"14\",\n  \"items\": [\n    {\n      \"name\": \"InsufficientFunds\",\n      \"fields\": [\n        \"string\",\n        \"string\"\n      ],\n      \"index\": \"0\",\n      \"docs\": \" Information concerning any given error.\\n\\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control.\",\n      \"args\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"name\": \"InsufficientFunds\",\n      \"fields\": [\n        \"string\",\n        \"string\"\n      ],\n      \"index\": \"0\",\n      \"docs\": \" Information concerning any given error.\\n\\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control.\",\n      \"args\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f54a2f4-46fe-4468-a255-75d7eb965df6",
+              "name": "invalid palletId supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "errors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "onlyIds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read errors from."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3306.8014233126264,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6bdf99d6-6d55-45e4-8feb-1a5c2f6348f9",
+          "name": "Get an error from a relay chain pallet by its ID.",
+          "request": {
+            "name": "Get an error from a relay chain pallet by its ID.",
+            "description": {
+              "content": "Returns information about a specific error from the specified relay chain pallet.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "pallets",
+                ":palletId",
+                "errors",
+                ":errorItemId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve relay chain pallet error."
+                },
+                {
+                  "disabled": false,
+                  "key": "metadata",
+                  "value": "false",
+                  "description": "Include metadata for the error."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "palletId",
+                  "description": "(Required) Name or index of the pallet to read the error from."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "errorItemId",
+                  "description": "(Required) Name of the error to retrieve."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2821875e-8db1-479e-ac97-929d8357ba41",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "errors",
+                    ":errorItemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "metadata",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read the error from."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "errorItemId",
+                      "description": "(Required) Name of the error to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pallet\": \"democracy\",\n  \"palletIndex\": \"14\",\n  \"errorItem\": \"ValueLow\",\n  \"metadata\": {\n    \"name\": \"InsufficientFunds\",\n    \"fields\": [\n      \"string\",\n      \"string\"\n    ],\n    \"index\": \"0\",\n    \"docs\": \" Information concerning any given error.\\n\\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control.\",\n    \"args\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aeecfe6a-6111-44d4-aede-324e436023f6",
+              "name": "invalid palletId or errorItemId supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "errors",
+                    ":errorItemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "metadata",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read the error from."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "errorItemId",
+                      "description": "(Required) Name of the error to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3306.8014233126264,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6911989b-c74a-4620-8f7d-18db91553479",
+          "name": "Get a list of events for a relay chain pallet.",
+          "request": {
+            "name": "Get a list of events for a relay chain pallet.",
+            "description": {
+              "content": "Returns a list of event metadata for the specified relay chain pallet.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "pallets",
+                ":palletId",
+                "events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve relay chain pallet events."
+                },
+                {
+                  "disabled": false,
+                  "key": "onlyIds",
+                  "value": "false",
+                  "description": "Only return event IDs, not values and metadata."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "palletId",
+                  "description": "(Required) Name or index of the pallet to read events from."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cc262cf7-0150-4751-93c0-dea9a4412dfd",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "onlyIds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read events from."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"pallet\": \"democracy\",\n  \"palletIndex\": \"14\",\n  \"items\": [\n    {\n      \"name\": \"Tabled\",\n      \"fields\": [\n        \"string\",\n        \"string\"\n      ],\n      \"index\": \"0\",\n      \"docs\": \" Information concerning any given event.\\n\\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control.\",\n      \"args\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"name\": \"Tabled\",\n      \"fields\": [\n        \"string\",\n        \"string\"\n      ],\n      \"index\": \"0\",\n      \"docs\": \" Information concerning any given event.\\n\\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control.\",\n      \"args\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "49943719-7266-4a8f-85ac-57f0c461da05",
+              "name": "invalid palletId supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "onlyIds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read events from."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3306.8014233126264,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0d6674e3-d164-402b-8e97-837033873a0a",
+          "name": "Get an event from a relay chain pallet by its ID.",
+          "request": {
+            "name": "Get an event from a relay chain pallet by its ID.",
+            "description": {
+              "content": "Returns information about a specific event from the specified relay chain pallet.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "pallets",
+                ":palletId",
+                "events",
+                ":eventItemId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve relay chain pallet event."
+                },
+                {
+                  "disabled": false,
+                  "key": "metadata",
+                  "value": "false",
+                  "description": "Include metadata for the event."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "palletId",
+                  "description": "(Required) Name or index of the pallet to read the event from."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "eventItemId",
+                  "description": "(Required) Name of the event to retrieve."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "100aca0f-d21c-4590-9f16-de0bd09f5399",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "events",
+                    ":eventItemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "metadata",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read the event from."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "eventItemId",
+                      "description": "(Required) Name of the event to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pallet\": \"democracy\",\n  \"palletIndex\": \"14\",\n  \"eventItem\": \"Proposed\",\n  \"metadata\": {\n    \"name\": \"Tabled\",\n    \"fields\": [\n      \"string\",\n      \"string\"\n    ],\n    \"index\": \"0\",\n    \"docs\": \" Information concerning any given event.\\n\\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control.\",\n    \"args\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ac876c9c-9aeb-40ac-bf0e-3dc994ca8f95",
+              "name": "invalid palletId or eventItemId supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "events",
+                    ":eventItemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "metadata",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read the event from."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "eventItemId",
+                      "description": "(Required) Name of the event to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3306.8014233126264,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8581fa4d-ed6e-4673-96e6-676659729776",
+          "name": "Get a list of storage items for a relay chain pallet.",
+          "request": {
+            "name": "Get a list of storage items for a relay chain pallet.",
+            "description": {
+              "content": "Returns a list of storage item metadata for the specified relay chain pallet.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "pallets",
+                ":palletId",
+                "storage"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve relay chain pallet storage items."
+                },
+                {
+                  "disabled": false,
+                  "key": "onlyIds",
+                  "value": "false",
+                  "description": "Only return storage item IDs, not values and metadata."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "palletId",
+                  "description": "(Required) Name or index of the pallet to read storage items from."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9bbbd18d-9ba7-46ac-be16-5abc6fc6562f",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "storage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "onlyIds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read storage items from."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pallet\": \"democracy\",\n  \"palletIndex\": \"15\",\n  \"items\": [\n    {\n      \"name\": \"ReferendumInfoOf\",\n      \"modifier\": \"Optional\",\n      \"type\": {},\n      \"fallback\": \"0x00\",\n      \"docs\": \" Information concerning any given referendum.\\n\\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control.\"\n    },\n    {\n      \"name\": \"ReferendumInfoOf\",\n      \"modifier\": \"Optional\",\n      \"type\": {},\n      \"fallback\": \"0x00\",\n      \"docs\": \" Information concerning any given referendum.\\n\\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control.\"\n    }\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fcad8646-f968-4943-bcdf-05220842e100",
+              "name": "invalid palletId supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "storage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "onlyIds",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read storage items from."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3306.8014233126264,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cb5bcb10-13b2-4946-9495-2377c2a615f4",
+          "name": "Get a storage item from a relay chain pallet by its ID.",
+          "request": {
+            "name": "Get a storage item from a relay chain pallet by its ID.",
+            "description": {
+              "content": "Returns the value stored under the specified storage item ID from the relay chain pallet. For maps, query parameter keys are required.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "pallets",
+                ":palletId",
+                "storage",
+                ":storageItemId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve relay chain pallet storage item."
+                },
+                {
+                  "disabled": false,
+                  "key": "keys",
+                  "value": "<string>",
+                  "description": "Storage map keys for map-type storage items. Required for map and double map storage items."
+                },
+                {
+                  "disabled": false,
+                  "key": "keys",
+                  "value": "<string>",
+                  "description": "Storage map keys for map-type storage items. Required for map and double map storage items."
+                },
+                {
+                  "disabled": false,
+                  "key": "metadata",
+                  "value": "false",
+                  "description": "Include metadata for the storage item."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "palletId",
+                  "description": "(Required) Name or index of the pallet to read the storage item from."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "storageItemId",
+                  "description": "(Required) Name of the storage item to retrieve."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ae00d5ee-ab47-49ec-ad04-2969b0189038",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "storage",
+                    ":storageItemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "keys",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "keys",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "metadata",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read the storage item from."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "storageItemId",
+                      "description": "(Required) Name of the storage item to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"pallet\": \"democracy\",\n  \"palletIndex\": \"15\",\n  \"storageItem\": \"referendumInfoOf\",\n  \"keys\": [\n    \"0x00\",\n    \"0x01\"\n  ],\n  \"value\": {\n    \"Ongoing\": {\n      \"end\": \"1612800\",\n      \"proposalHash\": \"0x7de70fc8be782076d0b5772be77153d172a5381c72dd56d3385e25f62abf507e\",\n      \"threshold\": \"Supermajorityapproval\",\n      \"delay\": \"403200\",\n      \"tally\": {\n        \"ayes\": \"41925212461400000\",\n        \"nays\": \"214535586500000\",\n        \"turnout\": \"34485320658000000\"\n      }\n    }\n  },\n  \"metadata\": {\n    \"name\": \"ReferendumInfoOf\",\n    \"modifier\": \"Optional\",\n    \"type\": {},\n    \"fallback\": \"0x00\",\n    \"docs\": \" Information concerning any given referendum.\\n\\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control.\"\n  },\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e090cb2e-c3f8-4c8b-a248-14a23b7df186",
+              "name": "invalid palletId, storageItemId, or keys supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    ":palletId",
+                    "storage",
+                    ":storageItemId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "keys",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "keys",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "metadata",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "palletId",
+                      "description": "(Required) Name or index of the pallet to read the storage item from."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "storageItemId",
+                      "description": "(Required) Name of the storage item to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3306.8014233126264,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "30586e4f-c1fe-4aca-8ab6-f52b07bebd56",
+          "name": "Get progress on the general Staking pallet system on Relay Chain.",
+          "request": {
+            "name": "Get progress on the general Staking pallet system on Relay Chain.",
+            "description": {
+              "content": "Returns information on the progress of key components of the staking system and estimates of future points of interest. If you are querying from Asset Hub for staking progress, this endpoint requires multi chain connections between the relay chain, and asset hub itself. Set the asset hub rpc to SAS_SUBSTRATE_URL, and add the relay chain to the SAS_SUBSTRATE_MULTI_CHAIN_URL env var. Refer to the README for the structure of the env vars. The `useRcBlock` parameter allows querying Asset Hub state using relay chain block numbers, enabling post-migration infrastructure to continue using relay chain block identifiers while accessing Asset Hub data.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "pallets",
+                "staking",
+                "progress"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve a staking progress report."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4fbe8bb0-d156-4d96-99be-3e2118175b2e",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    "staking",
+                    "progress"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"activeEra\": \"string\",\n  \"forceEra\": \"ForceAlways\",\n  \"nextActiveEraEstimate\": \"string\",\n  \"nextSessionEstimate\": \"string\",\n  \"unappliedSlashes\": [\n    {\n      \"validator\": \"string\",\n      \"own\": \"string\",\n      \"others\": [\n        \"string\",\n        \"string\"\n      ],\n      \"reporters\": [\n        \"string\",\n        \"string\"\n      ],\n      \"payout\": \"string\"\n    },\n    {\n      \"validator\": \"string\",\n      \"own\": \"string\",\n      \"others\": [\n        \"string\",\n        \"string\"\n      ],\n      \"reporters\": [\n        \"string\",\n        \"string\"\n      ],\n      \"payout\": \"string\"\n    }\n  ],\n  \"electionStatus\": {\n    \"status\": {},\n    \"toggleEstimate\": \"string\"\n  },\n  \"idealValidatorCount\": \"string\",\n  \"validatorSet\": [\n    \"string\",\n    \"string\"\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "42f5def0-ef4b-44c4-94df-6b78a8bc5807",
+              "name": "invalid blockId supplied for at query param, or invalid parameter combination",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    "staking",
+                    "progress"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3306.8014233126264,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "99f6ad95-bba3-41f7-b744-28749cefe006",
+          "name": "Get all validators (active/waiting) of a specific chain.",
+          "request": {
+            "name": "Get all validators (active/waiting) of a specific chain.",
+            "description": {
+              "content": "Returns a list of all validators addresses and their corresponding status which can be either active or waiting. For declared validators, it also includes their commission rate (as parts-per-billion) and nomination blocking status. It will also return a list of active validators that will not be part of the next era for staking. They will be under the key \"validatorsToBeChilled\". It's important to note, that addresses can be present in both the \"validators\" key, and \"validatorsToBeChilled\". Commission and blocked properties are not present for active validators that have been chilled.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "pallets",
+                "staking",
+                "validators"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve the list of validators."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7c2bc7aa-d04d-48b3-9db7-022b23b0fb13",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    "staking",
+                    "validators"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"validators\": [\n    {\n      \"address\": \"string\",\n      \"status\": \"string\",\n      \"commission\": \"string\",\n      \"blocked\": true\n    },\n    {\n      \"address\": \"string\",\n      \"status\": \"string\",\n      \"commission\": \"string\",\n      \"blocked\": true\n    }\n  ],\n  \"validatorsToBeChilled\": [\n    {\n      \"address\": \"string\",\n      \"status\": \"string\"\n    },\n    {\n      \"address\": \"string\",\n      \"status\": \"string\"\n    }\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a74f04fe-3ce8-404a-a169-0ac7726b0fb1",
+              "name": "invalid blockId supplied for at query param, or invalid parameter combination",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "pallets",
+                    "staking",
+                    "validators"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3306.8014233126264,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://polkadot-public-sidecar.parity-chains.parity.io/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "300853e7-742b-402e-a24c-26ad55ae064b",
+    "name": "Substrate API Sidecar accounts rc pallets API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of\n> [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite\n> built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints\n> served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly\n> lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.\n>\n> **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·\n> [crate](https://crates.io/crates/polkadot-rest-api) ·\n> [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·\n> [docs](https://paritytech.github.io/polkadot-rest-api/) ·\n> [issues](https://github.com/paritytech/polkadot-rest-api/issues)\n\nSubstrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes\nbuilt using Substrate's FRAME framework.\n",
+      "type": "text/plain"
+    }
+  }
+}

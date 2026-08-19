@@ -1,0 +1,278 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts rc blocks API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "rc blocks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a range of relay chain blocks by their height.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/blocks",
+            "params": [
+              {
+                "name": "range",
+                "value": "0-499",
+                "type": "query",
+                "description": "A range of integers. There is a max limit of 500 blocks per request."
+              },
+              {
+                "name": "eventDocs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every event will have an extra `docs` property."
+              },
+              {
+                "name": "extrinsicDocs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every extrinsic will have an extra `docs` property."
+              },
+              {
+                "name": "noFees",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, no fee information is calculated."
+              },
+              {
+                "name": "useEvmFormat",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM."
+              }
+            ]
+          },
+          "docs": "Given a range query parameter return an array of all the relay chain blocks within that range."
+        },
+        {
+          "info": {
+            "name": "Get a relay chain block by its height or hash.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/blocks/:blockId",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "path",
+                "description": "Block identifier, as the block height or block hash."
+              },
+              {
+                "name": "eventDocs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every event will have an extra `docs` property."
+              },
+              {
+                "name": "extrinsicDocs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every extrinsic will have an extra `docs` property."
+              },
+              {
+                "name": "noFees",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, no fee information is calculated."
+              },
+              {
+                "name": "useEvmFormat",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM."
+              }
+            ]
+          },
+          "docs": "Returns a relay chain block. Can be identified by either its height or hash."
+        },
+        {
+          "info": {
+            "name": "Get a relay chain block's header by its height or hash.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/blocks/:blockId/header",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "path",
+                "description": "Block identifier, as the block height or block hash."
+              }
+            ]
+          },
+          "docs": "Returns a relay chain block's header. Can be identified by either its height or hash."
+        },
+        {
+          "info": {
+            "name": "Get a relay chain block's extrinsic by its block height or hash and the extrinsic index.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/blocks/:blockId/extrinsics/:extrinsicIndex",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "path",
+                "description": "Block identifier, as the block height or block hash."
+              },
+              {
+                "name": "extrinsicIndex",
+                "value": "",
+                "type": "path",
+                "description": "Extrinsic index within the block."
+              },
+              {
+                "name": "eventDocs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every event will have an extra `docs` property."
+              },
+              {
+                "name": "extrinsicDocs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every extrinsic will have an extra `docs` property."
+              },
+              {
+                "name": "noFees",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, no fee information is calculated."
+              },
+              {
+                "name": "useEvmFormat",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM."
+              }
+            ]
+          },
+          "docs": "Returns an extrinsic from a relay chain block. Can be identified by either its height or hash and the extrinsic index."
+        },
+        {
+          "info": {
+            "name": "Get the latest relay chain block.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/blocks/head",
+            "params": [
+              {
+                "name": "finalized",
+                "value": "",
+                "type": "query",
+                "description": "When set to `false`, it will fetch the head of the node's canon chain, which might not be finalized."
+              },
+              {
+                "name": "eventDocs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every event will have an extra `docs` property."
+              },
+              {
+                "name": "extrinsicDocs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every extrinsic will have an extra `docs` property."
+              },
+              {
+                "name": "noFees",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, no fee information is calculated."
+              },
+              {
+                "name": "useEvmFormat",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM."
+              }
+            ]
+          },
+          "docs": "Returns the latest relay chain block."
+        },
+        {
+          "info": {
+            "name": "Get the latest relay chain block's header.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/blocks/head/header",
+            "params": [
+              {
+                "name": "finalized",
+                "value": "",
+                "type": "query",
+                "description": "When set to `false`, it will fetch the head of the node's canon chain, which might not be finalized."
+              }
+            ]
+          },
+          "docs": "Returns the latest relay chain block's header."
+        },
+        {
+          "info": {
+            "name": "Get a relay chain block's raw extrinsics by its height or hash.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/blocks/:blockId/extrinsics-raw",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "path",
+                "description": "Block identifier, as the block height or block hash."
+              }
+            ]
+          },
+          "docs": "Returns a relay chain block's raw extrinsics. Can be identified by either its height or hash."
+        },
+        {
+          "info": {
+            "name": "Get all parachain inclusion information for a relay chain block.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/blocks/:blockId/para-inclusions",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "path",
+                "description": "Relay chain block identifier, as the block height or block hash."
+              },
+              {
+                "name": "paraId",
+                "value": "",
+                "type": "query",
+                "description": "Optional parachain ID to filter results. When provided, only the inclusion information for the specified parachain will be returned."
+              }
+            ]
+          },
+          "docs": "Returns all decoded parachain inclusion events (CandidateIncluded) for a relay chain block from the relay chain API. BlockId can either be a block hash or a block height. This endpoint extracts and decodes the candidate descriptor, commitments hash, and parachain header information for each included parachain block."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,421 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts rc pallets API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "rc pallets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get relay chain ongoing referenda.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/pallets/on-going-referenda",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve relay chain referenda information."
+              }
+            ]
+          },
+          "docs": "Returns information about ongoing referenda in the relay chain."
+        },
+        {
+          "info": {
+            "name": "Get a list of constants for a relay chain pallet.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/pallets/:palletId/consts",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read constants from."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve relay chain pallet constants."
+              },
+              {
+                "name": "onlyIds",
+                "value": "",
+                "type": "query",
+                "description": "Only return constant IDs, not values and metadata."
+              }
+            ]
+          },
+          "docs": "Returns a list of constant metadata for the specified relay chain pallet."
+        },
+        {
+          "info": {
+            "name": "Get a constant from a relay chain pallet by its ID.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/pallets/:palletId/consts/:constantItemId",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read the constant from."
+              },
+              {
+                "name": "constantItemId",
+                "value": "",
+                "type": "path",
+                "description": "Name of the constant to retrieve."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve relay chain pallet constant."
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Include metadata for the constant."
+              }
+            ]
+          },
+          "docs": "Returns information about a specific constant from the specified relay chain pallet."
+        },
+        {
+          "info": {
+            "name": "Get a list of dispatchables for a relay chain pallet.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/pallets/:palletId/dispatchables",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read dispatchables from."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve relay chain pallet dispatchables."
+              },
+              {
+                "name": "onlyIds",
+                "value": "",
+                "type": "query",
+                "description": "Only return dispatchable IDs, not values and metadata."
+              }
+            ]
+          },
+          "docs": "Returns a list of dispatchable metadata for the specified relay chain pallet."
+        },
+        {
+          "info": {
+            "name": "Get a dispatchable from a relay chain pallet by its ID.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/pallets/:palletId/dispatchables/:dispatchableItemId",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read the dispatchable from."
+              },
+              {
+                "name": "dispatchableItemId",
+                "value": "",
+                "type": "path",
+                "description": "Name of the dispatchable to retrieve."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve relay chain pallet dispatchable."
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Include metadata for the dispatchable."
+              }
+            ]
+          },
+          "docs": "Returns information about a specific dispatchable from the specified relay chain pallet."
+        },
+        {
+          "info": {
+            "name": "Get a list of errors for a relay chain pallet.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/pallets/:palletId/errors",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read errors from."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve relay chain pallet errors."
+              },
+              {
+                "name": "onlyIds",
+                "value": "",
+                "type": "query",
+                "description": "Only return error IDs, not values and metadata."
+              }
+            ]
+          },
+          "docs": "Returns a list of error metadata for the specified relay chain pallet."
+        },
+        {
+          "info": {
+            "name": "Get an error from a relay chain pallet by its ID.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/pallets/:palletId/errors/:errorItemId",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read the error from."
+              },
+              {
+                "name": "errorItemId",
+                "value": "",
+                "type": "path",
+                "description": "Name of the error to retrieve."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve relay chain pallet error."
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Include metadata for the error."
+              }
+            ]
+          },
+          "docs": "Returns information about a specific error from the specified relay chain pallet."
+        },
+        {
+          "info": {
+            "name": "Get a list of events for a relay chain pallet.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/pallets/:palletId/events",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read events from."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve relay chain pallet events."
+              },
+              {
+                "name": "onlyIds",
+                "value": "",
+                "type": "query",
+                "description": "Only return event IDs, not values and metadata."
+              }
+            ]
+          },
+          "docs": "Returns a list of event metadata for the specified relay chain pallet."
+        },
+        {
+          "info": {
+            "name": "Get an event from a relay chain pallet by its ID.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/pallets/:palletId/events/:eventItemId",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read the event from."
+              },
+              {
+                "name": "eventItemId",
+                "value": "",
+                "type": "path",
+                "description": "Name of the event to retrieve."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve relay chain pallet event."
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Include metadata for the event."
+              }
+            ]
+          },
+          "docs": "Returns information about a specific event from the specified relay chain pallet."
+        },
+        {
+          "info": {
+            "name": "Get a list of storage items for a relay chain pallet.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/pallets/:palletId/storage",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read storage items from."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve relay chain pallet storage items."
+              },
+              {
+                "name": "onlyIds",
+                "value": "",
+                "type": "query",
+                "description": "Only return storage item IDs, not values and metadata."
+              }
+            ]
+          },
+          "docs": "Returns a list of storage item metadata for the specified relay chain pallet."
+        },
+        {
+          "info": {
+            "name": "Get a storage item from a relay chain pallet by its ID.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/pallets/:palletId/storage/:storageItemId",
+            "params": [
+              {
+                "name": "palletId",
+                "value": "",
+                "type": "path",
+                "description": "Name or index of the pallet to read the storage item from."
+              },
+              {
+                "name": "storageItemId",
+                "value": "",
+                "type": "path",
+                "description": "Name of the storage item to retrieve."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve relay chain pallet storage item."
+              },
+              {
+                "name": "keys",
+                "value": "",
+                "type": "query",
+                "description": "Storage map keys for map-type storage items. Required for map and double map storage items."
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Include metadata for the storage item."
+              }
+            ]
+          },
+          "docs": "Returns the value stored under the specified storage item ID from the relay chain pallet. For maps, query parameter keys are required."
+        },
+        {
+          "info": {
+            "name": "Get progress on the general Staking pallet system on Relay Chain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/pallets/staking/progress",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve a staking progress report."
+              }
+            ]
+          },
+          "docs": "Returns information on the progress of key components of the staking system and estimates of future points of interest. If you are querying from Asset Hub for staking progress, this endpoint requires multi chain connections between the relay chain, and asset hub itself. Set the asset hub rpc to SAS_SUBSTRATE_URL, and add the relay chain to the SAS_SUBSTRATE_MULTI_CHAIN_URL env var. Refer to the README for the structure of the env vars. The `useRcBlock` parameter allows querying Asset Hub state u"
+        },
+        {
+          "info": {
+            "name": "Get all validators (active/waiting) of a specific chain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/pallets/staking/validators",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the list of validators."
+              }
+            ]
+          },
+          "docs": "Returns a list of all validators addresses and their corresponding status which can be either active or waiting. For declared validators, it also includes their commission rate (as parts-per-billion) and nomination blocking status. It will also return a list of active validators that will not be part of the next era for staking. They will be under the key \"validatorsToBeChilled\". It's important to note, that addresses can be present in both the \"validators\" key, and \"validatorsToBeChilled\". Comm"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

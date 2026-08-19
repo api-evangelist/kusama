@@ -1,0 +1,140 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts transaction API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "transaction",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a transaction to the node's transaction pool.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/transaction",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Accepts a valid signed extrinsic. Replaces `/tx` from versions < v1.0.0."
+        },
+        {
+          "info": {
+            "name": "Dry run an extrinsic.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/transaction/dry-run",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Use the `dryRun` call to simulate the submission of a transaction without executing it so that you can check for potential errors and validate the expected outcome."
+        },
+        {
+          "info": {
+            "name": "Receive a fee estimate for a transaction.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/transaction/fee-estimate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send a serialized transaction and receive back a naive fee estimate. Note: `partialFee` does not include any tips that you may add to increase a transaction's priority. See the reference on `compute_fee`. Replaces `/tx/fee-estimate` from versions < v1.0.0. Substrate Reference: - `RuntimeDispatchInfo`: https://crates.parity.io/pallet_transaction_payment_rpc_runtime_api/struct.RuntimeDispatchInfo.html - `query_info`: https://crates.parity.io/pallet_transaction_payment/struct.Module.html#method.que"
+        },
+        {
+          "info": {
+            "name": "Get all the network information needed to construct a transaction offline.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/transaction/material",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the transaction construction material."
+              },
+              {
+                "name": "noMeta",
+                "value": "",
+                "type": "query",
+                "description": "DEPRECATED! This is no longer supported"
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the format of the metadata to be returned. Accepted values are 'json', and 'scale'. 'json' being the decoded metadata, and 'scale' being the SCALE encoded metadata. When `metadata` is not inputted, the `metadata` field will be absent."
+              }
+            ]
+          },
+          "docs": "Returns the material that is universal to constructing any signed transaction offline. Replaces `/tx/artifacts` from versions < v1.0.0."
+        },
+        {
+          "info": {
+            "name": "Get all the network information needed to construct a transaction offline and the version of metadata specified in `metadataVersion`.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/transaction/material/:metadataVersion",
+            "params": [
+              {
+                "name": "metadataVersion",
+                "value": "",
+                "type": "path",
+                "description": "The version of metadata. The input is expected in a `vX` format, where `X` represents the version number (e.g. `v14`, `v15`). By default, metadata is outputted in 'json' format, unless the `metadata` query parameter is provided, in which case it can be either in 'json' or 'scale' format."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the transaction construction material."
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the format of the metadata to be returned. Accepted values are 'json', and 'scale'. 'json' being the decoded metadata, and 'scale' being the SCALE encoded metadata."
+              }
+            ]
+          },
+          "docs": "Returns all the materials necessary for constructing any signed transactions offline."
+        },
+        {
+          "info": {
+            "name": "Get the metadata blob for offline signers.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/transaction/metadata-blob",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Returns the minimal metadata (\"metadata blob\" or \"proof\") needed by offline signers to decode a transaction's signing payload, along with the metadata hash for the CheckMetadataHash signed extension per RFC-0078.\n\nThe metadata blob contains type definitions needed to decode the specific transaction, Merkle proofs verifying these types are part of the full metadata, and extra chain info (specVersion, specName, base58Prefix, decimals, tokenSymbol).\n\nOffline signers can use this to decode the trans"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

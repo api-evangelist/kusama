@@ -1,0 +1,1374 @@
+{
+  "item": [
+    {
+      "id": "396a9ea0-5e3b-48c6-afe8-b1e49d42cc7e",
+      "name": "rc blocks",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5714b11e-6d46-4e60-b3d2-804237f74870",
+          "name": "Get a range of relay chain blocks by their height.",
+          "request": {
+            "name": "Get a range of relay chain blocks by their height.",
+            "description": {
+              "content": "Given a range query parameter return an array of all the relay chain blocks within that range.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "blocks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "range",
+                  "value": "<string>",
+                  "description": "(Required) A range of integers. There is a max limit of 500 blocks per request."
+                },
+                {
+                  "disabled": false,
+                  "key": "eventDocs",
+                  "value": "false",
+                  "description": "When set to `true`, every event will have an extra `docs` property."
+                },
+                {
+                  "disabled": false,
+                  "key": "extrinsicDocs",
+                  "value": "false",
+                  "description": "When set to `true`, every extrinsic will have an extra `docs` property."
+                },
+                {
+                  "disabled": false,
+                  "key": "noFees",
+                  "value": "false",
+                  "description": "When set to `true`, no fee information is calculated."
+                },
+                {
+                  "disabled": false,
+                  "key": "useEvmFormat",
+                  "value": "false",
+                  "description": "When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "06abebb5-8c0d-4c08-ba4d-b7bd1f71a456",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "blocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "range",
+                      "value": "0-499"
+                    },
+                    {
+                      "key": "eventDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "extrinsicDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "noFees",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useEvmFormat",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"number\": \"string\",\n    \"hash\": \"string\",\n    \"parentHash\": \"string\",\n    \"stateRoot\": \"string\",\n    \"extrinsicRoot\": \"string\",\n    \"authorId\": \"string\",\n    \"logs\": [\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ],\n    \"onInitialize\": {\n      \"events\": [\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ]\n    },\n    \"extrinsics\": [\n      {\n        \"method\": {\n          \"pallet\": \"string\",\n          \"method\": \"string\"\n        },\n        \"signature\": {\n          \"signature\": \"string\",\n          \"signer\": \"string\"\n        },\n        \"nonce\": \"string\",\n        \"args\": {},\n        \"tip\": \"string\",\n        \"hash\": \"string\",\n        \"info\": {\n          \"weight\": {\n            \"refTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"proofSize\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"class\": \"Operational\",\n          \"partialFee\": \"string\",\n          \"kind\": \"string\"\n        },\n        \"era\": {\n          \"mortalEra\": [\n            \"string\",\n            \"string\"\n          ],\n          \"immortalEra\": \"string\"\n        },\n        \"events\": [\n          {\n            \"method\": \"string\",\n            \"data\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"method\": \"string\",\n            \"data\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ],\n        \"success\": false,\n        \"paysFee\": true\n      },\n      {\n        \"method\": {\n          \"pallet\": \"string\",\n          \"method\": \"string\"\n        },\n        \"signature\": {\n          \"signature\": \"string\",\n          \"signer\": \"string\"\n        },\n        \"nonce\": \"string\",\n        \"args\": {},\n        \"tip\": \"string\",\n        \"hash\": \"string\",\n        \"info\": {\n          \"weight\": {\n            \"refTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"proofSize\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"class\": \"Normal\",\n          \"partialFee\": \"string\",\n          \"kind\": \"string\"\n        },\n        \"era\": {\n          \"mortalEra\": [\n            \"string\",\n            \"string\"\n          ],\n          \"immortalEra\": \"string\"\n        },\n        \"events\": [\n          {\n            \"method\": \"string\",\n            \"data\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"method\": \"string\",\n            \"data\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ],\n        \"success\": true,\n        \"paysFee\": true\n      }\n    ],\n    \"onFinalize\": {\n      \"events\": [\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ]\n    },\n    \"finalized\": false,\n    \"rcBlockHash\": \"string\",\n    \"rcBlockNumber\": \"string\",\n    \"ahTimestamp\": \"string\"\n  },\n  {\n    \"number\": \"string\",\n    \"hash\": \"string\",\n    \"parentHash\": \"string\",\n    \"stateRoot\": \"string\",\n    \"extrinsicRoot\": \"string\",\n    \"authorId\": \"string\",\n    \"logs\": [\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ],\n    \"onInitialize\": {\n      \"events\": [\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ]\n    },\n    \"extrinsics\": [\n      {\n        \"method\": {\n          \"pallet\": \"string\",\n          \"method\": \"string\"\n        },\n        \"signature\": {\n          \"signature\": \"string\",\n          \"signer\": \"string\"\n        },\n        \"nonce\": \"string\",\n        \"args\": {},\n        \"tip\": \"string\",\n        \"hash\": \"string\",\n        \"info\": {\n          \"weight\": {\n            \"refTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"proofSize\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"class\": \"Operational\",\n          \"partialFee\": \"string\",\n          \"kind\": \"string\"\n        },\n        \"era\": {\n          \"mortalEra\": [\n            \"string\",\n            \"string\"\n          ],\n          \"immortalEra\": \"string\"\n        },\n        \"events\": [\n          {\n            \"method\": \"string\",\n            \"data\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"method\": \"string\",\n            \"data\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ],\n        \"success\": true,\n        \"paysFee\": true\n      },\n      {\n        \"method\": {\n          \"pallet\": \"string\",\n          \"method\": \"string\"\n        },\n        \"signature\": {\n          \"signature\": \"string\",\n          \"signer\": \"string\"\n        },\n        \"nonce\": \"string\",\n        \"args\": {},\n        \"tip\": \"string\",\n        \"hash\": \"string\",\n        \"info\": {\n          \"weight\": {\n            \"refTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"proofSize\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"class\": \"Operational\",\n          \"partialFee\": \"string\",\n          \"kind\": \"string\"\n        },\n        \"era\": {\n          \"mortalEra\": [\n            \"string\",\n            \"string\"\n          ],\n          \"immortalEra\": \"string\"\n        },\n        \"events\": [\n          {\n            \"method\": \"string\",\n            \"data\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"method\": \"string\",\n            \"data\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ],\n        \"success\": true,\n        \"paysFee\": true\n      }\n    ],\n    \"onFinalize\": {\n      \"events\": [\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ]\n    },\n    \"finalized\": false,\n    \"rcBlockHash\": \"string\",\n    \"rcBlockNumber\": \"string\",\n    \"ahTimestamp\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6bd672e9-c7da-4f9f-b539-3e2ecbea97dd",
+              "name": "invalid blockId supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "blocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "range",
+                      "value": "0-499"
+                    },
+                    {
+                      "key": "eventDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "extrinsicDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "noFees",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useEvmFormat",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 1382.471916364899,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f76e4017-301d-4b97-a40f-ffe3be47e63e",
+          "name": "Get a relay chain block by its height or hash.",
+          "request": {
+            "name": "Get a relay chain block by its height or hash.",
+            "description": {
+              "content": "Returns a relay chain block. Can be identified by either its height or hash.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "blocks",
+                ":blockId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "eventDocs",
+                  "value": "false",
+                  "description": "When set to `true`, every event will have an extra `docs` property."
+                },
+                {
+                  "disabled": false,
+                  "key": "extrinsicDocs",
+                  "value": "false",
+                  "description": "When set to `true`, every extrinsic will have an extra `docs` property."
+                },
+                {
+                  "disabled": false,
+                  "key": "noFees",
+                  "value": "false",
+                  "description": "When set to `true`, no fee information is calculated."
+                },
+                {
+                  "disabled": false,
+                  "key": "useEvmFormat",
+                  "value": "false",
+                  "description": "When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "blockId",
+                  "description": "(Required) Block identifier, as the block height or block hash."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "06b3928e-5516-44b6-9494-e639966d0c6b",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "blocks",
+                    ":blockId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "eventDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "extrinsicDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "noFees",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useEvmFormat",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"number\": \"string\",\n  \"hash\": \"string\",\n  \"parentHash\": \"string\",\n  \"stateRoot\": \"string\",\n  \"extrinsicRoot\": \"string\",\n  \"authorId\": \"string\",\n  \"logs\": [\n    {\n      \"type\": \"string\",\n      \"index\": \"string\",\n      \"value\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"type\": \"string\",\n      \"index\": \"string\",\n      \"value\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"onInitialize\": {\n    \"events\": [\n      {\n        \"method\": \"string\",\n        \"data\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"method\": \"string\",\n        \"data\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ]\n  },\n  \"extrinsics\": [\n    {\n      \"method\": {\n        \"pallet\": \"string\",\n        \"method\": \"string\"\n      },\n      \"signature\": {\n        \"signature\": \"string\",\n        \"signer\": \"string\"\n      },\n      \"nonce\": \"string\",\n      \"args\": {},\n      \"tip\": \"string\",\n      \"hash\": \"string\",\n      \"info\": {\n        \"weight\": {\n          \"refTime\": \"string\",\n          \"proofSize\": \"string\"\n        },\n        \"class\": \"Operational\",\n        \"partialFee\": \"string\",\n        \"kind\": \"string\"\n      },\n      \"era\": {\n        \"mortalEra\": [\n          \"string\",\n          \"string\"\n        ],\n        \"immortalEra\": \"string\"\n      },\n      \"events\": [\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"success\": true,\n      \"paysFee\": true\n    },\n    {\n      \"method\": {\n        \"pallet\": \"string\",\n        \"method\": \"string\"\n      },\n      \"signature\": {\n        \"signature\": \"string\",\n        \"signer\": \"string\"\n      },\n      \"nonce\": \"string\",\n      \"args\": {},\n      \"tip\": \"string\",\n      \"hash\": \"string\",\n      \"info\": {\n        \"weight\": {\n          \"refTime\": \"string\",\n          \"proofSize\": \"string\"\n        },\n        \"class\": \"Operational\",\n        \"partialFee\": \"string\",\n        \"kind\": \"string\"\n      },\n      \"era\": {\n        \"mortalEra\": [\n          \"string\",\n          \"string\"\n        ],\n        \"immortalEra\": \"string\"\n      },\n      \"events\": [\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"success\": false,\n      \"paysFee\": true\n    }\n  ],\n  \"onFinalize\": {\n    \"events\": [\n      {\n        \"method\": \"string\",\n        \"data\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"method\": \"string\",\n        \"data\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ]\n  },\n  \"finalized\": true,\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a7746bb-4cbc-4e47-87f8-c6c734dc8ce1",
+              "name": "invalid blockId supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "blocks",
+                    ":blockId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "eventDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "extrinsicDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "noFees",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useEvmFormat",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 1382.471916364899,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b6168f74-8474-4b21-9761-ee318a219d3e",
+          "name": "Get a relay chain block's header by its height or hash.",
+          "request": {
+            "name": "Get a relay chain block's header by its height or hash.",
+            "description": {
+              "content": "Returns a relay chain block's header. Can be identified by either its height or hash.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "blocks",
+                ":blockId",
+                "header"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "blockId",
+                  "description": "(Required) Block identifier, as the block height or block hash."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f34ddca8-3e8f-4709-87dd-ece9051b00d5",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "blocks",
+                    ":blockId",
+                    "header"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"parentHash\": \"string\",\n  \"number\": \"string\",\n  \"stateRoot\": \"string\",\n  \"extrinsicRoot\": \"string\",\n  \"digest\": {\n    \"logs\": [\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ]\n  },\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "09f3ffe7-f863-45ae-b36f-7b4ac5d91d67",
+              "name": "invalid blockId supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "blocks",
+                    ":blockId",
+                    "header"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 1382.471916364899,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f1eedc7c-86fe-49c2-a45d-9711c2fb350c",
+          "name": "Get a relay chain block's extrinsic by its block height or hash and the extrinsic index.",
+          "request": {
+            "name": "Get a relay chain block's extrinsic by its block height or hash and the extrinsic index.",
+            "description": {
+              "content": "Returns an extrinsic from a relay chain block. Can be identified by either its height or hash and the extrinsic index.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "blocks",
+                ":blockId",
+                "extrinsics",
+                ":extrinsicIndex"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "eventDocs",
+                  "value": "false",
+                  "description": "When set to `true`, every event will have an extra `docs` property."
+                },
+                {
+                  "disabled": false,
+                  "key": "extrinsicDocs",
+                  "value": "false",
+                  "description": "When set to `true`, every extrinsic will have an extra `docs` property."
+                },
+                {
+                  "disabled": false,
+                  "key": "noFees",
+                  "value": "false",
+                  "description": "When set to `true`, no fee information is calculated."
+                },
+                {
+                  "disabled": false,
+                  "key": "useEvmFormat",
+                  "value": "false",
+                  "description": "When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "blockId",
+                  "description": "(Required) Block identifier, as the block height or block hash."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "extrinsicIndex",
+                  "description": "(Required) Extrinsic index within the block."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "903c3b91-f540-413d-a5ac-9abdac964001",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "blocks",
+                    ":blockId",
+                    "extrinsics",
+                    ":extrinsicIndex"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "eventDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "extrinsicDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "noFees",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useEvmFormat",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "extrinsicIndex",
+                      "description": "(Required) Extrinsic index within the block."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"method\": {\n    \"pallet\": \"string\",\n    \"method\": \"string\"\n  },\n  \"signature\": {\n    \"signature\": \"string\",\n    \"signer\": \"string\"\n  },\n  \"nonce\": \"string\",\n  \"args\": {},\n  \"tip\": \"string\",\n  \"hash\": \"string\",\n  \"info\": {\n    \"weight\": {\n      \"refTime\": \"string\",\n      \"proofSize\": \"string\"\n    },\n    \"class\": \"Normal\",\n    \"partialFee\": \"string\",\n    \"kind\": \"string\"\n  },\n  \"era\": {\n    \"mortalEra\": [\n      \"string\",\n      \"string\"\n    ],\n    \"immortalEra\": \"string\"\n  },\n  \"events\": [\n    {\n      \"method\": \"string\",\n      \"data\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"method\": \"string\",\n      \"data\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"success\": true,\n  \"paysFee\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bb845540-bd40-421a-bf7d-9df699b9c8b8",
+              "name": "invalid blockId or extrinsicIndex supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "blocks",
+                    ":blockId",
+                    "extrinsics",
+                    ":extrinsicIndex"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "eventDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "extrinsicDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "noFees",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useEvmFormat",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "extrinsicIndex",
+                      "description": "(Required) Extrinsic index within the block."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 1382.471916364899,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7512503f-4257-448c-8d16-605bc0af2591",
+          "name": "Get the latest relay chain block.",
+          "request": {
+            "name": "Get the latest relay chain block.",
+            "description": {
+              "content": "Returns the latest relay chain block.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "blocks",
+                "head"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "finalized",
+                  "value": "true",
+                  "description": "When set to `false`, it will fetch the head of the node's canon chain, which might not be finalized."
+                },
+                {
+                  "disabled": false,
+                  "key": "eventDocs",
+                  "value": "false",
+                  "description": "When set to `true`, every event will have an extra `docs` property."
+                },
+                {
+                  "disabled": false,
+                  "key": "extrinsicDocs",
+                  "value": "false",
+                  "description": "When set to `true`, every extrinsic will have an extra `docs` property."
+                },
+                {
+                  "disabled": false,
+                  "key": "noFees",
+                  "value": "false",
+                  "description": "When set to `true`, no fee information is calculated."
+                },
+                {
+                  "disabled": false,
+                  "key": "useEvmFormat",
+                  "value": "false",
+                  "description": "When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4cd90048-fb9b-4fca-8a78-24187ff6b299",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "blocks",
+                    "head"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "finalized",
+                      "value": "true"
+                    },
+                    {
+                      "key": "eventDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "extrinsicDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "noFees",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useEvmFormat",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"number\": \"string\",\n  \"hash\": \"string\",\n  \"parentHash\": \"string\",\n  \"stateRoot\": \"string\",\n  \"extrinsicRoot\": \"string\",\n  \"authorId\": \"string\",\n  \"logs\": [\n    {\n      \"type\": \"string\",\n      \"index\": \"string\",\n      \"value\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"type\": \"string\",\n      \"index\": \"string\",\n      \"value\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"onInitialize\": {\n    \"events\": [\n      {\n        \"method\": \"string\",\n        \"data\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"method\": \"string\",\n        \"data\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ]\n  },\n  \"extrinsics\": [\n    {\n      \"method\": {\n        \"pallet\": \"string\",\n        \"method\": \"string\"\n      },\n      \"signature\": {\n        \"signature\": \"string\",\n        \"signer\": \"string\"\n      },\n      \"nonce\": \"string\",\n      \"args\": {},\n      \"tip\": \"string\",\n      \"hash\": \"string\",\n      \"info\": {\n        \"weight\": {\n          \"refTime\": \"string\",\n          \"proofSize\": \"string\"\n        },\n        \"class\": \"Operational\",\n        \"partialFee\": \"string\",\n        \"kind\": \"string\"\n      },\n      \"era\": {\n        \"mortalEra\": [\n          \"string\",\n          \"string\"\n        ],\n        \"immortalEra\": \"string\"\n      },\n      \"events\": [\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"success\": true,\n      \"paysFee\": true\n    },\n    {\n      \"method\": {\n        \"pallet\": \"string\",\n        \"method\": \"string\"\n      },\n      \"signature\": {\n        \"signature\": \"string\",\n        \"signer\": \"string\"\n      },\n      \"nonce\": \"string\",\n      \"args\": {},\n      \"tip\": \"string\",\n      \"hash\": \"string\",\n      \"info\": {\n        \"weight\": {\n          \"refTime\": \"string\",\n          \"proofSize\": \"string\"\n        },\n        \"class\": \"Operational\",\n        \"partialFee\": \"string\",\n        \"kind\": \"string\"\n      },\n      \"era\": {\n        \"mortalEra\": [\n          \"string\",\n          \"string\"\n        ],\n        \"immortalEra\": \"string\"\n      },\n      \"events\": [\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ],\n      \"success\": false,\n      \"paysFee\": true\n    }\n  ],\n  \"onFinalize\": {\n    \"events\": [\n      {\n        \"method\": \"string\",\n        \"data\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"method\": \"string\",\n        \"data\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ]\n  },\n  \"finalized\": true,\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "70249ba1-3761-4d10-8620-b16e81fe07d0",
+              "name": "invalid request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "blocks",
+                    "head"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "finalized",
+                      "value": "true"
+                    },
+                    {
+                      "key": "eventDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "extrinsicDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "noFees",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useEvmFormat",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 1382.471916364899,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d7bc96b9-896f-4b98-9b86-a46c5a9b4d89",
+          "name": "Get the latest relay chain block's header.",
+          "request": {
+            "name": "Get the latest relay chain block's header.",
+            "description": {
+              "content": "Returns the latest relay chain block's header.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "blocks",
+                "head",
+                "header"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "finalized",
+                  "value": "true",
+                  "description": "When set to `false`, it will fetch the head of the node's canon chain, which might not be finalized."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fcd2d76e-f4fe-4208-957f-b3c619afbfb6",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "blocks",
+                    "head",
+                    "header"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "finalized",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"parentHash\": \"string\",\n  \"number\": \"string\",\n  \"stateRoot\": \"string\",\n  \"extrinsicRoot\": \"string\",\n  \"digest\": {\n    \"logs\": [\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ]\n  },\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "62c4c6fa-b670-4901-8f1d-7c0ff9f61403",
+              "name": "invalid request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "blocks",
+                    "head",
+                    "header"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "finalized",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 1382.471916364899,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fd59f644-e980-4614-8e2d-b08c3b98b227",
+          "name": "Get a relay chain block's raw extrinsics by its height or hash.",
+          "request": {
+            "name": "Get a relay chain block's raw extrinsics by its height or hash.",
+            "description": {
+              "content": "Returns a relay chain block's raw extrinsics. Can be identified by either its height or hash.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "blocks",
+                ":blockId",
+                "extrinsics-raw"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "blockId",
+                  "description": "(Required) Block identifier, as the block height or block hash."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0da2c78f-d40b-4aec-bbfa-9ea18f308dfd",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "blocks",
+                    ":blockId",
+                    "extrinsics-raw"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"number\": \"string\",\n  \"parentHash\": \"string\",\n  \"stateRoot\": \"string\",\n  \"extrinsicRoot\": \"string\",\n  \"digest\": {\n    \"logs\": [\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ]\n  },\n  \"extrinsics\": [\n    \"string\",\n    \"string\"\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3acb8472-c7dc-49fb-884b-df514ec3e14a",
+              "name": "invalid blockId supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "blocks",
+                    ":blockId",
+                    "extrinsics-raw"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 1382.471916364899,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4bb87715-6cac-472e-a217-cd6a5f6189ea",
+          "name": "Get all parachain inclusion information for a relay chain block.",
+          "request": {
+            "name": "Get all parachain inclusion information for a relay chain block.",
+            "description": {
+              "content": "Returns all decoded parachain inclusion events (CandidateIncluded) for a relay chain block from the relay chain API. BlockId can either be a block hash or a block height. This endpoint extracts and decodes the candidate descriptor, commitments hash, and parachain header information for each included parachain block.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "rc",
+                "blocks",
+                ":blockId",
+                "para-inclusions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "paraId",
+                  "value": "<unsignedInteger>",
+                  "description": "Optional parachain ID to filter results. When provided, only the inclusion information for the specified parachain will be returned."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "blockId",
+                  "description": "(Required) Relay chain block identifier, as the block height or block hash."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "989d1e5c-74d0-4ec1-ba01-22dafec03739",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "blocks",
+                    ":blockId",
+                    "para-inclusions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "paraId",
+                      "value": "<unsignedInteger>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Relay chain block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"inclusions\": [\n    {\n      \"paraId\": \"string\",\n      \"paraBlockNumber\": 6178.889472564972,\n      \"paraBlockHash\": \"string\",\n      \"descriptor\": {\n        \"relayParent\": \"string\",\n        \"persistedValidationDataHash\": \"string\",\n        \"povHash\": \"string\",\n        \"erasureRoot\": \"string\",\n        \"paraHead\": \"string\",\n        \"validationCodeHash\": \"string\"\n      },\n      \"commitmentsHash\": \"string\",\n      \"coreIndex\": \"string\",\n      \"groupIndex\": \"string\"\n    },\n    {\n      \"paraId\": \"string\",\n      \"paraBlockNumber\": 4768.92178703117,\n      \"paraBlockHash\": \"string\",\n      \"descriptor\": {\n        \"relayParent\": \"string\",\n        \"persistedValidationDataHash\": \"string\",\n        \"povHash\": \"string\",\n        \"erasureRoot\": \"string\",\n        \"paraHead\": \"string\",\n        \"validationCodeHash\": \"string\"\n      },\n      \"commitmentsHash\": \"string\",\n      \"coreIndex\": \"string\",\n      \"groupIndex\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cc3b6f10-dc01-4245-81b2-507ca369d129",
+              "name": "invalid Block identifier supplied or block does not contain paraInclusion events",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "rc",
+                    "blocks",
+                    ":blockId",
+                    "para-inclusions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "paraId",
+                      "value": "<unsignedInteger>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Relay chain block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 1382.471916364899,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://polkadot-public-sidecar.parity-chains.parity.io/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e790cde0-7b46-4943-bdf2-4a27023adaa9",
+    "name": "Substrate API Sidecar accounts rc blocks API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of\n> [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite\n> built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints\n> served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly\n> lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.\n>\n> **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·\n> [crate](https://crates.io/crates/polkadot-rest-api) ·\n> [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·\n> [docs](https://paritytech.github.io/polkadot-rest-api/) ·\n> [issues](https://github.com/paritytech/polkadot-rest-api/issues)\n\nSubstrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes\nbuilt using Substrate's FRAME framework.\n",
+      "type": "text/plain"
+    }
+  }
+}

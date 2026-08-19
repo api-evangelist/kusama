@@ -1,0 +1,1549 @@
+{
+  "item": [
+    {
+      "id": "b3b98ae0-54e5-422a-b89c-488e1c4f3d0b",
+      "name": "blocks",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "39782ad5-4391-485b-9eb8-1b6fded6023a",
+          "name": "Get a range of blocks by their height.",
+          "request": {
+            "name": "Get a range of blocks by their height.",
+            "description": {
+              "content": "Given a range query parameter return an array of all the blocks within that range. When `useRcBlock` parameter is used, the range represents relay chain block numbers and the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp` for each block. Relay chain blocks without corresponding Asset Hub blocks are skipped.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "blocks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "range",
+                  "value": "<string>",
+                  "description": "(Required) A range of integers. There is a max limit of 500 blocks per request."
+                },
+                {
+                  "disabled": false,
+                  "key": "eventDocs",
+                  "value": "false",
+                  "description": "When set to `true`, every event will have an extra `docs` property with a string of the events documentation."
+                },
+                {
+                  "disabled": false,
+                  "key": "extrinsicDocs",
+                  "value": "false",
+                  "description": "When set to `true`, every extrinsic will have an extra `docs` property with a string of the extrinsics documentation."
+                },
+                {
+                  "disabled": false,
+                  "key": "noFees",
+                  "value": "false",
+                  "description": "When set to `true`, the fee won't be calculated for the extrinsics."
+                },
+                {
+                  "disabled": false,
+                  "key": "useEvmFormat",
+                  "value": "false",
+                  "description": "When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlock",
+                  "value": "false",
+                  "description": "When set to `true`, the range parameter represents relay chain block numbers and the response includes additional fields for each block. Only supported for Asset Hub endpoints with relay chain API available. When used, returns an array of response objects or empty array if no Asset Hub block found."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlockFormat",
+                  "value": "<string>",
+                  "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d26f9439-7de6-458d-9aef-f4efa6f8a7d2",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "range",
+                      "value": "0-499"
+                    },
+                    {
+                      "key": "eventDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "extrinsicDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "noFees",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useEvmFormat",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"number\": \"string\",\n    \"hash\": \"string\",\n    \"parentHash\": \"string\",\n    \"stateRoot\": \"string\",\n    \"extrinsicRoot\": \"string\",\n    \"authorId\": \"string\",\n    \"logs\": [\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ],\n    \"onInitialize\": {\n      \"events\": [\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ]\n    },\n    \"extrinsics\": [\n      {\n        \"method\": {\n          \"pallet\": \"string\",\n          \"method\": \"string\"\n        },\n        \"signature\": {\n          \"signature\": \"string\",\n          \"signer\": \"string\"\n        },\n        \"nonce\": \"string\",\n        \"args\": {},\n        \"tip\": \"string\",\n        \"hash\": \"string\",\n        \"info\": {\n          \"weight\": {\n            \"refTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"proofSize\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"class\": \"Mandatory\",\n          \"partialFee\": \"string\",\n          \"kind\": \"string\"\n        },\n        \"era\": {\n          \"mortalEra\": [\n            \"string\",\n            \"string\"\n          ],\n          \"immortalEra\": \"string\"\n        },\n        \"events\": [\n          {\n            \"method\": \"string\",\n            \"data\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"method\": \"string\",\n            \"data\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ],\n        \"success\": false,\n        \"paysFee\": true\n      },\n      {\n        \"method\": {\n          \"pallet\": \"string\",\n          \"method\": \"string\"\n        },\n        \"signature\": {\n          \"signature\": \"string\",\n          \"signer\": \"string\"\n        },\n        \"nonce\": \"string\",\n        \"args\": {},\n        \"tip\": \"string\",\n        \"hash\": \"string\",\n        \"info\": {\n          \"weight\": {\n            \"refTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"proofSize\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"class\": \"Normal\",\n          \"partialFee\": \"string\",\n          \"kind\": \"string\"\n        },\n        \"era\": {\n          \"mortalEra\": [\n            \"string\",\n            \"string\"\n          ],\n          \"immortalEra\": \"string\"\n        },\n        \"events\": [\n          {\n            \"method\": \"string\",\n            \"data\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"method\": \"string\",\n            \"data\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ],\n        \"success\": false,\n        \"paysFee\": false\n      }\n    ],\n    \"onFinalize\": {\n      \"events\": [\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ]\n    },\n    \"finalized\": false,\n    \"rcBlockHash\": \"string\",\n    \"rcBlockNumber\": \"string\",\n    \"ahTimestamp\": \"string\"\n  },\n  {\n    \"number\": \"string\",\n    \"hash\": \"string\",\n    \"parentHash\": \"string\",\n    \"stateRoot\": \"string\",\n    \"extrinsicRoot\": \"string\",\n    \"authorId\": \"string\",\n    \"logs\": [\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ],\n    \"onInitialize\": {\n      \"events\": [\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ]\n    },\n    \"extrinsics\": [\n      {\n        \"method\": {\n          \"pallet\": \"string\",\n          \"method\": \"string\"\n        },\n        \"signature\": {\n          \"signature\": \"string\",\n          \"signer\": \"string\"\n        },\n        \"nonce\": \"string\",\n        \"args\": {},\n        \"tip\": \"string\",\n        \"hash\": \"string\",\n        \"info\": {\n          \"weight\": {\n            \"refTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"proofSize\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"class\": \"Normal\",\n          \"partialFee\": \"string\",\n          \"kind\": \"string\"\n        },\n        \"era\": {\n          \"mortalEra\": [\n            \"string\",\n            \"string\"\n          ],\n          \"immortalEra\": \"string\"\n        },\n        \"events\": [\n          {\n            \"method\": \"string\",\n            \"data\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"method\": \"string\",\n            \"data\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ],\n        \"success\": false,\n        \"paysFee\": false\n      },\n      {\n        \"method\": {\n          \"pallet\": \"string\",\n          \"method\": \"string\"\n        },\n        \"signature\": {\n          \"signature\": \"string\",\n          \"signer\": \"string\"\n        },\n        \"nonce\": \"string\",\n        \"args\": {},\n        \"tip\": \"string\",\n        \"hash\": \"string\",\n        \"info\": {\n          \"weight\": {\n            \"refTime\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"proofSize\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"class\": \"Normal\",\n          \"partialFee\": \"string\",\n          \"kind\": \"string\"\n        },\n        \"era\": {\n          \"mortalEra\": [\n            \"string\",\n            \"string\"\n          ],\n          \"immortalEra\": \"string\"\n        },\n        \"events\": [\n          {\n            \"method\": \"string\",\n            \"data\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          {\n            \"method\": \"string\",\n            \"data\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        ],\n        \"success\": false,\n        \"paysFee\": false\n      }\n    ],\n    \"onFinalize\": {\n      \"events\": [\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"method\": \"string\",\n          \"data\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ]\n    },\n    \"finalized\": true,\n    \"rcBlockHash\": \"string\",\n    \"rcBlockNumber\": \"string\",\n    \"ahTimestamp\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c0a8acf1-0977-4a46-848a-e6dbac95c31c",
+              "name": "invalid Block identifier supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "range",
+                      "value": "0-499"
+                    },
+                    {
+                      "key": "eventDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "extrinsicDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "noFees",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useEvmFormat",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7770.2787398816145,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8ac8e41b-45af-48bb-ba04-faf37f2d1696",
+          "name": "Get a block by its height or hash.",
+          "request": {
+            "name": "Get a block by its height or hash.",
+            "description": {
+              "content": "Returns a single block. BlockId can either be a block hash or a block height. Replaces `/block/{number}` from versions < v1.0.0. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "blocks",
+                ":blockId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "eventDocs",
+                  "value": "false",
+                  "description": "When set to `true`, every event will have an extra `docs` property with a string of the events documentation."
+                },
+                {
+                  "disabled": false,
+                  "key": "extrinsicDocs",
+                  "value": "false",
+                  "description": "When set to `true`, every extrinsic will have an extra `docs` property with a string of the extrinsics documentation."
+                },
+                {
+                  "disabled": false,
+                  "key": "noFees",
+                  "value": "false",
+                  "description": "When set to `true`, the fee won't be calculated for the extrinsics."
+                },
+                {
+                  "disabled": false,
+                  "key": "finalizedKey",
+                  "value": "<boolean>",
+                  "description": "When set to false, this will override the chain-config, and omit the finalized key in the response. This can increase performance slightly by avoiding an additional RPC call to the node."
+                },
+                {
+                  "disabled": false,
+                  "key": "decodedXcmMsgs",
+                  "value": "false",
+                  "description": "When set to `true`, this will show the decoded XCM messages within the extrinsics of the requested block."
+                },
+                {
+                  "disabled": false,
+                  "key": "paraId",
+                  "value": "<string>",
+                  "description": "When it is set, this will return only the decoded XCM messages for the specified origin Parachain Id (originParaId). To activate this functionality, ensure that the `decodedXcmMsgs` parameter is set to true."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlock",
+                  "value": "false",
+                  "description": "When set to `true`, it will use the relay chain block identifier to determine the corresponding Asset Hub block. Only supported for Asset Hub endpoints with relay chain API available. When used, returns an array of response objects or empty array if no Asset Hub block found."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlockFormat",
+                  "value": "<string>",
+                  "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+                },
+                {
+                  "disabled": false,
+                  "key": "useEvmFormat",
+                  "value": "false",
+                  "description": "When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "blockId",
+                  "description": "(Required) Block identifier, as the block height or block hash."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "41847b88-fcdc-4b11-8bec-110cae7f3872",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blocks",
+                    ":blockId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "eventDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "extrinsicDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "noFees",
+                      "value": "false"
+                    },
+                    {
+                      "key": "finalizedKey",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "decodedXcmMsgs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "paraId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "useEvmFormat",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"number\": \"string\",\n  \"hash\": \"string\",\n  \"parentHash\": \"string\",\n  \"stateRoot\": \"string\",\n  \"extrinsicRoot\": \"string\",\n  \"authorId\": \"string\",\n  \"logs\": [\n    {\n      \"type\": \"string\",\n      \"index\": \"string\",\n      \"value\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"type\": \"string\",\n      \"index\": \"string\",\n      \"value\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"onInitialize\": {\n    \"events\": [\n      {\n        \"method\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"data\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      {\n        \"method\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"data\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    ]\n  },\n  \"extrinsics\": [\n    {\n      \"method\": {\n        \"pallet\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"method\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"signature\": {\n        \"signature\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"signer\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"nonce\": \"string\",\n      \"args\": {},\n      \"tip\": \"string\",\n      \"hash\": \"string\",\n      \"info\": {\n        \"weight\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"partialFee\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"kind\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"era\": {\n        \"mortalEra\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"immortalEra\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"events\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"success\": false,\n      \"paysFee\": true\n    },\n    {\n      \"method\": {\n        \"pallet\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"method\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"signature\": {\n        \"signature\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"signer\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"nonce\": \"string\",\n      \"args\": {},\n      \"tip\": \"string\",\n      \"hash\": \"string\",\n      \"info\": {\n        \"weight\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"partialFee\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"kind\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"era\": {\n        \"mortalEra\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"immortalEra\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"events\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"success\": false,\n      \"paysFee\": true\n    }\n  ],\n  \"onFinalize\": {\n    \"events\": [\n      {\n        \"method\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"data\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      {\n        \"method\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"data\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    ]\n  },\n  \"finalized\": false,\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\",\n  \"decodedXcmMsgs\": {\n    \"horizontalMessages\": [\n      {\n        \"originParaId\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"destinationParaId\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"data\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      {\n        \"originParaId\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"destinationParaId\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"data\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    ],\n    \"downwardMessages\": [\n      {\n        \"sentAt\": \"string\",\n        \"msg\": \"string\",\n        \"data\": {}\n      },\n      {\n        \"sentAt\": \"string\",\n        \"msg\": \"string\",\n        \"data\": {}\n      }\n    ],\n    \"upwardMessages\": [\n      {\n        \"originParaId\": \"string\",\n        \"data\": {}\n      },\n      {\n        \"originParaId\": \"string\",\n        \"data\": {}\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1c3cc013-f218-49ec-85fe-081533d2ba48",
+              "name": "invalid Block identifier supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blocks",
+                    ":blockId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "eventDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "extrinsicDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "noFees",
+                      "value": "false"
+                    },
+                    {
+                      "key": "finalizedKey",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "decodedXcmMsgs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "paraId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "useEvmFormat",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7770.2787398816145,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c8e90cff-05d0-4b3f-9efc-d2a2df1025d0",
+          "name": "Get a block's header by its height or hash.",
+          "request": {
+            "name": "Get a block's header by its height or hash.",
+            "description": {
+              "content": "Returns a single block's header. BlockId can either be a block hash or a block height. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "blocks",
+                ":blockId",
+                "header"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "useRcBlock",
+                  "value": "false",
+                  "description": "When set to `true`, it will use the relay chain block identifier to determine the corresponding Asset Hub block. Only supported for Asset Hub endpoints with relay chain API available. When used, returns an array of response objects or empty array if no Asset Hub block found."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlockFormat",
+                  "value": "<string>",
+                  "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "blockId",
+                  "description": "(Required) Block identifier, as the block height or block hash."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dbd961e7-c981-435c-9099-6003d2275d2c",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blocks",
+                    ":blockId",
+                    "header"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "useRcBlock",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"parentHash\": \"string\",\n  \"number\": \"string\",\n  \"stateRoot\": \"string\",\n  \"extrinsicRoot\": \"string\",\n  \"digest\": {\n    \"logs\": [\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ]\n  },\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fea7af23-0dc4-4f23-a0e3-ac1e1b306f0a",
+              "name": "invalid Block identifier supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blocks",
+                    ":blockId",
+                    "header"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "useRcBlock",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7770.2787398816145,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e9badc8a-f1fe-4a96-ab2b-a5e581f3ae7d",
+          "name": "Get an extrinsic by its extrinsicIndex and block height or hash. The pair blockId, extrinsicIndex is sometimes referred to as a Timepoint.",
+          "request": {
+            "name": "Get an extrinsic by its extrinsicIndex and block height or hash. The pair blockId, extrinsicIndex is sometimes referred to as a Timepoint.",
+            "description": {
+              "content": "Returns a single extrinsic. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "blocks",
+                ":blockId",
+                "extrinsics",
+                ":extrinsicIndex"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "eventDocs",
+                  "value": "false",
+                  "description": "When set to `true`, every event will have an extra `docs` property with a string of the events documentation."
+                },
+                {
+                  "disabled": false,
+                  "key": "extrinsicDocs",
+                  "value": "false",
+                  "description": "When set to `true`, every extrinsic will have an extra `docs` property with a string of the extrinsics documentation."
+                },
+                {
+                  "disabled": false,
+                  "key": "noFees",
+                  "value": "false",
+                  "description": "When set to `true`, the fee won't be calculated for the extrinsic."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlock",
+                  "value": "false",
+                  "description": "When set to `true`, it will use the relay chain block identifier to determine the corresponding Asset Hub block. Only supported for Asset Hub endpoints with relay chain API available. When used, returns an array of response objects or empty array if no Asset Hub block found."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlockFormat",
+                  "value": "<string>",
+                  "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+                },
+                {
+                  "disabled": false,
+                  "key": "useEvmFormat",
+                  "value": "false",
+                  "description": "When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "blockId",
+                  "description": "(Required) Block identifier, as the block height or block hash."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "extrinsicIndex",
+                  "description": "(Required) The extrinsic's index within the block's body."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9ccfff19-4e6c-4ab7-b4aa-8a951a42a2f9",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blocks",
+                    ":blockId",
+                    "extrinsics",
+                    ":extrinsicIndex"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "eventDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "extrinsicDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "noFees",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "useEvmFormat",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "extrinsicIndex",
+                      "description": "(Required) The extrinsic's index within the block's body."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"extrinsic\": {\n    \"method\": {\n      \"pallet\": \"string\",\n      \"method\": \"string\"\n    },\n    \"signature\": {\n      \"signature\": \"string\",\n      \"signer\": \"string\"\n    },\n    \"nonce\": \"string\",\n    \"args\": {},\n    \"tip\": \"string\",\n    \"hash\": \"string\",\n    \"info\": {\n      \"weight\": {\n        \"refTime\": \"string\",\n        \"proofSize\": \"string\"\n      },\n      \"class\": \"Normal\",\n      \"partialFee\": \"string\",\n      \"kind\": \"string\"\n    },\n    \"era\": {\n      \"mortalEra\": [\n        \"string\",\n        \"string\"\n      ],\n      \"immortalEra\": \"string\"\n    },\n    \"events\": [\n      {\n        \"method\": \"string\",\n        \"data\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"method\": \"string\",\n        \"data\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ],\n    \"success\": false,\n    \"paysFee\": false\n  },\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0b1b3463-ca88-4b9a-a19e-17af87225999",
+              "name": "Requested `extrinsicIndex` does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blocks",
+                    ":blockId",
+                    "extrinsics",
+                    ":extrinsicIndex"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "eventDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "extrinsicDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "noFees",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "useEvmFormat",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "extrinsicIndex",
+                      "description": "(Required) The extrinsic's index within the block's body."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7770.2787398816145,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bf12704d-e008-4dec-a60a-0fb8ec31a58e",
+          "name": "Get the most recently finalized block.",
+          "request": {
+            "name": "Get the most recently finalized block.",
+            "description": {
+              "content": "Returns the most recently finalized block. Replaces `/block` from versions < v1.0.0. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "blocks",
+                "head"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "finalized",
+                  "value": "true",
+                  "description": "Boolean representing whether or not to get the finalized head. If it is not set the value defaults to true. When set to false it will attempt to get the newest known block, which may not be finalized."
+                },
+                {
+                  "disabled": false,
+                  "key": "eventDocs",
+                  "value": "false",
+                  "description": "When set to `true`, every event will have an extra `docs` property with a string of the events documentation."
+                },
+                {
+                  "disabled": false,
+                  "key": "extrinsicDocs",
+                  "value": "false",
+                  "description": "When set to `true`, every extrinsic will have an extra `docs` property with a string of the extrinsics documentation."
+                },
+                {
+                  "disabled": false,
+                  "key": "noFees",
+                  "value": "false",
+                  "description": "When set to `true`, the fee won't be calculated for the extrinsics."
+                },
+                {
+                  "disabled": false,
+                  "key": "decodedXcmMsgs",
+                  "value": "false",
+                  "description": "When set to `true`, this will show the decoded XCM messages within the extrinsics of the requested block."
+                },
+                {
+                  "disabled": false,
+                  "key": "paraId",
+                  "value": "<string>",
+                  "description": "When it is set, this will return only the decoded XCM messages for the specified origin Parachain Id (originParaId). To activate this functionality, ensure that the `decodedXcmMsgs` parameter is set to true."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlock",
+                  "value": "false",
+                  "description": "When set to `true`, it will use the latest relay chain block to determine the corresponding Asset Hub block. Only supported for Asset Hub endpoints with relay chain API available. Respects the `finalized` parameter when determining which relay chain block to use. When used, returns an array of response objects or empty array if no Asset Hub block found."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlockFormat",
+                  "value": "<string>",
+                  "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+                },
+                {
+                  "disabled": false,
+                  "key": "useEvmFormat",
+                  "value": "false",
+                  "description": "When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "95f8956e-f9ca-40e9-9738-c3b8c756def4",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blocks",
+                    "head"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "finalized",
+                      "value": "true"
+                    },
+                    {
+                      "key": "eventDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "extrinsicDocs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "noFees",
+                      "value": "false"
+                    },
+                    {
+                      "key": "decodedXcmMsgs",
+                      "value": "false"
+                    },
+                    {
+                      "key": "paraId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "useEvmFormat",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"number\": \"string\",\n  \"hash\": \"string\",\n  \"parentHash\": \"string\",\n  \"stateRoot\": \"string\",\n  \"extrinsicRoot\": \"string\",\n  \"authorId\": \"string\",\n  \"logs\": [\n    {\n      \"type\": \"string\",\n      \"index\": \"string\",\n      \"value\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"type\": \"string\",\n      \"index\": \"string\",\n      \"value\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"onInitialize\": {\n    \"events\": [\n      {\n        \"method\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"data\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      {\n        \"method\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"data\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    ]\n  },\n  \"extrinsics\": [\n    {\n      \"method\": {\n        \"pallet\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"method\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"signature\": {\n        \"signature\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"signer\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"nonce\": \"string\",\n      \"args\": {},\n      \"tip\": \"string\",\n      \"hash\": \"string\",\n      \"info\": {\n        \"weight\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"partialFee\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"kind\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"era\": {\n        \"mortalEra\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"immortalEra\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"events\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"success\": true,\n      \"paysFee\": true\n    },\n    {\n      \"method\": {\n        \"pallet\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"method\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"signature\": {\n        \"signature\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"signer\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"nonce\": \"string\",\n      \"args\": {},\n      \"tip\": \"string\",\n      \"hash\": \"string\",\n      \"info\": {\n        \"weight\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"class\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"partialFee\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"kind\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"era\": {\n        \"mortalEra\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"immortalEra\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"events\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"success\": true,\n      \"paysFee\": false\n    }\n  ],\n  \"onFinalize\": {\n    \"events\": [\n      {\n        \"method\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"data\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      {\n        \"method\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"data\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    ]\n  },\n  \"finalized\": false,\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\",\n  \"decodedXcmMsgs\": {\n    \"horizontalMessages\": [\n      {\n        \"originParaId\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"destinationParaId\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"data\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      {\n        \"originParaId\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"destinationParaId\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"data\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    ],\n    \"downwardMessages\": [\n      {\n        \"sentAt\": \"string\",\n        \"msg\": \"string\",\n        \"data\": {}\n      },\n      {\n        \"sentAt\": \"string\",\n        \"msg\": \"string\",\n        \"data\": {}\n      }\n    ],\n    \"upwardMessages\": [\n      {\n        \"originParaId\": \"string\",\n        \"data\": {}\n      },\n      {\n        \"originParaId\": \"string\",\n        \"data\": {}\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d405a71a-aa1e-4a6d-bd9b-32ebdd913b9b",
+          "name": "Get information about the header of the most recent finalized block.",
+          "request": {
+            "name": "Get information about the header of the most recent finalized block.",
+            "description": {
+              "content": "Returns the most recently finalized block's header. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "blocks",
+                "head",
+                "header"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "finalized",
+                  "value": "true",
+                  "description": "Boolean representing whether or not to get the finalized head. If it is not set the value defaults to true. When set to false it will attempt to get the newest known block, which may not be finalized."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlock",
+                  "value": "false",
+                  "description": "When set to `true`, it will use the latest relay chain block to determine the corresponding Asset Hub block header. Only supported for Asset Hub endpoints with relay chain API available. Respects the `finalized` parameter when determining which relay chain block to use. When used, returns an array of response objects or empty array if no Asset Hub block found."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlockFormat",
+                  "value": "<string>",
+                  "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "da125053-e601-406a-a552-527655dbdfb5",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blocks",
+                    "head",
+                    "header"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "finalized",
+                      "value": "true"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"parentHash\": \"string\",\n  \"number\": \"string\",\n  \"stateRoot\": \"string\",\n  \"extrinsicRoot\": \"string\",\n  \"digest\": {\n    \"logs\": [\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ]\n  },\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9bf75e66-992c-4f7a-a723-cf9210cee8ab",
+              "name": "invalid Block identifier supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blocks",
+                    "head",
+                    "header"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "finalized",
+                      "value": "true"
+                    },
+                    {
+                      "key": "useRcBlock",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7770.2787398816145,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1cf7c5fc-1088-4976-9b2d-4a578e9a2afc",
+          "name": "Get a blocks header & its extrinsics as hex values.",
+          "request": {
+            "name": "Get a blocks header & its extrinsics as hex values.",
+            "description": {
+              "content": "Returns a block & its extrinsics as hex values. BlockId can either be a block hash or a block height. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "blocks",
+                ":blockId",
+                "extrinsics-raw"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "useRcBlock",
+                  "value": "false",
+                  "description": "When set to `true`, it will use the relay chain block identifier to determine the corresponding Asset Hub block. Only supported for Asset Hub endpoints with relay chain API available. When used, returns an array of response objects or empty array if no Asset Hub block found."
+                },
+                {
+                  "disabled": false,
+                  "key": "useRcBlockFormat",
+                  "value": "<string>",
+                  "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "blockId",
+                  "description": "(Required) Block identifier, as the block height or block hash."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "503bcdf3-9ed1-4f93-929e-12aa7ad48b78",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blocks",
+                    ":blockId",
+                    "extrinsics-raw"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "useRcBlock",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"number\": \"string\",\n  \"parentHash\": \"string\",\n  \"stateRoot\": \"string\",\n  \"extrinsicRoot\": \"string\",\n  \"digest\": {\n    \"logs\": [\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"type\": \"string\",\n        \"index\": \"string\",\n        \"value\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ]\n  },\n  \"extrinsics\": [\n    \"string\",\n    \"string\"\n  ],\n  \"rcBlockHash\": \"string\",\n  \"rcBlockNumber\": \"string\",\n  \"ahTimestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4ef52302-248b-4574-8eef-de6b4f43c634",
+              "name": "invalid Block identifier supplied",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blocks",
+                    ":blockId",
+                    "extrinsics-raw"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "useRcBlock",
+                      "value": "false"
+                    },
+                    {
+                      "key": "useRcBlockFormat",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7770.2787398816145,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e805221f-9c11-4b8b-ad52-c643d948fc3c",
+          "name": "Get all parachain inclusion information for a relay chain block.",
+          "request": {
+            "name": "Get all parachain inclusion information for a relay chain block.",
+            "description": {
+              "content": "Returns all decoded parachain inclusion events (CandidateIncluded) for a relay chain block. BlockId can either be a block hash or a block height. This endpoint extracts and decodes the candidate descriptor, commitments hash, and parachain header information for each included parachain block.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "blocks",
+                ":blockId",
+                "para-inclusions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "paraId",
+                  "value": "<unsignedInteger>",
+                  "description": "Optional parachain ID to filter results. When provided, only the inclusion information for the specified parachain will be returned."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "blockId",
+                  "description": "(Required) Relay chain block identifier, as the block height or block hash."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "072ea4cc-df63-4b6e-8adb-0069c5f4ef47",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blocks",
+                    ":blockId",
+                    "para-inclusions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "paraId",
+                      "value": "<unsignedInteger>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Relay chain block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"inclusions\": [\n    {\n      \"paraId\": \"string\",\n      \"paraBlockNumber\": 8591.828296474767,\n      \"paraBlockHash\": \"string\",\n      \"descriptor\": {\n        \"relayParent\": \"string\",\n        \"persistedValidationDataHash\": \"string\",\n        \"povHash\": \"string\",\n        \"erasureRoot\": \"string\",\n        \"paraHead\": \"string\",\n        \"validationCodeHash\": \"string\"\n      },\n      \"commitmentsHash\": \"string\",\n      \"coreIndex\": \"string\",\n      \"groupIndex\": \"string\"\n    },\n    {\n      \"paraId\": \"string\",\n      \"paraBlockNumber\": 5268.312674347606,\n      \"paraBlockHash\": \"string\",\n      \"descriptor\": {\n        \"relayParent\": \"string\",\n        \"persistedValidationDataHash\": \"string\",\n        \"povHash\": \"string\",\n        \"erasureRoot\": \"string\",\n        \"paraHead\": \"string\",\n        \"validationCodeHash\": \"string\"\n      },\n      \"commitmentsHash\": \"string\",\n      \"coreIndex\": \"string\",\n      \"groupIndex\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3e4d14a0-3d85-4208-82f5-7b917120779f",
+              "name": "invalid Block identifier supplied or block does not contain paraInclusion events",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "blocks",
+                    ":blockId",
+                    "para-inclusions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "paraId",
+                      "value": "<unsignedInteger>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "blockId",
+                      "description": "(Required) Relay chain block identifier, as the block height or block hash."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 7770.2787398816145,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://polkadot-public-sidecar.parity-chains.parity.io/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "4cdf0366-35c3-4d18-bce7-546ee0f57d35",
+    "name": "Substrate API Sidecar accounts blocks API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of\n> [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite\n> built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints\n> served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly\n> lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.\n>\n> **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·\n> [crate](https://crates.io/crates/polkadot-rest-api) ·\n> [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·\n> [docs](https://paritytech.github.io/polkadot-rest-api/) ·\n> [issues](https://github.com/paritytech/polkadot-rest-api/issues)\n\nSubstrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes\nbuilt using Substrate's FRAME framework.\n",
+      "type": "text/plain"
+    }
+  }
+}

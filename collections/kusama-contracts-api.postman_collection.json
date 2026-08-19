@@ -1,0 +1,256 @@
+{
+  "item": [
+    {
+      "id": "fcdd77f9-49d4-47a3-8bee-8b5a77bfcae6",
+      "name": "contracts",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ffc21ba3-77c1-4e78-8b0c-6bbb0cc94c30",
+          "name": "Query an !Ink contract with a given message (method).",
+          "request": {
+            "name": "Query an !Ink contract with a given message (method).",
+            "description": {
+              "content": "Will return a valid or invalid result.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "contracts",
+                "ink",
+                ":address",
+                "query"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "method",
+                  "value": "get",
+                  "description": "The message or method used to query."
+                },
+                {
+                  "disabled": false,
+                  "key": "gasLimit",
+                  "value": "-1",
+                  "description": "The gas limit to be used as an option for the queried message."
+                },
+                {
+                  "disabled": false,
+                  "key": "storageDepositLimit",
+                  "value": "",
+                  "description": "The storage deposit limit to be used as an option for the queried message."
+                },
+                {
+                  "disabled": false,
+                  "key": "args",
+                  "value": "<string>",
+                  "description": "Abi params used as args specified in the metadata to be passed into a query. The format to use this query param is ?args[]=1&args[]=2&args[]=3."
+                },
+                {
+                  "disabled": false,
+                  "key": "args",
+                  "value": "<string>",
+                  "description": "Abi params used as args specified in the metadata to be passed into a query. The format to use this query param is ?args[]=1&args[]=2&args[]=3."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "address",
+                  "description": "(Required) SS58 or Hex address of the account associated with the contract."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bba0c647-be7d-4023-aadd-6bdb9239f2c2",
+              "name": "succesful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contracts",
+                    "ink",
+                    ":address",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "method",
+                      "value": "get"
+                    },
+                    {
+                      "key": "gasLimit",
+                      "value": "-1"
+                    },
+                    {
+                      "key": "storageDepositLimit",
+                      "value": ""
+                    },
+                    {
+                      "key": "args",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "args",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "address",
+                      "description": "(Required) SS58 or Hex address of the account associated with the contract."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"debugMessage\": \"string\",\n  \"gasConsumed\": \"string\",\n  \"gasRequired\": \"string\",\n  \"output\": true,\n  \"result\": {},\n  \"storageDeposit\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "070655c1-ba47-40c7-b886-22303d09c0c9",
+              "name": "Invalid Method",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "contracts",
+                    "ink",
+                    ":address",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "method",
+                      "value": "get"
+                    },
+                    {
+                      "key": "gasLimit",
+                      "value": "-1"
+                    },
+                    {
+                      "key": "storageDepositLimit",
+                      "value": ""
+                    },
+                    {
+                      "key": "args",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "args",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "address",
+                      "description": "(Required) SS58 or Hex address of the account associated with the contract."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 4921.266829536838,\n  \"message\": \"string\",\n  \"stack\": \"string\",\n  \"level\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://polkadot-public-sidecar.parity-chains.parity.io/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "715f8dff-ade5-4bcf-ae5a-26ff2da18cb5",
+    "name": "Substrate API Sidecar accounts contracts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of\n> [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite\n> built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints\n> served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly\n> lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.\n>\n> **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·\n> [crate](https://crates.io/crates/polkadot-rest-api) ·\n> [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·\n> [docs](https://paritytech.github.io/polkadot-rest-api/) ·\n> [issues](https://github.com/paritytech/polkadot-rest-api/issues)\n\nSubstrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes\nbuilt using Substrate's FRAME framework.\n",
+      "type": "text/plain"
+    }
+  }
+}

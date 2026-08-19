@@ -1,0 +1,59 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts rc node API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "rc node",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get relay chain node network information from Asset Hub.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/node/network"
+          },
+          "docs": "Returns network related information of the relay chain node. This endpoint is specifically for Asset Hub instances to query relay chain node networking details."
+        },
+        {
+          "info": {
+            "name": "Get relay chain pending extrinsics from Asset Hub.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/node/transaction-pool",
+            "params": [
+              {
+                "name": "includeFee",
+                "value": "",
+                "type": "query",
+                "description": "Boolean representing whether or not to include tips, partialFee, and priority in each extrinsic."
+              }
+            ]
+          },
+          "docs": "Returns pending extrinsics from the relay chain transaction pool. This endpoint is specifically for Asset Hub instances to query relay chain pending transactions."
+        },
+        {
+          "info": {
+            "name": "Get relay chain node version information from Asset Hub.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/node/version"
+          },
+          "docs": "Returns versioning information of the relay chain node. This endpoint is specifically for Asset Hub instances to query relay chain node version details."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

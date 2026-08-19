@@ -1,0 +1,185 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts rc accounts API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "rc accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get balance information for an account on the relay chain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/accounts/:address/balance-info",
+            "params": [
+              {
+                "name": "address",
+                "value": "",
+                "type": "path",
+                "description": "SS58 address of the account."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query balance info for the specified account."
+              },
+              {
+                "name": "token",
+                "value": "",
+                "type": "query",
+                "description": "Token to query the balance of. If not specified it will query the chains native token (e.g. DOT for Polkadot). Note: this is only relevant for chains that support multiple tokens through the ORML tokens pallet."
+              },
+              {
+                "name": "denominated",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true` it will denominate any balance's given atomic value using the chains given decimal value."
+              }
+            ]
+          },
+          "docs": "Returns information about an account's balance on the relay chain. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for balance information."
+        },
+        {
+          "info": {
+            "name": "Get proxy information for an account on the relay chain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/accounts/:address/proxy-info",
+            "params": [
+              {
+                "name": "address",
+                "value": "",
+                "type": "path",
+                "description": "SS58 address of the account."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query proxy info for the specified account."
+              }
+            ]
+          },
+          "docs": "Returns information about an account's proxy configuration on the relay chain. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for proxy information."
+        },
+        {
+          "info": {
+            "name": "Get vesting information for an account on the relay chain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/accounts/:address/vesting-info",
+            "params": [
+              {
+                "name": "address",
+                "value": "",
+                "type": "path",
+                "description": "SS58 address of the account."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query the vesting info for the specified account."
+              },
+              {
+                "name": "includeClaimable",
+                "value": "",
+                "type": "query",
+                "description": "When set to 'true', calculates and includes vested amounts for each vesting schedule plus the claimable amount. For relay chain pre-migration queries, vested amounts are calculated using the relay chain's own block number."
+              }
+            ]
+          },
+          "docs": "Returns the vesting schedule for an account on the relay chain. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for vesting information."
+        },
+        {
+          "info": {
+            "name": "Get staking information for a _Stash_ account on the relay chain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/accounts/:address/staking-info",
+            "params": [
+              {
+                "name": "address",
+                "value": "",
+                "type": "path",
+                "description": "SS58 address of the account. Must be a _Stash_ account."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query the staking info for the specified account."
+              },
+              {
+                "name": "includeClaimedRewards",
+                "value": "",
+                "type": "query",
+                "description": "When set to `false`, the `claimedRewards` field is not included in the response."
+              }
+            ]
+          },
+          "docs": "Returns information about a _Stash_ account's staking activity on the relay chain. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for staking information. The _Stash_ account can be either a validator or nominator account."
+        },
+        {
+          "info": {
+            "name": "Get payout information for a _Stash_ account on the relay chain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/rc/accounts/:address/staking-payouts",
+            "params": [
+              {
+                "name": "address",
+                "value": "",
+                "type": "path",
+                "description": "SS58 address of the account. Must be a _Stash_ account."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to query staking payouts."
+              },
+              {
+                "name": "depth",
+                "value": "",
+                "type": "query",
+                "description": "The number of eras to query for payouts of. Must be less than or equal to `HISTORY_DEPTH`. In cases where `era - (depth -1)` is less than 0, the first era queried will be 0."
+              },
+              {
+                "name": "era",
+                "value": "",
+                "type": "query",
+                "description": "The era to query at. Max era payout info is available for is the latest finished era (active_era - 1)."
+              },
+              {
+                "name": "unclaimedOnly",
+                "value": "",
+                "type": "query",
+                "description": "Only return unclaimed rewards."
+              }
+            ]
+          },
+          "docs": "Returns payout information for the last specified eras on the relay chain. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for staking payout information. If specifying both the depth and era query params, this endpoint will return information for (era - depth) through era. (i.e. if depth=5 and era=20 information will be returned for eras 16 through 20). The _Stash_ account can be either a validator or nominator account."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

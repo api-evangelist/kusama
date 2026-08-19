@@ -1,0 +1,536 @@
+{
+  "item": [
+    {
+      "id": "ac32c1a6-d20b-4a0a-a319-6cca7683e209",
+      "name": "coretime",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "63f1670a-fc0a-458a-b6ff-98db7ac7bdf5",
+          "name": "Get all the leases currently registered on coretime chain.",
+          "request": {
+            "name": "Get all the leases currently registered on coretime chain.",
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coretime",
+                "leases"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "blockId",
+                  "value": "<string>",
+                  "description": "Block identifier, as the block height or block hash."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9165bf07-2750-46c1-8f73-56e0a021a360",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coretime",
+                    "leases"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "blockId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"leases\": [\n    {\n      \"task\": \"string\",\n      \"until\": \"string\",\n      \"core\": \"string\"\n    },\n    {\n      \"task\": \"string\",\n      \"until\": \"string\",\n      \"core\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1326db87-825f-42bd-bf09-4f42cd8acba3",
+          "name": "Get all the regions currently registered on coretime chain.",
+          "request": {
+            "name": "Get all the regions currently registered on coretime chain.",
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coretime",
+                "regions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "blockId",
+                  "value": "<string>",
+                  "description": "Block identifier, as the block height or block hash."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "01b070c4-f4ae-476d-b689-5c1a9f579660",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coretime",
+                    "regions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "blockId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"regions\": [\n    {\n      \"core\": \"string\",\n      \"begin\": \"string\",\n      \"end\": \"string\",\n      \"owner\": \"string\",\n      \"paid\": \"string\",\n      \"mask\": \"string\"\n    },\n    {\n      \"core\": \"string\",\n      \"begin\": \"string\",\n      \"end\": \"string\",\n      \"owner\": \"string\",\n      \"paid\": \"string\",\n      \"mask\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "42aa4599-8377-4ec8-afc2-8bbf2a43681e",
+          "name": "Get all the potential renewals currently registered on coretime chain.",
+          "request": {
+            "name": "Get all the potential renewals currently registered on coretime chain.",
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coretime",
+                "renewals"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "blockId",
+                  "value": "<string>",
+                  "description": "Block identifier, as the block height or block hash."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "96229588-6e09-4721-aa1e-02c691f29823",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coretime",
+                    "renewals"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "blockId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"renewals\": [\n    {\n      \"completion\": \"string\",\n      \"core\": \"string\",\n      \"mask\": \"string\",\n      \"price\": \"string\",\n      \"task\": \"string\",\n      \"when\": \"string\"\n    },\n    {\n      \"completion\": \"string\",\n      \"core\": \"string\",\n      \"mask\": \"string\",\n      \"price\": \"string\",\n      \"task\": \"string\",\n      \"when\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "56468349-78a0-46a4-a195-1ab422ac9d6d",
+          "name": "Get all the reservations currently registered on coretime chain.",
+          "request": {
+            "name": "Get all the reservations currently registered on coretime chain.",
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coretime",
+                "reservations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "blockId",
+                  "value": "<string>",
+                  "description": "Block identifier, as the block height or block hash."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f8ee4a2f-8797-429d-9c5d-70050ca585b4",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coretime",
+                    "reservations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "blockId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"reservations\": [\n    {\n      \"task\": \"string\",\n      \"mask\": \"string\"\n    },\n    {\n      \"task\": \"string\",\n      \"mask\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c2d865fd-7dd1-4587-b8cf-56e50de94e39",
+          "name": "Get the generic information about coretime, either on coretime chain or relay chain.",
+          "request": {
+            "name": "Get the generic information about coretime, either on coretime chain or relay chain.",
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coretime",
+                "info"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "blockId",
+                  "value": "<string>",
+                  "description": "Block identifier, as the block height or block hash."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bb2b1cac-0a76-430a-9e20-39baa6d2da00",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coretime",
+                    "info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "blockId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"configuration\": {\n    \"interludeLength\": \"string\",\n    \"leadinLength\": \"string\",\n    \"regionLength\": \"string\",\n    \"relayBlocksPerTimeslice\": \"string\"\n  },\n  \"currentRegion\": {\n    \"start\": \"string\",\n    \"end\": \"string\"\n  },\n  \"cores\": {\n    \"total\": \"string\",\n    \"available\": \"string\",\n    \"sold\": \"string\",\n    \"currentCorePrice\": \"string\",\n    \"selloutPrice\": \"string\",\n    \"firstCore\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7cd3ce76-a8ec-4294-a5df-08c163288053",
+          "name": "Get all the cores information either on coretime chain or relay chain.",
+          "request": {
+            "name": "Get all the cores information either on coretime chain or relay chain.",
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "coretime",
+                "overview"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "blockId",
+                  "value": "<string>",
+                  "description": "Block identifier, as the block height or block hash."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b67c6bbf-2aa6-436e-a35e-65935465ce8c",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "coretime",
+                    "overview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "blockId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"cores\": [\n    {\n      \"coreId\": \"string\",\n      \"paraId\": \"string\",\n      \"workload\": {\n        \"isPool\": true,\n        \"isTask\": false,\n        \"mask\": \"string\",\n        \"task\": \"string\"\n      },\n      \"workplan\": [\n        {\n          \"core\": \"string\",\n          \"timeslice\": \"string\",\n          \"info\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        {\n          \"core\": \"string\",\n          \"timeslice\": \"string\",\n          \"info\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      ],\n      \"type\": {\n        \"condition\": \"string\",\n        \"details\": \"string\"\n      },\n      \"regions\": [\n        {\n          \"core\": \"string\",\n          \"begin\": \"string\",\n          \"end\": \"string\",\n          \"owner\": \"string\",\n          \"paid\": \"string\",\n          \"mask\": \"string\"\n        },\n        {\n          \"core\": \"string\",\n          \"begin\": \"string\",\n          \"end\": \"string\",\n          \"owner\": \"string\",\n          \"paid\": \"string\",\n          \"mask\": \"string\"\n        }\n      ]\n    },\n    {\n      \"coreId\": \"string\",\n      \"paraId\": \"string\",\n      \"workload\": {\n        \"isPool\": false,\n        \"isTask\": false,\n        \"mask\": \"string\",\n        \"task\": \"string\"\n      },\n      \"workplan\": [\n        {\n          \"core\": \"string\",\n          \"timeslice\": \"string\",\n          \"info\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        {\n          \"core\": \"string\",\n          \"timeslice\": \"string\",\n          \"info\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        }\n      ],\n      \"type\": {\n        \"condition\": \"string\",\n        \"details\": \"string\"\n      },\n      \"regions\": [\n        {\n          \"core\": \"string\",\n          \"begin\": \"string\",\n          \"end\": \"string\",\n          \"owner\": \"string\",\n          \"paid\": \"string\",\n          \"mask\": \"string\"\n        },\n        {\n          \"core\": \"string\",\n          \"begin\": \"string\",\n          \"end\": \"string\",\n          \"owner\": \"string\",\n          \"paid\": \"string\",\n          \"mask\": \"string\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://polkadot-public-sidecar.parity-chains.parity.io/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "89ddd58d-f297-49f9-99c7-3abc7c57a72b",
+    "name": "Substrate API Sidecar accounts coretime API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of\n> [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite\n> built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints\n> served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly\n> lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.\n>\n> **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·\n> [crate](https://crates.io/crates/polkadot-rest-api) ·\n> [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·\n> [docs](https://paritytech.github.io/polkadot-rest-api/) ·\n> [issues](https://github.com/paritytech/polkadot-rest-api/issues)\n\nSubstrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes\nbuilt using Substrate's FRAME framework.\n",
+      "type": "text/plain"
+    }
+  }
+}

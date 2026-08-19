@@ -1,0 +1,132 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts coretime API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "coretime",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all the leases currently registered on coretime chain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/coretime/leases",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "query",
+                "description": "Block identifier, as the block height or block hash."
+              }
+            ]
+          },
+          "docs": "Get all the leases currently registered on coretime chain."
+        },
+        {
+          "info": {
+            "name": "Get all the regions currently registered on coretime chain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/coretime/regions",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "query",
+                "description": "Block identifier, as the block height or block hash."
+              }
+            ]
+          },
+          "docs": "Get all the regions currently registered on coretime chain."
+        },
+        {
+          "info": {
+            "name": "Get all the potential renewals currently registered on coretime chain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/coretime/renewals",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "query",
+                "description": "Block identifier, as the block height or block hash."
+              }
+            ]
+          },
+          "docs": "Get all the potential renewals currently registered on coretime chain."
+        },
+        {
+          "info": {
+            "name": "Get all the reservations currently registered on coretime chain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/coretime/reservations",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "query",
+                "description": "Block identifier, as the block height or block hash."
+              }
+            ]
+          },
+          "docs": "Get all the reservations currently registered on coretime chain."
+        },
+        {
+          "info": {
+            "name": "Get the generic information about coretime, either on coretime chain or relay chain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/coretime/info",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "query",
+                "description": "Block identifier, as the block height or block hash."
+              }
+            ]
+          },
+          "docs": "Get the generic information about coretime, either on coretime chain or relay chain."
+        },
+        {
+          "info": {
+            "name": "Get all the cores information either on coretime chain or relay chain.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/coretime/overview",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "query",
+                "description": "Block identifier, as the block height or block hash."
+              }
+            ]
+          },
+          "docs": "Get all the cores information either on coretime chain or relay chain."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

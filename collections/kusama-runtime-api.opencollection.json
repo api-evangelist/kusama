@@ -1,0 +1,119 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts runtime API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "runtime",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the runtime metadata in decoded, JSON form.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/runtime/metadata",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the metadata at."
+              }
+            ]
+          },
+          "docs": "Returns the runtime metadata as a JSON object. Substrate Reference: - FRAME Support: https://crates.parity.io/frame_support/metadata/index.html - Knowledge Base: https://substrate.dev/docs/en/knowledgebase/runtime/metadata"
+        },
+        {
+          "info": {
+            "name": "Get the requested version of runtime metadata in decoded, JSON form.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/runtime/metadata/:metadataVersion",
+            "params": [
+              {
+                "name": "metadataVersion",
+                "value": "",
+                "type": "path",
+                "description": "The version of metadata. The input is expected in a `vX` format, where `X` represents the version number (e.g. `v14`, `v15`)."
+              },
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the metadata at."
+              }
+            ]
+          },
+          "docs": "Returns the requested version of runtime metadata as a JSON object. Substrate Reference: - FRAME Support: https://crates.parity.io/frame_support/metadata/index.html - Knowledge Base: https://substrate.dev/docs/en/knowledgebase/runtime/metadata"
+        },
+        {
+          "info": {
+            "name": "Get the available versions of runtime metadata.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/runtime/metadata/versions",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the metadata versions at."
+              }
+            ]
+          },
+          "docs": "Returns the available versions of runtime metadata. Substrate Reference: - FRAME Support: https://crates.parity.io/frame_support/metadata/index.html - Knowledge Base: https://substrate.dev/docs/en/knowledgebase/runtime/metadata"
+        },
+        {
+          "info": {
+            "name": "Get the runtime wasm blob.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/runtime/code",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve the runtime wasm blob at."
+              }
+            ]
+          },
+          "docs": "Returns the runtime Wasm blob in hex format."
+        },
+        {
+          "info": {
+            "name": "Get version information of the Substrate runtime.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/runtime/spec",
+            "params": [
+              {
+                "name": "at",
+                "value": "",
+                "type": "query",
+                "description": "Block at which to retrieve runtime version information at."
+              }
+            ]
+          },
+          "docs": "Returns version information related to the runtime."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

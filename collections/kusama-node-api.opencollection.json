@@ -1,0 +1,59 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts node API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "node",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get information about the Substrate node's activity in the peer-to-peer network.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/node/network"
+          },
+          "docs": "Returns network related information of the node."
+        },
+        {
+          "info": {
+            "name": "Get pending extrinsics from the Substrate node.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/node/transaction-pool",
+            "params": [
+              {
+                "name": "includeFee",
+                "value": "",
+                "type": "query",
+                "description": "Boolean representing whether or not to include tips, partialFee, and priority in each extrinsic."
+              }
+            ]
+          },
+          "docs": "Returns the extrinsics that the node knows of that have not been included in a block."
+        },
+        {
+          "info": {
+            "name": "Get information about the Substrates node's implementation and versioning.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/node/version"
+          },
+          "docs": "Returns versioning information of the node."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

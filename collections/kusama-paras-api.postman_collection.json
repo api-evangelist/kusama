@@ -1,0 +1,908 @@
+{
+  "item": [
+    {
+      "id": "61816e6e-d49f-4fc7-9c0f-90f1d48e83d2",
+      "name": "paras",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7e9de9f0-15cb-4062-9c2d-d1853bafbde6",
+          "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] List all registered paras (parathreads & parachains).\n",
+          "request": {
+            "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] List all registered paras (parathreads & parachains).\n",
+            "description": {
+              "content": "Returns all registered parachains and parathreads with lifecycle info.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "paras"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve paras list at."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2b07eb39-d6a2-4a07-ac00-942f37fcddf3",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paras"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"paras\": [\n    {\n      \"paraId\": \"string\",\n      \"paraLifecycle\": \"onboarding\",\n      \"onboardingAs\": \"parachain\"\n    },\n    {\n      \"paraId\": \"string\",\n      \"paraLifecycle\": \"parachain\",\n      \"onboardingAs\": \"parachain\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a2388960-e838-4b1a-82ec-56b448761bf9",
+          "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get general information about the current lease period.\n",
+          "request": {
+            "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get general information about the current lease period.\n",
+            "description": {
+              "content": "Returns an overview of the current lease period, including lease holders.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "paras",
+                "leases",
+                "current"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve current lease period info at."
+                },
+                {
+                  "disabled": false,
+                  "key": "currentLeaseHolders",
+                  "value": "true",
+                  "description": "Wether or not to include the `currentLeaseHolders` property. Inclusion\nof the property will likely result in a larger payload and increased\nresponse time.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e371a531-3f05-437c-8cba-a1f17399fb76",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paras",
+                    "leases",
+                    "current"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    },
+                    {
+                      "key": "currentLeaseHolders",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"leasePeriodIndex\": \"string\",\n  \"endOfLeasePeriod\": \"string\",\n  \"currentLeaseHolders\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4549abf3-5a4b-4e9d-aee9-31d520fe989d",
+          "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get the status of the current auction.\n",
+          "request": {
+            "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get the status of the current auction.\n",
+            "description": {
+              "content": "Returns an overview of the current auction. There is only one auction\nat a time. If there is no auction most fields will be `null`. If the current\nauction phase is in `vrfDelay` and you are looking to retrieve the latest winning\nbids, it is advised to query one block before `finishEnd` in the `endingPeriod` phase\nfor that auction as there technically are no winners during the `vrfDelay` and thus\nthe field is `null`.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "paras",
+                "auctions",
+                "current"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve auction progress at."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f0c3d654-4741-4aaf-be72-7a51357b1fb9",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paras",
+                    "auctions",
+                    "current"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"beginEnd\": \"string\",\n  \"finishEnd\": \"string\",\n  \"phase\": \"startPeriod\",\n  \"auctionIndex\": \"string\",\n  \"leasePeriods\": [\n    \"string\",\n    \"string\"\n  ],\n  \"winning\": [\n    {\n      \"bid\": {\n        \"accountId\": \"string\",\n        \"paraId\": \"string\",\n        \"amount\": \"string\"\n      },\n      \"leaseSet\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"bid\": {\n        \"accountId\": \"string\",\n        \"paraId\": \"string\",\n        \"amount\": \"string\"\n      },\n      \"leaseSet\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e7495b53-b5db-439f-8213-751d1bf12594",
+          "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] List all stored crowdloans.\n",
+          "request": {
+            "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] List all stored crowdloans.\n",
+            "description": {
+              "content": "Returns a list of all the crowdloans and their associated paraIds.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "paras",
+                "crowdloans"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve the list of paraIds that have crowdloans at."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "77b38596-4869-4320-8bee-ac43e8e37cba",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paras",
+                    "crowdloans"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"funds\": [\n    {\n      \"paraId\": \"string\",\n      \"fundInfo\": {\n        \"depositor\": \"string\",\n        \"verifier\": \"string\",\n        \"deposit\": \"string\",\n        \"raised\": \"string\",\n        \"end\": \"string\",\n        \"cap\": \"string\",\n        \"lastConstribution\": \"ending\",\n        \"firstPeriod\": \"string\",\n        \"lastPeriod\": \"string\",\n        \"trieIndex\": \"string\"\n      }\n    },\n    {\n      \"paraId\": \"string\",\n      \"fundInfo\": {\n        \"depositor\": \"string\",\n        \"verifier\": \"string\",\n        \"deposit\": \"string\",\n        \"raised\": \"string\",\n        \"end\": \"string\",\n        \"cap\": \"string\",\n        \"lastConstribution\": \"preEnding\",\n        \"firstPeriod\": \"string\",\n        \"lastPeriod\": \"string\",\n        \"trieIndex\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f5131d1a-1135-49e3-a9a3-a93267961a6f",
+          "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get crowdloan information for a `paraId`.\n",
+          "request": {
+            "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get crowdloan information for a `paraId`.\n",
+            "description": {
+              "content": "Returns crowdloan's `fundInfo` and the set of `leasePeriods` the crowdloan`\ncovers.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "paras",
+                ":paraId",
+                "crowdloan-info"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve info at."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "paraId",
+                  "description": "(Required) paraId to query the crowdloan information of."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f2ad72cf-ef07-4444-a372-6d926517d67e",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paras",
+                    ":paraId",
+                    "crowdloan-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "paraId",
+                      "description": "(Required) paraId to query the crowdloan information of."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"fundInfo\": {\n    \"depositor\": \"string\",\n    \"verifier\": \"string\",\n    \"deposit\": \"string\",\n    \"raised\": \"string\",\n    \"end\": \"string\",\n    \"cap\": \"string\",\n    \"lastConstribution\": \"preEnding\",\n    \"firstPeriod\": \"string\",\n    \"lastPeriod\": \"string\",\n    \"trieIndex\": \"string\"\n  },\n  \"leasePeriods\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0ed2df8e-a578-491e-b88d-0e07b2882686",
+          "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get current and future leases as well as the lifecycle stage for a given `paraId`.\n",
+          "request": {
+            "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get current and future leases as well as the lifecycle stage for a given `paraId`.\n",
+            "description": {
+              "content": "Returns a list of leases that belong to the `paraId` as well as the\n`paraId`'s current lifecycle stage.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "paras",
+                ":paraId",
+                "lease-info"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve para's leases at."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "paraId",
+                  "description": "(Required) paraId to query the crowdloan information of."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b7021e02-57c7-4d42-b8dc-1b07209818b7",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paras",
+                    ":paraId",
+                    "lease-info"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "paraId",
+                      "description": "(Required) paraId to query the crowdloan information of."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"paraLifecycle\": \"parathread\",\n  \"onboardingAs\": \"parathread\",\n  \"leases\": [\n    {\n      \"leasePeriodIndex\": \"string\",\n      \"account\": \"string\",\n      \"deposit\": \"string\"\n    },\n    {\n      \"leasePeriodIndex\": \"string\",\n      \"account\": \"string\",\n      \"deposit\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7ff6489c-6c99-40da-87b5-b0a18daad8d8",
+          "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get the heads of the included (backed and considered available) parachain candidates at the\nspecified block height or at the most recent finalized head otherwise.\n",
+          "request": {
+            "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get the heads of the included (backed and considered available) parachain candidates at the\nspecified block height or at the most recent finalized head otherwise.\n",
+            "description": {
+              "content": "Returns an object with all the parachain id's as keys, and their headers as values.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "paras",
+                "head",
+                "included-candidates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve para's heads at."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "92c6d178-0391-4da5-8cb2-1a4ff4a6dced",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paras",
+                    "head",
+                    "included-candidates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"paraId\": {\n    \"hash\": \"string\",\n    \"number\": \"string\",\n    \"parentHash\": \"string\",\n    \"stateRoot\": \"string\",\n    \"extrinsicsRoot\": \"string\",\n    \"digest\": {\n      \"logs\": [\n        {\n          \"type\": \"string\",\n          \"index\": \"string\",\n          \"value\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"index\": \"string\",\n          \"value\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ]\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a4c41c6b-194b-41e0-b3f5-43ff454ffaaf",
+          "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get the heads of the backed parachain candidates at the specified block height or at the most recent finalized head otherwise.\n",
+          "request": {
+            "name": "[DEPRECATION NOTE: PHASED OUT ENDPOINT IN FAVOR OF CORETIME] Get the heads of the backed parachain candidates at the specified block height or at the most recent finalized head otherwise.\n",
+            "description": {
+              "content": "Returns an object with all the parachain id's as keys, and their headers as values.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "paras",
+                "head",
+                "backed-candidates"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "at",
+                  "value": "<unsignedInteger or $hex>",
+                  "description": "Block at which to retrieve para's heads at."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "84692fcc-e4fa-4e08-916e-b01fda2d353e",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paras",
+                    "head",
+                    "backed-candidates"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "at",
+                      "value": "<unsignedInteger or $hex>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"at\": {\n    \"hash\": \"string\",\n    \"height\": \"string\"\n  },\n  \"paraId\": {\n    \"hash\": \"string\",\n    \"number\": \"string\",\n    \"parentHash\": \"string\",\n    \"stateRoot\": \"string\",\n    \"extrinsicsRoot\": \"string\",\n    \"digest\": {\n      \"logs\": [\n        {\n          \"type\": \"string\",\n          \"index\": \"string\",\n          \"value\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        {\n          \"type\": \"string\",\n          \"index\": \"string\",\n          \"value\": [\n            \"string\",\n            \"string\"\n          ]\n        }\n      ]\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "02c5fcb2-c85a-4c1e-83bd-3d0993efc606",
+          "name": "Get relay chain inclusion information for a specific parachain block.",
+          "request": {
+            "name": "Get relay chain inclusion information for a specific parachain block.",
+            "description": {
+              "content": "Returns the relay chain block number where a parachain block was included,\nalong with the relay parent number used during production. This endpoint helps\ntrack the lifecycle of parachain blocks from production to inclusion.\n\n**Note**: This endpoint requires a multi-chain connection (both parachain and relay chain APIs).\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "paras",
+                ":number",
+                "inclusion"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "depth",
+                  "value": "10",
+                  "description": "Maximum number of relay chain blocks to search for inclusion (must be divisible by 5, max 100)."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<unsignedInteger>",
+                  "key": "number",
+                  "description": "(Required) Parachain block number to find inclusion information for."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "18e1cf03-407f-4fed-bc89-2c4267f32374",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paras",
+                    ":number",
+                    "inclusion"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "depth",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<unsignedInteger>",
+                      "key": "number",
+                      "description": "(Required) Parachain block number to find inclusion information for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"parachainBlock\": 4039,\n  \"parachainBlockHash\": \"string\",\n  \"parachainId\": 1452,\n  \"relayParentNumber\": 5355,\n  \"inclusionNumber\": 4285,\n  \"found\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5f4b4f6a-1f7a-4261-abc0-74efe9f4eb4e",
+              "name": "Invalid depth parameter",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "paras",
+                    ":number",
+                    "inclusion"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "depth",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<unsignedInteger>",
+                      "key": "number",
+                      "description": "(Required) Parachain block number to find inclusion information for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"Depth parameter must be divisible by 5 for optimal performance.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://polkadot-public-sidecar.parity-chains.parity.io/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6bfce21a-5cab-4e2d-930a-f9439c85dd9c",
+    "name": "Substrate API Sidecar accounts paras API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of\n> [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite\n> built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints\n> served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly\n> lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.\n>\n> **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·\n> [crate](https://crates.io/crates/polkadot-rest-api) ·\n> [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·\n> [docs](https://paritytech.github.io/polkadot-rest-api/) ·\n> [issues](https://github.com/paritytech/polkadot-rest-api/issues)\n\nSubstrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes\nbuilt using Substrate's FRAME framework.\n",
+      "type": "text/plain"
+    }
+  }
+}

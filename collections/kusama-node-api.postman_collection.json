@@ -1,0 +1,260 @@
+{
+  "item": [
+    {
+      "id": "778a899a-53fa-4585-a78c-ad8675d6c39b",
+      "name": "node",
+      "description": {
+        "content": "node connected to sidecar",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2e16dd73-c299-4666-a20d-06608c4ac94f",
+          "name": "Get information about the Substrate node's activity in the peer-to-peer network.",
+          "request": {
+            "name": "Get information about the Substrate node's activity in the peer-to-peer network.",
+            "description": {
+              "content": "Returns network related information of the node.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "node",
+                "network"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a8e358aa-1637-40f8-92c0-bb5e09989d1a",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "node",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"nodeRoles\": \"Sentry\",\n  \"numPeers\": \"string\",\n  \"isSyncing\": true,\n  \"shouldHavePeers\": true,\n  \"localPeerId\": \"string\",\n  \"localListenAddresses\": [\n    \"string\",\n    \"string\"\n  ],\n  \"peersInfo\": [\n    {\n      \"peerId\": \"string\",\n      \"roles\": \"string\",\n      \"protocolVersion\": \"string\",\n      \"bestHash\": \"string\",\n      \"bestNumber\": \"string\"\n    },\n    {\n      \"peerId\": \"string\",\n      \"roles\": \"string\",\n      \"protocolVersion\": \"string\",\n      \"bestHash\": \"string\",\n      \"bestNumber\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "63a0ceb7-f9ab-40a4-81fa-700c38c6d1d8",
+          "name": "Get pending extrinsics from the Substrate node.",
+          "request": {
+            "name": "Get pending extrinsics from the Substrate node.",
+            "description": {
+              "content": "Returns the extrinsics that the node knows of that have not been included in a block.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "node",
+                "transaction-pool"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "includeFee",
+                  "value": "false",
+                  "description": "Boolean representing whether or not to include tips, partialFee, and priority in each extrinsic."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "453e77b9-b93d-4edb-b5e2-2f04fafeb21e",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "node",
+                    "transaction-pool"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "includeFee",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pool\": [\n    {\n      \"hash\": \"string\",\n      \"encodedExtrinsic\": \"string\",\n      \"tip\": \"string\",\n      \"priority\": \"string\",\n      \"partialFee\": \"string\"\n    },\n    {\n      \"hash\": \"string\",\n      \"encodedExtrinsic\": \"string\",\n      \"tip\": \"string\",\n      \"priority\": \"string\",\n      \"partialFee\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "db3f7f3c-6883-4ff5-a1d7-6eae9f544005",
+          "name": "Get information about the Substrates node's implementation and versioning.",
+          "request": {
+            "name": "Get information about the Substrates node's implementation and versioning.",
+            "description": {
+              "content": "Returns versioning information of the node.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "node",
+                "version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "99fb4bd3-ceb2-4d05-8df5-6c9704461730",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "node",
+                    "version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clientVersion\": \"string\",\n  \"clientImplName\": \"string\",\n  \"chain\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://polkadot-public-sidecar.parity-chains.parity.io/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "bcf60b1a-f70f-418b-9a78-5c0527c8ac7f",
+    "name": "Substrate API Sidecar accounts node API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of\n> [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite\n> built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints\n> served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly\n> lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.\n>\n> **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·\n> [crate](https://crates.io/crates/polkadot-rest-api) ·\n> [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·\n> [docs](https://paritytech.github.io/polkadot-rest-api/) ·\n> [issues](https://github.com/paritytech/polkadot-rest-api/issues)\n\nSubstrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes\nbuilt using Substrate's FRAME framework.\n",
+      "type": "text/plain"
+    }
+  }
+}

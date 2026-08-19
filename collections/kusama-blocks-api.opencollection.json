@@ -1,0 +1,392 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Substrate API Sidecar accounts blocks API",
+    "version": "20.14.1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "blocks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a range of blocks by their height.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/blocks",
+            "params": [
+              {
+                "name": "range",
+                "value": "0-499",
+                "type": "query",
+                "description": "A range of integers. There is a max limit of 500 blocks per request."
+              },
+              {
+                "name": "eventDocs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every event will have an extra `docs` property with a string of the events documentation."
+              },
+              {
+                "name": "extrinsicDocs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every extrinsic will have an extra `docs` property with a string of the extrinsics documentation."
+              },
+              {
+                "name": "noFees",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, the fee won't be calculated for the extrinsics."
+              },
+              {
+                "name": "useEvmFormat",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, the range parameter represents relay chain block numbers and the response includes additional fields for each block. Only supported for Asset Hub endpoints with relay chain API available. When used, returns an array of response objects or empty array if no Asset Hub block found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Given a range query parameter return an array of all the blocks within that range. When `useRcBlock` parameter is used, the range represents relay chain block numbers and the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp` for each block. Relay chain blocks without corresponding Asset Hub blocks are skipped."
+        },
+        {
+          "info": {
+            "name": "Get a block by its height or hash.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/blocks/:blockId",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "path",
+                "description": "Block identifier, as the block height or block hash."
+              },
+              {
+                "name": "eventDocs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every event will have an extra `docs` property with a string of the events documentation."
+              },
+              {
+                "name": "extrinsicDocs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every extrinsic will have an extra `docs` property with a string of the extrinsics documentation."
+              },
+              {
+                "name": "noFees",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, the fee won't be calculated for the extrinsics."
+              },
+              {
+                "name": "finalizedKey",
+                "value": "",
+                "type": "query",
+                "description": "When set to false, this will override the chain-config, and omit the finalized key in the response. This can increase performance slightly by avoiding an additional RPC call to the node."
+              },
+              {
+                "name": "decodedXcmMsgs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, this will show the decoded XCM messages within the extrinsics of the requested block."
+              },
+              {
+                "name": "paraId",
+                "value": "",
+                "type": "query",
+                "description": "When it is set, this will return only the decoded XCM messages for the specified origin Parachain Id (originParaId). To activate this functionality, ensure that the `decodedXcmMsgs` parameter is set to true."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, it will use the relay chain block identifier to determine the corresponding Asset Hub block. Only supported for Asset Hub endpoints with relay chain API available. When used, returns an array of response objects or empty array if no Asset Hub block found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              },
+              {
+                "name": "useEvmFormat",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM."
+              }
+            ]
+          },
+          "docs": "Returns a single block. BlockId can either be a block hash or a block height. Replaces `/block/{number}` from versions < v1.0.0. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`."
+        },
+        {
+          "info": {
+            "name": "Get a block's header by its height or hash.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/blocks/:blockId/header",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "path",
+                "description": "Block identifier, as the block height or block hash."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, it will use the relay chain block identifier to determine the corresponding Asset Hub block. Only supported for Asset Hub endpoints with relay chain API available. When used, returns an array of response objects or empty array if no Asset Hub block found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns a single block's header. BlockId can either be a block hash or a block height. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`."
+        },
+        {
+          "info": {
+            "name": "Get an extrinsic by its extrinsicIndex and block height or hash. The pair blockId, extrinsicIndex is sometimes referred to as a Timepoint.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/blocks/:blockId/extrinsics/:extrinsicIndex",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "path",
+                "description": "Block identifier, as the block height or block hash."
+              },
+              {
+                "name": "extrinsicIndex",
+                "value": "",
+                "type": "path",
+                "description": "The extrinsic's index within the block's body."
+              },
+              {
+                "name": "eventDocs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every event will have an extra `docs` property with a string of the events documentation."
+              },
+              {
+                "name": "extrinsicDocs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every extrinsic will have an extra `docs` property with a string of the extrinsics documentation."
+              },
+              {
+                "name": "noFees",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, the fee won't be calculated for the extrinsic."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, it will use the relay chain block identifier to determine the corresponding Asset Hub block. Only supported for Asset Hub endpoints with relay chain API available. When used, returns an array of response objects or empty array if no Asset Hub block found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              },
+              {
+                "name": "useEvmFormat",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM."
+              }
+            ]
+          },
+          "docs": "Returns a single extrinsic. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`."
+        },
+        {
+          "info": {
+            "name": "Get the most recently finalized block.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/blocks/head",
+            "params": [
+              {
+                "name": "finalized",
+                "value": "",
+                "type": "query",
+                "description": "Boolean representing whether or not to get the finalized head. If it is not set the value defaults to true. When set to false it will attempt to get the newest known block, which may not be finalized."
+              },
+              {
+                "name": "eventDocs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every event will have an extra `docs` property with a string of the events documentation."
+              },
+              {
+                "name": "extrinsicDocs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every extrinsic will have an extra `docs` property with a string of the extrinsics documentation."
+              },
+              {
+                "name": "noFees",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, the fee won't be calculated for the extrinsics."
+              },
+              {
+                "name": "decodedXcmMsgs",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, this will show the decoded XCM messages within the extrinsics of the requested block."
+              },
+              {
+                "name": "paraId",
+                "value": "",
+                "type": "query",
+                "description": "When it is set, this will return only the decoded XCM messages for the specified origin Parachain Id (originParaId). To activate this functionality, ensure that the `decodedXcmMsgs` parameter is set to true."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, it will use the latest relay chain block to determine the corresponding Asset Hub block. Only supported for Asset Hub endpoints with relay chain API available. Respects the `finalized` parameter when determining which relay chain block to use. When used, returns an array of response objects or empty array if no Asset Hub block found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              },
+              {
+                "name": "useEvmFormat",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, every extrinsic's event emitted by pallet-revive will have the address data formatted to EVM."
+              }
+            ]
+          },
+          "docs": "Returns the most recently finalized block. Replaces `/block` from versions < v1.0.0. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`."
+        },
+        {
+          "info": {
+            "name": "Get information about the header of the most recent finalized block.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/blocks/head/header",
+            "params": [
+              {
+                "name": "finalized",
+                "value": "",
+                "type": "query",
+                "description": "Boolean representing whether or not to get the finalized head. If it is not set the value defaults to true. When set to false it will attempt to get the newest known block, which may not be finalized."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, it will use the latest relay chain block to determine the corresponding Asset Hub block header. Only supported for Asset Hub endpoints with relay chain API available. Respects the `finalized` parameter when determining which relay chain block to use. When used, returns an array of response objects or empty array if no Asset Hub block found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns the most recently finalized block's header. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`."
+        },
+        {
+          "info": {
+            "name": "Get a blocks header & its extrinsics as hex values.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/blocks/:blockId/extrinsics-raw",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "path",
+                "description": "Block identifier, as the block height or block hash."
+              },
+              {
+                "name": "useRcBlock",
+                "value": "",
+                "type": "query",
+                "description": "When set to `true`, it will use the relay chain block identifier to determine the corresponding Asset Hub block. Only supported for Asset Hub endpoints with relay chain API available. When used, returns an array of response objects or empty array if no Asset Hub block found."
+              },
+              {
+                "name": "useRcBlockFormat",
+                "value": "",
+                "type": "query",
+                "description": "Controls the response format when using 'useRcBlock=true'. When set to 'object', wraps the response in an object containing relay chain block info ('rcBlock') and the parachain data array ('parachainDataPerBlock'). When set to 'array' or omitted, returns the standard array format. Only valid when 'useRcBlock=true' is specified."
+              }
+            ]
+          },
+          "docs": "Returns a block & its extrinsics as hex values. BlockId can either be a block hash or a block height. When `useRcBlock` parameter is used, the response includes additional fields `rcBlockHash`, `rcBlockNumber`, and `ahTimestamp`."
+        },
+        {
+          "info": {
+            "name": "Get all parachain inclusion information for a relay chain block.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://polkadot-public-sidecar.parity-chains.parity.io/blocks/:blockId/para-inclusions",
+            "params": [
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "path",
+                "description": "Relay chain block identifier, as the block height or block hash."
+              },
+              {
+                "name": "paraId",
+                "value": "",
+                "type": "query",
+                "description": "Optional parachain ID to filter results. When provided, only the inclusion information for the specified parachain will be returned."
+              }
+            ]
+          },
+          "docs": "Returns all decoded parachain inclusion events (CandidateIncluded) for a relay chain block. BlockId can either be a block hash or a block height. This endpoint extracts and decodes the candidate descriptor, commitments hash, and parachain header information for each included parachain block."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
