@@ -71,6 +71,8 @@ apis:
   humanURL: https://paritytech.github.io/json-rpc-interface-spec/
   baseURL: https://kusama-rpc.polkadot.io/
   tags:
+  - Account
+  tags_raw:
   - accounts
   properties:
   - type: OpenAPI
@@ -99,6 +101,8 @@ apis:
   humanURL: https://paritytech.github.io/json-rpc-interface-spec/
   baseURL: https://kusama-rpc.polkadot.io/
   tags:
+  - Blocks
+  tags_raw:
   - blocks
   properties:
   - type: OpenAPI
@@ -113,6 +117,8 @@ apis:
   humanURL: https://paritytech.github.io/json-rpc-interface-spec/
   baseURL: https://kusama-rpc.polkadot.io/
   tags:
+  - Contracts
+  tags_raw:
   - contracts
   properties:
   - type: OpenAPI
@@ -141,6 +147,8 @@ apis:
   humanURL: https://paritytech.github.io/json-rpc-interface-spec/
   baseURL: https://kusama-rpc.polkadot.io/
   tags:
+  - Node
+  tags_raw:
   - node
   properties:
   - type: OpenAPI
@@ -295,6 +303,8 @@ apis:
   humanURL: https://paritytech.github.io/json-rpc-interface-spec/
   baseURL: https://kusama-rpc.polkadot.io/
   tags:
+  - Runtime
+  tags_raw:
   - runtime
   properties:
   - type: OpenAPI
@@ -309,6 +319,8 @@ apis:
   humanURL: https://paritytech.github.io/json-rpc-interface-spec/
   baseURL: https://kusama-rpc.polkadot.io/
   tags:
+  - Staking
+  tags_raw:
   - staking
   properties:
   - type: OpenAPI
@@ -323,6 +335,8 @@ apis:
   humanURL: https://paritytech.github.io/json-rpc-interface-spec/
   baseURL: https://kusama-rpc.polkadot.io/
   tags:
+  - Trace
+  tags_raw:
   - trace
   properties:
   - type: OpenAPI
@@ -337,6 +351,8 @@ apis:
   humanURL: https://paritytech.github.io/json-rpc-interface-spec/
   baseURL: https://kusama-rpc.polkadot.io/
   tags:
+  - Transaction
+  tags_raw:
   - transaction
   properties:
   - type: OpenAPI
