@@ -10,6 +10,18 @@ description: 'Kusama is the permissionless, unaudited canary network of the Polk
   at kusama-public-sidecar.parity-chains.parity.io, documented by a 119-operation OpenAPI 3.0 specification.
   Access is unauthenticated and public-read; write access happens by submitting SCALE-encoded, key-signed
   extrinsics. The native token is KSM (12 decimals, SS58 prefix 2).'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: open
