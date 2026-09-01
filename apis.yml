@@ -129,7 +129,7 @@ apis:
   humanURL: https://paritytech.github.io/json-rpc-interface-spec/
   baseURL: https://kusama-rpc.polkadot.io/
   tags:
-  - contracts
+  - Contracts
   tags_raw:
   - contracts
   properties:
@@ -315,7 +315,7 @@ apis:
   humanURL: https://paritytech.github.io/json-rpc-interface-spec/
   baseURL: https://kusama-rpc.polkadot.io/
   tags:
-  - runtime
+  - Runtime
   tags_raw:
   - runtime
   properties:
@@ -331,7 +331,7 @@ apis:
   humanURL: https://paritytech.github.io/json-rpc-interface-spec/
   baseURL: https://kusama-rpc.polkadot.io/
   tags:
-  - staking
+  - Staking
   tags_raw:
   - staking
   properties:
@@ -347,7 +347,7 @@ apis:
   humanURL: https://paritytech.github.io/json-rpc-interface-spec/
   baseURL: https://kusama-rpc.polkadot.io/
   tags:
-  - trace
+  - Trace
   tags_raw:
   - trace
   properties:
