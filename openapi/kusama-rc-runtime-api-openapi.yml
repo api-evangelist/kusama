@@ -1,34 +1,13 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Substrate API Sidecar accounts rc runtime API
+  title: Substrate API Sidecar rc runtime API
   description: '> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of
 
-    > [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite
+    > `polkadot-rest-api`, a ground-up Rust rewrite
 
-    > built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints
+    > built on `subxt` with 1:1 API compatibility (endpoints
 
-    > served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly
-
-    > lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.
-
-    >
-
-    > **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·
-
-    > [crate](https://crates.io/crates/polkadot-rest-api) ·
-
-    > [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·
-
-    > [docs](https://paritytech.github.io/polkadot-rest-api/) ·
-
-    > [issues](https://github.com/paritytech/polkadot-rest-api/issues)
-
-
-    Substrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes
-
-    built using Substrate''s FRAME framework.
-
-    '
+    > served under `/v1/`, e.g.'
   contact:
     url: https://github.com/paritytech/substrate-api-sidecar
   license:
@@ -53,7 +32,7 @@ paths:
     get:
       tags:
       - rc runtime
-      summary: Get version information of the relay chain Substrate runtime.
+      summary: Get version information of the relay chain Substrate runtime
       description: Returns version information related to the relay chain runtime. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for runtime specification.
       parameters:
       - name: at
@@ -71,11 +50,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RuntimeSpec'
+      operationId: getRcRuntimeSpec
+      x-operation-id-source: derived
   /rc/runtime/metadata:
     get:
       tags:
       - rc runtime
-      summary: Get the relay chain's metadata.
+      summary: Get the relay chain's metadata
       description: Returns the relay chain's runtime metadata in decoded JSON format. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for metadata.
       parameters:
       - name: at
@@ -93,11 +74,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RuntimeMetadata'
+      operationId: getRcRuntimeMetadata
+      x-operation-id-source: derived
   /rc/runtime/metadata/versions:
     get:
       tags:
       - rc runtime
-      summary: Get the available versions of relay chain's metadata.
+      summary: Get the available versions of relay chain's metadata
       description: Returns the available versions of the relay chain's metadata. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for metadata versions.
       parameters:
       - name: at
@@ -117,11 +100,13 @@ paths:
                 type: array
                 items:
                   type: string
+      operationId: getRcRuntimeMetadataVersions
+      x-operation-id-source: derived
   /rc/runtime/metadata/{metadataVersion}:
     get:
       tags:
       - rc runtime
-      summary: Get the relay chain's metadata at a specific version.
+      summary: Get the relay chain's metadata at a specific version
       description: Returns the relay chain's runtime metadata at a specific version in decoded JSON format. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for versioned metadata.
       parameters:
       - name: metadataVersion
@@ -152,11 +137,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      operationId: getRcRuntimeMetadataByMetadataVersion
+      x-operation-id-source: derived
   /rc/runtime/code:
     get:
       tags:
       - rc runtime
-      summary: Get the Wasm code blob of the relay chain Substrate runtime.
+      summary: Get the Wasm code blob of the relay chain Substrate runtime
       description: Returns the relay chain's runtime code in Wasm format. This endpoint is specifically for Asset Hub and queries the relay chain (Polkadot/Kusama) for runtime code.
       parameters:
       - name: at
@@ -174,34 +161,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RuntimeCode'
+      operationId: getRcRuntimeCode
+      x-operation-id-source: derived
 components:
   schemas:
-    RuntimeSpec:
+    BlockIdentifiers:
       type: object
       properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        authoringVersion:
+        hash:
           type: string
-          description: The version of the authorship interface. An authoring node will not attempt to author blocks unless this is equal to its native runtime.
-        chainType:
-          $ref: '#/components/schemas/ChainType'
-        implVersion:
+          description: The block's hash.
+          format: hex
+        height:
           type: string
-          description: Version of the implementation specification. Non-consensus-breaking optimizations are about the only changes that could be made which would result in only the `impl_version` changing. The `impl_version` is set to 0 when `spec_version` is incremented.
-        specName:
-          type: string
-          description: Identifies the different Substrate runtimes.
-        specVersion:
-          type: string
-          description: Version of the runtime specification.
-        transactionVersion:
-          type: string
-          description: All existing dispatches are fully compatible when this number doesn't change. This number must change when an existing dispatchable (module ID, dispatch ID) is changed, either through an alteration in its user-level semantics, a parameter added/removed/changed, a dispatchable being removed, a module being removed, or a dispatchable/module changing its index.
-        properties:
-          type: object
-          description: Arbitrary properties defined in the chain spec.
-      description: Version information related to the runtime.
+          description: The block's height.
+          format: unsignedInteger
     RuntimeMetadata:
       type: object
       description: 'Substrate runtime metadata containing pallet information, types registry, and API specifications.
@@ -233,31 +207,57 @@ components:
       description: Type of the chain. It will return one of the following enum variants as a key. Live, Development, Local, or Custom. Each variant will have a value as null except when the ChainType is Custom, it will return a string.
       properties:
         live:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           default: null
         development:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           default: null
         local:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           default: null
         custom:
           type: string
       example: '{"live": null}'
-    BlockIdentifiers:
+    RuntimeCode:
       type: object
       properties:
-        hash:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        code:
           type: string
-          description: The block's hash.
           format: hex
-        height:
+    RuntimeSpec:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        authoringVersion:
           type: string
-          description: The block's height.
-          format: unsignedInteger
+          description: The version of the authorship interface. An authoring node will not attempt to author blocks unless this is equal to its native runtime.
+        chainType:
+          $ref: '#/components/schemas/ChainType'
+        implVersion:
+          type: string
+          description: Version of the implementation specification. Non-consensus-breaking optimizations are about the only changes that could be made which would result in only the `impl_version` changing. The `impl_version` is set to 0 when `spec_version` is incremented.
+        specName:
+          type: string
+          description: Identifies the different Substrate runtimes.
+        specVersion:
+          type: string
+          description: Version of the runtime specification.
+        transactionVersion:
+          type: string
+          description: All existing dispatches are fully compatible when this number doesn't change. This number must change when an existing dispatchable (module ID, dispatch ID) is changed, either through an alteration in its user-level semantics, a parameter added/removed/changed, a dispatchable being removed, a module being removed, or a dispatchable/module changing its index.
+        properties:
+          type: object
+          description: Arbitrary properties defined in the chain spec.
+      description: Version information related to the runtime.
     Error:
       type: object
       properties:
@@ -269,11 +269,3 @@ components:
           type: string
         level:
           type: string
-    RuntimeCode:
-      type: object
-      properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        code:
-          type: string
-          format: hex

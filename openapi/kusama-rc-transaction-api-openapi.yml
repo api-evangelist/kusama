@@ -1,34 +1,13 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Substrate API Sidecar accounts rc transaction API
+  title: Substrate API Sidecar rc transaction API
   description: '> ⚠️ **Deprecation Notice** — `substrate-api-sidecar` is deprecated in favor of
 
-    > [`polkadot-rest-api`](https://github.com/paritytech/polkadot-rest-api), a ground-up Rust rewrite
+    > `polkadot-rest-api`, a ground-up Rust rewrite
 
-    > built on [`subxt`](https://github.com/paritytech/subxt) with 1:1 API compatibility (endpoints
+    > built on `subxt` with 1:1 API compatibility (endpoints
 
-    > served under `/v1/`, e.g. `/v1/blocks/head`), stable memory under sustained load, significantly
-
-    > lower latency and higher throughput, and native SCALE decoding via `parity-scale-codec`.
-
-    >
-
-    > **Migrate today:** Docker `paritytech/polkadot-rest-api:v0.1.0` ·
-
-    > [crate](https://crates.io/crates/polkadot-rest-api) ·
-
-    > [migration guide](https://github.com/paritytech/polkadot-rest-api/blob/main/docs/guides/MIGRATION.md) ·
-
-    > [docs](https://paritytech.github.io/polkadot-rest-api/) ·
-
-    > [issues](https://github.com/paritytech/polkadot-rest-api/issues)
-
-
-    Substrate API Sidecar is a REST service that makes it easy to interact with blockchain nodes
-
-    built using Substrate''s FRAME framework.
-
-    '
+    > served under `/v1/`, e.g.'
   contact:
     url: https://github.com/paritytech/substrate-api-sidecar
   license:
@@ -53,7 +32,7 @@ paths:
     post:
       tags:
       - rc transaction
-      summary: Submit a transaction to the relay chain node's transaction pool.
+      summary: Submit a transaction to the relay chain node's transaction pool
       description: Accepts a valid signed extrinsic for the relay chain. Replaces `/tx` from versions < v1.0.0.
       operationId: submitRcTransaction
       requestBody:
@@ -75,7 +54,7 @@ paths:
     post:
       tags:
       - rc transaction
-      summary: Dry run an extrinsic on the relay chain.
+      summary: Dry run an extrinsic on the relay chain
       description: Use the `dryRun` call to simulate the submission of a transaction to the relay chain without executing it so that you can check for potential errors and validate the expected outcome.
       operationId: dryrunRcTransaction
       requestBody:
@@ -97,7 +76,7 @@ paths:
     post:
       tags:
       - rc transaction
-      summary: Receive a fee estimate for a relay chain transaction.
+      summary: Receive a fee estimate for a relay chain transaction
       description: 'Send a serialized transaction and receive back a naive fee estimate for the relay chain. Note: `partialFee` does not include any tips that you may add to increase a transaction''s priority. See the reference on `compute_fee`. Replaces `/tx/fee-estimate` from versions < v1.0.0. Substrate Reference: - `RuntimeDispatchInfo`: https://crates.parity.io/pallet_transaction_payment_rpc_runtime_api/struct.RuntimeDispatchInfo.html - `query_info`: https://crates.parity.io/pallet_transaction_payment/struct.Module.html#method.query_info - `compute_fee`: https://crates.parity.io/pallet_transaction_payment/struct.Module.html#method.compute_fee'
       operationId: feeEstimateRcTransaction
       requestBody:
@@ -119,7 +98,7 @@ paths:
     get:
       tags:
       - rc transaction
-      summary: Get all the relay chain network information needed to construct a transaction offline.
+      summary: Get all the relay chain network information needed to construct a transaction…
       description: Returns the material that is universal to constructing any signed transaction offline for the relay chain. Replaces `/tx/artifacts` from versions < v1.0.0.
       operationId: getRcTransactionMaterial
       parameters:
@@ -159,7 +138,7 @@ paths:
     get:
       tags:
       - rc transaction
-      summary: Get all the relay chain network information needed to construct a transaction offline and the version of metadata specified in `metadataVersion`.
+      summary: Get all the relay chain network information needed to construct a transaction…
       description: Returns all the materials necessary for constructing any signed transactions offline for the relay chain.
       operationId: getRcTransactionMaterialwithVersionedMetadata
       parameters:
@@ -197,48 +176,55 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    Transaction:
+    TransactionValidityError:
       type: object
+      description: The error result from an invalid transaction submitted via the `dry-run` endpoint.
       properties:
-        tx:
+        errorType:
           type: string
-          format: hex
-    DryRunBody:
-      type: object
-      properties:
-        at:
-          type: string
-          format: unsignedInteger
-        tx:
-          type: string
-          format: hex
-        senderAddress:
-          type: string
-          format: ss58
-    TransactionFeeEstimateFailure:
+          enum:
+          - Unimplemented
+          - VersionedConversionFailed
+          description: The type of transaction error, either `Unimplemented` or `VersionedConversionFailed`.
+    TransactionFailedToSubmit:
       type: object
       properties:
         code:
           type: number
-        at:
-          type: object
-          properties:
-            hash:
-              type: string
         error:
           type: string
-          description: Error description.
+          description: Failed to submit transaction.
         transaction:
           type: string
           format: hex
-        block:
-          type: string
-          description: Block hash of the block fee estimation was attempted at.
         cause:
           type: string
-          description: Error message from the client.
         stack:
           type: string
+      description: Error message when the node rejects the submitted transaction.
+    BlockIdentifiers:
+      type: object
+      properties:
+        hash:
+          type: string
+          description: The block's hash.
+          format: hex
+        height:
+          type: string
+          description: The block's height.
+          format: unsignedInteger
+    TransactionDispatchOutcome:
+      type: object
+      description: The result of a valid transaction submitted via the `dry-run` endpoint.
+      properties:
+        actualWeight:
+          type: string
+          format: unsignedInteger
+          description: The actual weight of the transaction.
+        paysFee:
+          type: string
+          format: boolean
+          description: Whether the transaction pays a fee.
     TransactionFeeEstimate:
       type: object
       properties:
@@ -257,15 +243,6 @@ components:
           description: Expected inclusion fee for the transaction. Note that the fee rate changes up to 30% in a 24 hour period and this will not be the exact fee.
           format: unsignedInteger
       description: 'Note: `partialFee` does not include any tips that you may add to increase a transaction''s priority. See [compute_fee](https://crates.parity.io/pallet_transaction_payment/struct.Module.html#method.compute_fee).'
-    WeightsV2:
-      type: object
-      properties:
-        refTime:
-          type: string
-          description: The weight of computational time used based on some reference hardware.
-        proofSize:
-          type: string
-          description: The weight of storage space used by proof of validity.
     TransactionDryRun:
       type: object
       properties:
@@ -282,28 +259,15 @@ components:
           - $ref: '#/components/schemas/TransactionDispatchError'
           - $ref: '#/components/schemas/TransactionValidityError'
       description: "References:\n  - `PostDispatchInfo`: https://docs.rs/frame-support/38.0.0/frame_support/dispatch/struct.PostDispatchInfo.html\n  - `DispatchError`: https://docs.rs/sp-runtime/39.0.1/sp_runtime/enum.DispatchError.html\n  - `Error Type`: https://paritytech.github.io/polkadot-sdk/master/xcm_runtime_apis/dry_run/enum.Error.html"
-    BlockIdentifiers:
+    WeightsV2:
       type: object
       properties:
-        hash:
+        refTime:
           type: string
-          description: The block's hash.
-          format: hex
-        height:
+          description: The weight of computational time used based on some reference hardware.
+        proofSize:
           type: string
-          description: The block's height.
-          format: unsignedInteger
-    Error:
-      type: object
-      properties:
-        code:
-          type: number
-        message:
-          type: string
-        stack:
-          type: string
-        level:
-          type: string
+          description: The weight of storage space used by proof of validity.
     TransactionMaterial:
       type: object
       properties:
@@ -329,32 +293,14 @@ components:
           type: string
           description: The chain's metadata. It will only be present when the metadata query param is used.
       description: 'Note: `chainName`, `specName`, and `specVersion` are used to define a type registry with a set of signed extensions and types. For Polkadot and Kusama, `chainName` is not used in defining this registry, but in other Substrate-based chains that re-launch their network without changing the `specName`, the `chainName` would be needed to create the correct registry. Substrate Reference: - `RuntimeVersion`: https://crates.parity.io/sp_version/struct.RuntimeVersion.html - `SignedExtension`: https://crates.parity.io/sp_runtime/traits/trait.SignedExtension.html -  FRAME Support: https://crates.parity.io/frame_support/metadata/index.html'
-    TransactionSuccess:
-      type: object
-      properties:
-        hash:
-          type: string
-          description: The hash of the encoded transaction.
-    TransactionDispatchOutcome:
-      type: object
-      description: The result of a valid transaction submitted via the `dry-run` endpoint.
-      properties:
-        actualWeight:
-          type: string
-          format: unsignedInteger
-          description: The actual weight of the transaction.
-        paysFee:
-          type: string
-          format: boolean
-          description: Whether the transaction pays a fee.
-    TransactionFailedToSubmit:
+    TransactionFailedToParse:
       type: object
       properties:
         code:
           type: number
         error:
           type: string
-          description: Failed to submit transaction.
+          description: '`Failed to parse a tx.`'
         transaction:
           type: string
           format: hex
@@ -362,17 +308,25 @@ components:
           type: string
         stack:
           type: string
-      description: Error message when the node rejects the submitted transaction.
-    TransactionValidityError:
+      description: Error message when Sidecar fails to parse the transaction.
+    TransactionSuccess:
       type: object
-      description: The error result from an invalid transaction submitted via the `dry-run` endpoint.
       properties:
-        errorType:
+        hash:
           type: string
-          enum:
-          - Unimplemented
-          - VersionedConversionFailed
-          description: The type of transaction error, either `Unimplemented` or `VersionedConversionFailed`.
+          description: The hash of the encoded transaction.
+    DryRunBody:
+      type: object
+      properties:
+        at:
+          type: string
+          format: unsignedInteger
+        tx:
+          type: string
+          format: hex
+        senderAddress:
+          type: string
+          format: ss58
     TransactionDispatchError:
       type: object
       description: The reason why the dispatch call failed.
@@ -395,36 +349,61 @@ components:
           - Unavailable
           - RootNotAllowed
           description: The type of transaction error.
-    TransactionFailure:
-      oneOf:
-      - $ref: '#/components/schemas/TransactionFailedToSubmit'
-      - $ref: '#/components/schemas/TransactionFailedToParse'
-    TransactionFailedToParse:
+    Error:
       type: object
       properties:
         code:
           type: number
-        error:
-          type: string
-          description: '`Failed to parse a tx.`'
-        transaction:
-          type: string
-          format: hex
-        cause:
+        message:
           type: string
         stack:
           type: string
-      description: Error message when Sidecar fails to parse the transaction.
+        level:
+          type: string
+    Transaction:
+      type: object
+      properties:
+        tx:
+          type: string
+          format: hex
+    TransactionFeeEstimateFailure:
+      type: object
+      properties:
+        code:
+          type: number
+        at:
+          type: object
+          properties:
+            hash:
+              type: string
+        error:
+          type: string
+          description: Error description.
+        transaction:
+          type: string
+          format: hex
+        block:
+          type: string
+          description: Block hash of the block fee estimation was attempted at.
+        cause:
+          type: string
+          description: Error message from the client.
+        stack:
+          type: string
+    TransactionFailure:
+      oneOf:
+      - $ref: '#/components/schemas/TransactionFailedToSubmit'
+      - $ref: '#/components/schemas/TransactionFailedToParse'
   requestBodies:
-    TransactionDryRun:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/DryRunBody'
-      required: true
     Transaction:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Transaction'
+      required: true
+    TransactionDryRun:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DryRunBody'
       required: true
