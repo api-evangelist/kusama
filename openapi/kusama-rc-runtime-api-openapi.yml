@@ -165,17 +165,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    BlockIdentifiers:
-      type: object
-      properties:
-        hash:
-          type: string
-          description: The block's hash.
-          format: hex
-        height:
-          type: string
-          description: The block's height.
-          format: unsignedInteger
     RuntimeMetadata:
       type: object
       description: 'Substrate runtime metadata containing pallet information, types registry, and API specifications.
@@ -202,6 +191,25 @@ components:
       required:
       - magicNumber
       - metadata
+    RuntimeCode:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        code:
+          type: string
+          format: hex
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        stack:
+          type: string
+        level:
+          type: string
     ChainType:
       type: object
       description: Type of the chain. It will return one of the following enum variants as a key. Live, Development, Local, or Custom. Each variant will have a value as null except when the ChainType is Custom, it will return a string.
@@ -224,14 +232,6 @@ components:
         custom:
           type: string
       example: '{"live": null}'
-    RuntimeCode:
-      type: object
-      properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        code:
-          type: string
-          format: hex
     RuntimeSpec:
       type: object
       properties:
@@ -258,14 +258,14 @@ components:
           type: object
           description: Arbitrary properties defined in the chain spec.
       description: Version information related to the runtime.
-    Error:
+    BlockIdentifiers:
       type: object
       properties:
-        code:
-          type: number
-        message:
+        hash:
           type: string
-        stack:
+          description: The block's hash.
+          format: hex
+        height:
           type: string
-        level:
-          type: string
+          description: The block's height.
+          format: unsignedInteger

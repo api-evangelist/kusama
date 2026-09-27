@@ -175,7 +175,109 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
+  requestBodies:
+    TransactionDryRun:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DryRunBody'
+      required: true
+    Transaction:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Transaction'
+      required: true
   schemas:
+    TransactionMaterial:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        genesisHash:
+          type: string
+          description: The hash of the chain's genesis block.
+          format: blockHash
+        chainName:
+          type: string
+          description: The chain's name.
+        specName:
+          type: string
+          description: The chain's spec.
+        specVersion:
+          type: string
+          description: The spec version. Always increased in a runtime upgrade.
+        txVersion:
+          type: string
+          description: The transaction version. Common `txVersion` numbers indicate that the transaction encoding format and method indices are the same. Needed for decoding in an offline environment. Adding new transactions does not change `txVersion`.
+        metadata:
+          type: string
+          description: The chain's metadata. It will only be present when the metadata query param is used.
+      description: 'Note: `chainName`, `specName`, and `specVersion` are used to define a type registry with a set of signed extensions and types. For Polkadot and Kusama, `chainName` is not used in defining this registry, but in other Substrate-based chains that re-launch their network without changing the `specName`, the `chainName` would be needed to create the correct registry. Substrate Reference: - `RuntimeVersion`: https://crates.parity.io/sp_version/struct.RuntimeVersion.html - `SignedExtension`: https://crates.parity.io/sp_runtime/traits/trait.SignedExtension.html -  FRAME Support: https://crates.parity.io/frame_support/metadata/index.html'
+    TransactionSuccess:
+      type: object
+      properties:
+        hash:
+          type: string
+          description: The hash of the encoded transaction.
+    DryRunBody:
+      type: object
+      properties:
+        at:
+          type: string
+          format: unsignedInteger
+        tx:
+          type: string
+          format: hex
+        senderAddress:
+          type: string
+          format: ss58
+    TransactionFeeEstimateFailure:
+      type: object
+      properties:
+        code:
+          type: number
+        at:
+          type: object
+          properties:
+            hash:
+              type: string
+        error:
+          type: string
+          description: Error description.
+        transaction:
+          type: string
+          format: hex
+        block:
+          type: string
+          description: Block hash of the block fee estimation was attempted at.
+        cause:
+          type: string
+          description: Error message from the client.
+        stack:
+          type: string
+    TransactionDispatchError:
+      type: object
+      description: The reason why the dispatch call failed.
+      properties:
+        errorType:
+          type: string
+          enum:
+          - Other
+          - CannotLookup
+          - BadOrigin
+          - ModuleError
+          - ConsumerRemaining
+          - NoProviders
+          - TooManyConsumers
+          - TokenError
+          - ArithmeticError
+          - TransactionalError
+          - Exhausted
+          - Corruption
+          - Unavailable
+          - RootNotAllowed
+          description: The type of transaction error.
     TransactionValidityError:
       type: object
       description: The error result from an invalid transaction submitted via the `dry-run` endpoint.
@@ -202,17 +304,17 @@ components:
         stack:
           type: string
       description: Error message when the node rejects the submitted transaction.
-    BlockIdentifiers:
+    Error:
       type: object
       properties:
-        hash:
+        code:
+          type: number
+        message:
           type: string
-          description: The block's hash.
-          format: hex
-        height:
+        stack:
           type: string
-          description: The block's height.
-          format: unsignedInteger
+        level:
+          type: string
     TransactionDispatchOutcome:
       type: object
       description: The result of a valid transaction submitted via the `dry-run` endpoint.
@@ -225,6 +327,23 @@ components:
           type: string
           format: boolean
           description: Whether the transaction pays a fee.
+    BlockIdentifiers:
+      type: object
+      properties:
+        hash:
+          type: string
+          description: The block's hash.
+          format: hex
+        height:
+          type: string
+          description: The block's height.
+          format: unsignedInteger
+    Transaction:
+      type: object
+      properties:
+        tx:
+          type: string
+          format: hex
     TransactionFeeEstimate:
       type: object
       properties:
@@ -243,22 +362,6 @@ components:
           description: Expected inclusion fee for the transaction. Note that the fee rate changes up to 30% in a 24 hour period and this will not be the exact fee.
           format: unsignedInteger
       description: 'Note: `partialFee` does not include any tips that you may add to increase a transaction''s priority. See [compute_fee](https://crates.parity.io/pallet_transaction_payment/struct.Module.html#method.compute_fee).'
-    TransactionDryRun:
-      type: object
-      properties:
-        resultType:
-          type: string
-          enum:
-          - DispatchOutcome
-          - DispatchError
-          - TransactionValidityError
-          description: The result will be either a `DispatchOutcome` if the transaction is valid, a `DispatchError` if the transaction failed, or a `TransactionValidityError` if the transaction is invalid.
-        result:
-          oneOf:
-          - $ref: '#/components/schemas/TransactionDispatchOutcome'
-          - $ref: '#/components/schemas/TransactionDispatchError'
-          - $ref: '#/components/schemas/TransactionValidityError'
-      description: "References:\n  - `PostDispatchInfo`: https://docs.rs/frame-support/38.0.0/frame_support/dispatch/struct.PostDispatchInfo.html\n  - `DispatchError`: https://docs.rs/sp-runtime/39.0.1/sp_runtime/enum.DispatchError.html\n  - `Error Type`: https://paritytech.github.io/polkadot-sdk/master/xcm_runtime_apis/dry_run/enum.Error.html"
     WeightsV2:
       type: object
       properties:
@@ -268,31 +371,6 @@ components:
         proofSize:
           type: string
           description: The weight of storage space used by proof of validity.
-    TransactionMaterial:
-      type: object
-      properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        genesisHash:
-          type: string
-          description: The hash of the chain's genesis block.
-          format: blockHash
-        chainName:
-          type: string
-          description: The chain's name.
-        specName:
-          type: string
-          description: The chain's spec.
-        specVersion:
-          type: string
-          description: The spec version. Always increased in a runtime upgrade.
-        txVersion:
-          type: string
-          description: The transaction version. Common `txVersion` numbers indicate that the transaction encoding format and method indices are the same. Needed for decoding in an offline environment. Adding new transactions does not change `txVersion`.
-        metadata:
-          type: string
-          description: The chain's metadata. It will only be present when the metadata query param is used.
-      description: 'Note: `chainName`, `specName`, and `specVersion` are used to define a type registry with a set of signed extensions and types. For Polkadot and Kusama, `chainName` is not used in defining this registry, but in other Substrate-based chains that re-launch their network without changing the `specName`, the `chainName` would be needed to create the correct registry. Substrate Reference: - `RuntimeVersion`: https://crates.parity.io/sp_version/struct.RuntimeVersion.html - `SignedExtension`: https://crates.parity.io/sp_runtime/traits/trait.SignedExtension.html -  FRAME Support: https://crates.parity.io/frame_support/metadata/index.html'
     TransactionFailedToParse:
       type: object
       properties:
@@ -309,101 +387,23 @@ components:
         stack:
           type: string
       description: Error message when Sidecar fails to parse the transaction.
-    TransactionSuccess:
-      type: object
-      properties:
-        hash:
-          type: string
-          description: The hash of the encoded transaction.
-    DryRunBody:
-      type: object
-      properties:
-        at:
-          type: string
-          format: unsignedInteger
-        tx:
-          type: string
-          format: hex
-        senderAddress:
-          type: string
-          format: ss58
-    TransactionDispatchError:
-      type: object
-      description: The reason why the dispatch call failed.
-      properties:
-        errorType:
-          type: string
-          enum:
-          - Other
-          - CannotLookup
-          - BadOrigin
-          - ModuleError
-          - ConsumerRemaining
-          - NoProviders
-          - TooManyConsumers
-          - TokenError
-          - ArithmeticError
-          - TransactionalError
-          - Exhausted
-          - Corruption
-          - Unavailable
-          - RootNotAllowed
-          description: The type of transaction error.
-    Error:
-      type: object
-      properties:
-        code:
-          type: number
-        message:
-          type: string
-        stack:
-          type: string
-        level:
-          type: string
-    Transaction:
-      type: object
-      properties:
-        tx:
-          type: string
-          format: hex
-    TransactionFeeEstimateFailure:
-      type: object
-      properties:
-        code:
-          type: number
-        at:
-          type: object
-          properties:
-            hash:
-              type: string
-        error:
-          type: string
-          description: Error description.
-        transaction:
-          type: string
-          format: hex
-        block:
-          type: string
-          description: Block hash of the block fee estimation was attempted at.
-        cause:
-          type: string
-          description: Error message from the client.
-        stack:
-          type: string
     TransactionFailure:
       oneOf:
       - $ref: '#/components/schemas/TransactionFailedToSubmit'
       - $ref: '#/components/schemas/TransactionFailedToParse'
-  requestBodies:
-    Transaction:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Transaction'
-      required: true
     TransactionDryRun:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/DryRunBody'
-      required: true
+      type: object
+      properties:
+        resultType:
+          type: string
+          enum:
+          - DispatchOutcome
+          - DispatchError
+          - TransactionValidityError
+          description: The result will be either a `DispatchOutcome` if the transaction is valid, a `DispatchError` if the transaction failed, or a `TransactionValidityError` if the transaction is invalid.
+        result:
+          oneOf:
+          - $ref: '#/components/schemas/TransactionDispatchOutcome'
+          - $ref: '#/components/schemas/TransactionDispatchError'
+          - $ref: '#/components/schemas/TransactionValidityError'
+      description: "References:\n  - `PostDispatchInfo`: https://docs.rs/frame-support/38.0.0/frame_support/dispatch/struct.PostDispatchInfo.html\n  - `DispatchError`: https://docs.rs/sp-runtime/39.0.1/sp_runtime/enum.DispatchError.html\n  - `Error Type`: https://paritytech.github.io/polkadot-sdk/master/xcm_runtime_apis/dry_run/enum.Error.html"

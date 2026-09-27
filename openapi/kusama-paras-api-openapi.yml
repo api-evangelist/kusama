@@ -311,17 +311,102 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    BlockIdentifiers:
+    FundInfo:
       type: object
       properties:
-        hash:
+        depositor:
           type: string
-          description: The block's hash.
-          format: hex
-        height:
+        verifier:
           type: string
-          description: The block's height.
+        deposit:
+          type: string
           format: unsignedInteger
+        raised:
+          type: string
+          format: unsignedInteger
+        end:
+          type: string
+          format: unsignedInteger
+        cap:
+          type: string
+          format: unsignedInteger
+        lastConstribution:
+          type: string
+          enum:
+          - preEnding
+          - ending
+        firstPeriod:
+          type: string
+          format: unsignedInteger
+        lastPeriod:
+          type: string
+          format: unsignedInteger
+        trieIndex:
+          type: string
+          format: unsignedInteger
+    WinningData:
+      type: object
+      properties:
+        bid:
+          type: object
+          properties:
+            accountId:
+              type: string
+            paraId:
+              type: string
+              format: unsignedInteger
+            amount:
+              type: string
+              format: unsignedInteger
+        leaseSet:
+          type: array
+          items:
+            type: string
+            format: unsignedInteger
+      description: 'A currently winning bid and the set of lease periods the bid is for. The
+
+        `amount` of the bid is per lease period. The `bid` property will be `null`
+
+        if no bid has been made for the corresponding `leaseSet`.
+
+        '
+    ParasHeaders:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        paraId:
+          type: object
+          description: "The key is not named `paraId` and will be the number of the parachain. There is technically no limit to the number of paraId keys there can be. \n"
+          properties:
+            hash:
+              type: string
+              description: The block's hash.
+              format: hex
+            number:
+              type: string
+              description: The block's height.
+              format: unsignedInteger
+            parentHash:
+              type: string
+              description: The hash of the parent block.
+              format: hex
+            stateRoot:
+              type: string
+              description: The state root after executing this block.
+              format: hex
+            extrinsicsRoot:
+              type: string
+              description: The Merkle root of the extrinsics.
+              format: hex
+            digest:
+              type: object
+              properties:
+                logs:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/DigestItem'
+                  description: Array of `DigestItem`s associated with the block.
     ParasLeasesCurrent:
       type: object
       properties:
@@ -341,19 +426,6 @@ components:
             type: string
             format: unsignedInteger
           description: List of `paraId`s that currently hold a lease.
-    ParasCrowdloanInfo:
-      type: object
-      properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        fundInfo:
-          $ref: '#/components/schemas/FundInfo'
-        leasePeriods:
-          type: array
-          items:
-            type: string
-            format: unsignedInteger
-          description: Lease periods the crowdloan can bid on.
     ParasCrowdloans:
       type: object
       properties:
@@ -372,6 +444,135 @@ components:
           description: 'List of paras that have crowdloans.
 
             '
+    Para:
+      type: object
+      properties:
+        paraId:
+          type: string
+          format: unsignedInteger
+        paraLifecycle:
+          $ref: '#/components/schemas/ParaLifecycle'
+        onboardingAs:
+          $ref: '#/components/schemas/OnboardingAs'
+    ParaLifecycle:
+      type: string
+      enum:
+      - onboarding
+      - parathread
+      - parachain
+      - upgradingParathread
+      - downgradingParachain
+      - offboardingParathread
+      - offboardingParachain
+      description: 'The possible states of a para, to take into account delayed lifecycle
+
+        changes.
+
+        '
+    ParachainInclusion:
+      type: object
+      properties:
+        parachainBlock:
+          type: integer
+          description: The parachain block number that was searched for.
+        parachainBlockHash:
+          type: string
+          format: hex
+          description: The hash of the parachain block.
+        parachainId:
+          type: integer
+          description: The parachain ID.
+        relayParentNumber:
+          type: integer
+          description: The relay chain block number used as parent during parachain block production.
+        inclusionNumber:
+          type:
+          - integer
+          - 'null'
+          description: The relay chain block number where the parachain block was included (null if not found).
+        found:
+          type: boolean
+          description: Whether the inclusion was found within the search depth.
+      required:
+      - parachainBlock
+      - parachainBlockHash
+      - parachainId
+      - relayParentNumber
+      - inclusionNumber
+      - found
+    Paras:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        paras:
+          type: array
+          items:
+            $ref: '#/components/schemas/Para'
+    ParasLeaseInfo:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        paraLifecycle:
+          $ref: '#/components/schemas/ParaLifecycle'
+        onboardingAs:
+          $ref: '#/components/schemas/OnboardingAs'
+        leases:
+          type: array
+          items:
+            type: object
+            properties:
+              leasePeriodIndex:
+                type: string
+                format: unsignedInteger
+              account:
+                type: string
+              deposit:
+                type: string
+                format: unsignedInteger
+          description: 'List of lease periods for which the `paraId` holds a lease along with
+
+            the deposit held and the associated `accountId`.
+
+            '
+    ParasCrowdloanInfo:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        fundInfo:
+          $ref: '#/components/schemas/FundInfo'
+        leasePeriods:
+          type: array
+          items:
+            type: string
+            format: unsignedInteger
+          description: Lease periods the crowdloan can bid on.
+    OnboardingAs:
+      type: string
+      enum:
+      - parachain
+      - parathread
+      description: 'This property only shows up when `paraLifecycle=onboarding`. It
+
+        describes if a particular para is onboarding as a `parachain` or a
+
+        `parathread`.
+
+        '
+    DigestItem:
+      type: object
+      properties:
+        type:
+          type: string
+        index:
+          type: string
+          format: unsignedInteger
+        value:
+          type: array
+          items:
+            type: string
     ParasAuctionsCurrent:
       type: object
       properties:
@@ -432,215 +633,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/WinningData'
-    ParasLeaseInfo:
+    BlockIdentifiers:
       type: object
       properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        paraLifecycle:
-          $ref: '#/components/schemas/ParaLifecycle'
-        onboardingAs:
-          $ref: '#/components/schemas/OnboardingAs'
-        leases:
-          type: array
-          items:
-            type: object
-            properties:
-              leasePeriodIndex:
-                type: string
-                format: unsignedInteger
-              account:
-                type: string
-              deposit:
-                type: string
-                format: unsignedInteger
-          description: 'List of lease periods for which the `paraId` holds a lease along with
-
-            the deposit held and the associated `accountId`.
-
-            '
-    WinningData:
-      type: object
-      properties:
-        bid:
-          type: object
-          properties:
-            accountId:
-              type: string
-            paraId:
-              type: string
-              format: unsignedInteger
-            amount:
-              type: string
-              format: unsignedInteger
-        leaseSet:
-          type: array
-          items:
-            type: string
-            format: unsignedInteger
-      description: 'A currently winning bid and the set of lease periods the bid is for. The
-
-        `amount` of the bid is per lease period. The `bid` property will be `null`
-
-        if no bid has been made for the corresponding `leaseSet`.
-
-        '
-    OnboardingAs:
-      type: string
-      enum:
-      - parachain
-      - parathread
-      description: 'This property only shows up when `paraLifecycle=onboarding`. It
-
-        describes if a particular para is onboarding as a `parachain` or a
-
-        `parathread`.
-
-        '
-    ParachainInclusion:
-      type: object
-      properties:
-        parachainBlock:
-          type: integer
-          description: The parachain block number that was searched for.
-        parachainBlockHash:
+        hash:
           type: string
+          description: The block's hash.
           format: hex
-          description: The hash of the parachain block.
-        parachainId:
-          type: integer
-          description: The parachain ID.
-        relayParentNumber:
-          type: integer
-          description: The relay chain block number used as parent during parachain block production.
-        inclusionNumber:
-          type:
-          - integer
-          - 'null'
-          description: The relay chain block number where the parachain block was included (null if not found).
-        found:
-          type: boolean
-          description: Whether the inclusion was found within the search depth.
-      required:
-      - parachainBlock
-      - parachainBlockHash
-      - parachainId
-      - relayParentNumber
-      - inclusionNumber
-      - found
-    Paras:
-      type: object
-      properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        paras:
-          type: array
-          items:
-            $ref: '#/components/schemas/Para'
-    ParaLifecycle:
-      type: string
-      enum:
-      - onboarding
-      - parathread
-      - parachain
-      - upgradingParathread
-      - downgradingParachain
-      - offboardingParathread
-      - offboardingParachain
-      description: 'The possible states of a para, to take into account delayed lifecycle
-
-        changes.
-
-        '
-    ParasHeaders:
-      type: object
-      properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        paraId:
-          type: object
-          description: "The key is not named `paraId` and will be the number of the parachain. There is technically no limit to the number of paraId keys there can be. \n"
-          properties:
-            hash:
-              type: string
-              description: The block's hash.
-              format: hex
-            number:
-              type: string
-              description: The block's height.
-              format: unsignedInteger
-            parentHash:
-              type: string
-              description: The hash of the parent block.
-              format: hex
-            stateRoot:
-              type: string
-              description: The state root after executing this block.
-              format: hex
-            extrinsicsRoot:
-              type: string
-              description: The Merkle root of the extrinsics.
-              format: hex
-            digest:
-              type: object
-              properties:
-                logs:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/DigestItem'
-                  description: Array of `DigestItem`s associated with the block.
-    DigestItem:
-      type: object
-      properties:
-        type:
+        height:
           type: string
-        index:
-          type: string
+          description: The block's height.
           format: unsignedInteger
-        value:
-          type: array
-          items:
-            type: string
-    FundInfo:
-      type: object
-      properties:
-        depositor:
-          type: string
-        verifier:
-          type: string
-        deposit:
-          type: string
-          format: unsignedInteger
-        raised:
-          type: string
-          format: unsignedInteger
-        end:
-          type: string
-          format: unsignedInteger
-        cap:
-          type: string
-          format: unsignedInteger
-        lastConstribution:
-          type: string
-          enum:
-          - preEnding
-          - ending
-        firstPeriod:
-          type: string
-          format: unsignedInteger
-        lastPeriod:
-          type: string
-          format: unsignedInteger
-        trieIndex:
-          type: string
-          format: unsignedInteger
-    Para:
-      type: object
-      properties:
-        paraId:
-          type: string
-          format: unsignedInteger
-        paraLifecycle:
-          $ref: '#/components/schemas/ParaLifecycle'
-        onboardingAs:
-          $ref: '#/components/schemas/OnboardingAs'

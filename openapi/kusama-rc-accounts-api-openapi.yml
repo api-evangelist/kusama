@@ -291,127 +291,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    VestingSchedule:
-      type: object
-      properties:
-        locked:
-          type: string
-          description: Number of tokens locked at start.
-          format: unsignedInteger
-        perBlock:
-          type: string
-          description: Number of tokens that gets unlocked every block after `startingBlock`.
-          format: unsignedInteger
-        startingBlock:
-          type: string
-          description: Starting block for unlocking (vesting).
-          format: unsignedInteger
-        vested:
-          type: string
-          description: Amount that has vested based on time elapsed for this schedule. Only present when `includeClaimable` parameter is used.
-          format: unsignedInteger
-      description: Vesting schedule for an account.
-    BlockIdentifiers:
-      type: object
-      properties:
-        hash:
-          type: string
-          description: The block's hash.
-          format: hex
-        height:
-          type: string
-          description: The block's height.
-          format: unsignedInteger
-    Nominations:
-      type: object
-      properties:
-        targets:
-          type: array
-          items:
-            type: string
-          description: The targets of the nomination.
-        submittedIn:
-          type: string
-          format: unsignedInteger
-          description: The era the nominations were submitted. (Except for initial nominations which are considered submitted at era 0.)
-        suppressed:
-          type: boolean
-          description: Whether the nominations have been suppressed.
-    AccountVestingInfo:
-      type: object
-      description: Sidecar version's <= v10.0.0 have a`vesting` return value that defaults to an object for when there is no available vesting-info data. It also returns a `VestingInfo` as an object. For Sidecar >=11.0.0, that value will now default as an array when there is no value, and `Vec<PalletsPalletVestingInfo>` is returned when there is.
-      properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        vesting:
-          type: array
-          items:
-            $ref: '#/components/schemas/VestingSchedule'
-        rcBlockHash:
-          type: string
-          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
-        rcBlockNumber:
-          type: string
-          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
-          format: unsignedInteger
-        ahTimestamp:
-          type: string
-          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
-          format: unsignedInteger
-        vestedBalance:
-          type: string
-          description: Total vested amount across all schedules based on time elapsed. Only present when `includeClaimable` parameter is used.
-          format: unsignedInteger
-        vestingTotal:
-          type: string
-          description: Total locked amount across all vesting schedules. Only present when `includeClaimable` parameter is used.
-          format: unsignedInteger
-        vestedClaimable:
-          type: string
-          description: Actual amount that can be claimed now (vestedBalance minus already claimed). Only present when `includeClaimable` parameter is used.
-          format: unsignedInteger
-        blockNumberForCalculation:
-          type: string
-          description: The block number used for vesting calculations. Only present when `includeClaimable` parameter is used.
-          format: unsignedInteger
-        blockNumberSource:
-          type: string
-          description: Which chain's block number was used for calculations ('relay' or 'self'). Only present when `includeClaimable` parameter is used.
-          enum:
-          - relay
-          - self
-    Payouts:
-      type: array
-      items:
-        type: object
-        properties:
-          validatorId:
-            type: string
-            description: AccountId of the validator the payout is coming from.
-          nominatorStakingPayout:
-            type: string
-            format: unsignedInteger
-            description: Payout for the reward destination associated with the accountId the query was made for.
-          claimed:
-            type: boolean
-            description: Whether or not the reward has been claimed.
-          totalValidatorRewardPoints:
-            type: string
-            format: unsignedInteger
-            description: Number of reward points earned by the validator.
-          validatorCommission:
-            type: string
-            format: unsignedInteger
-            description: The percentage of the total payout that the validator takes as commission, expressed as a Perbill.
-          totalValidatorExposure:
-            type: string
-            format: unsignedInteger
-            description: The sum of the validator's and its nominators' stake.
-          nominatorExposure:
-            type: string
-            format: unsignedInteger
-            description: The amount of stake the nominator has behind the validator.
-        description: Payout for a nominating _Stash_ address and information about the validator they were nominating.
     StakingLedger:
       type: object
       properties:
@@ -486,23 +365,6 @@ components:
           description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
           format: unsignedInteger
       description: 'Note: For Sidecar versions prior to v.20.0.0, in field `claimedRewards` under `staking`, we return whatever we would find under `StakingLedger` with no further calculations. From v.20.0.0 onwards, `claimedRewards` is calculated based on different calls: `lastReward`, `claimedRewards` or `legacyClaimedRewards`. Note on lastReward: Runtime versions of Kusama less than 1062 will either have `lastReward` in place of `claimedRewards`, or no field at all. This is related to changes in reward distribution. See: [Lazy Payouts](https://github.com/paritytech/substrate/pull/4474), [Simple Payouts](https://github.com/paritytech/substrate/pull/5406)'
-    BalanceLock:
-      type: object
-      properties:
-        id:
-          type: string
-          description: An identifier for this lock. Only one lock may be in existence for each identifier.
-        amount:
-          type: string
-          description: The amount below which the free balance may not drop with this lock in effect.
-          format: unsignedInteger
-        reasons:
-          type: string
-          description: Reasons for withdrawing balance.
-          enum:
-          - Fee = 0
-          - Misc = 1
-          - All = 2
     AccountBalanceInfo:
       type: object
       properties:
@@ -556,41 +418,48 @@ components:
           type: string
           description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
           format: unsignedInteger
-    Error:
+    Payouts:
+      type: array
+      items:
+        type: object
+        properties:
+          validatorId:
+            type: string
+            description: AccountId of the validator the payout is coming from.
+          nominatorStakingPayout:
+            type: string
+            format: unsignedInteger
+            description: Payout for the reward destination associated with the accountId the query was made for.
+          claimed:
+            type: boolean
+            description: Whether or not the reward has been claimed.
+          totalValidatorRewardPoints:
+            type: string
+            format: unsignedInteger
+            description: Number of reward points earned by the validator.
+          validatorCommission:
+            type: string
+            format: unsignedInteger
+            description: The percentage of the total payout that the validator takes as commission, expressed as a Perbill.
+          totalValidatorExposure:
+            type: string
+            format: unsignedInteger
+            description: The sum of the validator's and its nominators' stake.
+          nominatorExposure:
+            type: string
+            format: unsignedInteger
+            description: The amount of stake the nominator has behind the validator.
+        description: Payout for a nominating _Stash_ address and information about the validator they were nominating.
+    AccountVestingInfo:
       type: object
-      properties:
-        code:
-          type: number
-        message:
-          type: string
-        stack:
-          type: string
-        level:
-          type: string
-    AccountStakingPayouts:
-      type: object
+      description: Sidecar version's <= v10.0.0 have a`vesting` return value that defaults to an object for when there is no available vesting-info data. It also returns a `VestingInfo` as an object. For Sidecar >=11.0.0, that value will now default as an array when there is no value, and `Vec<PalletsPalletVestingInfo>` is returned when there is.
       properties:
         at:
           $ref: '#/components/schemas/BlockIdentifiers'
-        erasPayouts:
+        vesting:
           type: array
           items:
-            type: object
-            properties:
-              era:
-                type: string
-                format: unsignedInteger
-                description: Era this information is associated with.
-              totalEraRewardPoints:
-                type: string
-                format: unsignedInteger
-                description: Total reward points for the era. Equals the sum of reward points for all the validators in the set.
-              totalEraPayout:
-                type: string
-                format: unsignedInteger
-                description: Total payout for the era. Validators split the payout based on the portion of `totalEraRewardPoints` they have.
-              payouts:
-                $ref: '#/components/schemas/Payouts'
+            $ref: '#/components/schemas/VestingSchedule'
         rcBlockHash:
           type: string
           description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
@@ -602,6 +471,91 @@ components:
           type: string
           description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
           format: unsignedInteger
+        vestedBalance:
+          type: string
+          description: Total vested amount across all schedules based on time elapsed. Only present when `includeClaimable` parameter is used.
+          format: unsignedInteger
+        vestingTotal:
+          type: string
+          description: Total locked amount across all vesting schedules. Only present when `includeClaimable` parameter is used.
+          format: unsignedInteger
+        vestedClaimable:
+          type: string
+          description: Actual amount that can be claimed now (vestedBalance minus already claimed). Only present when `includeClaimable` parameter is used.
+          format: unsignedInteger
+        blockNumberForCalculation:
+          type: string
+          description: The block number used for vesting calculations. Only present when `includeClaimable` parameter is used.
+          format: unsignedInteger
+        blockNumberSource:
+          type: string
+          description: Which chain's block number was used for calculations ('relay' or 'self'). Only present when `includeClaimable` parameter is used.
+          enum:
+          - relay
+          - self
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        stack:
+          type: string
+        level:
+          type: string
+    Nominations:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            type: string
+          description: The targets of the nomination.
+        submittedIn:
+          type: string
+          format: unsignedInteger
+          description: The era the nominations were submitted. (Except for initial nominations which are considered submitted at era 0.)
+        suppressed:
+          type: boolean
+          description: Whether the nominations have been suppressed.
+    BalanceLock:
+      type: object
+      properties:
+        id:
+          type: string
+          description: An identifier for this lock. Only one lock may be in existence for each identifier.
+        amount:
+          type: string
+          description: The amount below which the free balance may not drop with this lock in effect.
+          format: unsignedInteger
+        reasons:
+          type: string
+          description: Reasons for withdrawing balance.
+          enum:
+          - Fee = 0
+          - Misc = 1
+          - All = 2
+    VestingSchedule:
+      type: object
+      properties:
+        locked:
+          type: string
+          description: Number of tokens locked at start.
+          format: unsignedInteger
+        perBlock:
+          type: string
+          description: Number of tokens that gets unlocked every block after `startingBlock`.
+          format: unsignedInteger
+        startingBlock:
+          type: string
+          description: Starting block for unlocking (vesting).
+          format: unsignedInteger
+        vested:
+          type: string
+          description: Amount that has vested based on time elapsed for this schedule. Only present when `includeClaimable` parameter is used.
+          format: unsignedInteger
+      description: Vesting schedule for an account.
     AccountProxyInfo:
       type: object
       properties:
@@ -637,4 +591,50 @@ components:
         ahTimestamp:
           type: string
           description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    AccountStakingPayouts:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        erasPayouts:
+          type: array
+          items:
+            type: object
+            properties:
+              era:
+                type: string
+                format: unsignedInteger
+                description: Era this information is associated with.
+              totalEraRewardPoints:
+                type: string
+                format: unsignedInteger
+                description: Total reward points for the era. Equals the sum of reward points for all the validators in the set.
+              totalEraPayout:
+                type: string
+                format: unsignedInteger
+                description: Total payout for the era. Validators split the payout based on the portion of `totalEraRewardPoints` they have.
+              payouts:
+                $ref: '#/components/schemas/Payouts'
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    BlockIdentifiers:
+      type: object
+      properties:
+        hash:
+          type: string
+          description: The block's hash.
+          format: hex
+        height:
+          type: string
+          description: The block's height.
           format: unsignedInteger
