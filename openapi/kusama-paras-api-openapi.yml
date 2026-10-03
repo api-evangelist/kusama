@@ -311,6 +311,177 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Para:
+      type: object
+      properties:
+        paraId:
+          type: string
+          format: unsignedInteger
+        paraLifecycle:
+          $ref: '#/components/schemas/ParaLifecycle'
+        onboardingAs:
+          $ref: '#/components/schemas/OnboardingAs'
+    ParaLifecycle:
+      type: string
+      enum:
+      - onboarding
+      - parathread
+      - parachain
+      - upgradingParathread
+      - downgradingParachain
+      - offboardingParathread
+      - offboardingParachain
+      description: 'The possible states of a para, to take into account delayed lifecycle
+
+        changes.
+
+        '
+    ParachainInclusion:
+      type: object
+      properties:
+        parachainBlock:
+          type: integer
+          description: The parachain block number that was searched for.
+        parachainBlockHash:
+          type: string
+          format: hex
+          description: The hash of the parachain block.
+        parachainId:
+          type: integer
+          description: The parachain ID.
+        relayParentNumber:
+          type: integer
+          description: The relay chain block number used as parent during parachain block production.
+        inclusionNumber:
+          type:
+          - integer
+          - 'null'
+          description: The relay chain block number where the parachain block was included (null if not found).
+        found:
+          type: boolean
+          description: Whether the inclusion was found within the search depth.
+      required:
+      - parachainBlock
+      - parachainBlockHash
+      - parachainId
+      - relayParentNumber
+      - inclusionNumber
+      - found
+    ParasLeaseInfo:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        paraLifecycle:
+          $ref: '#/components/schemas/ParaLifecycle'
+        onboardingAs:
+          $ref: '#/components/schemas/OnboardingAs'
+        leases:
+          type: array
+          items:
+            type: object
+            properties:
+              leasePeriodIndex:
+                type: string
+                format: unsignedInteger
+              account:
+                type: string
+              deposit:
+                type: string
+                format: unsignedInteger
+          description: 'List of lease periods for which the `paraId` holds a lease along with
+
+            the deposit held and the associated `accountId`.
+
+            '
+    ParasAuctionsCurrent:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        beginEnd:
+          type: string
+          format: unisgnedInteger or $null
+          description: 'Fist block (number) of the auction ending phase. `null` if there is no ongoing
+
+            auction.
+
+            '
+        finishEnd:
+          type: string
+          format: unisgnedInteger or $null
+          description: 'Last block (number) of the auction ending phase. `null` if there is no ongoing
+
+            auction.
+
+            '
+        phase:
+          type: string
+          enum:
+          - startPeriod
+          - endPeriod
+          - vrfDelay
+          description: 'An auction can be in one of 4 phases. Both `startingPeriod` () and `endingPeriod` indicate
+
+            an ongoing auction, while `vrfDelay` lines up with the `AuctionStatus::VrfDelay` . Finally, a value of `null`
+
+            indicates there is no ongoing auction. Keep in mind the that the `finishEnd` field is the block number the
+
+            `endingPeriod` finishes and the `vrfDelay` period begins. The `vrfDelay` period is typically about an
+
+            epoch long and no crowdloan contributions are accepted.
+
+            '
+        auctionIndex:
+          type: string
+          format: unsignedInteger
+          description: 'The auction number. If there is no current auction this will be the number
+
+            of the previous auction.
+
+            '
+        leasePeriods:
+          type: array
+          items:
+            type: string
+            format: unsignedInteger
+          description: 'Lease period indexes that may be bid on in this auction. `null` if
+
+            there is no ongoing auction.
+
+            '
+        winning:
+          type: array
+          items:
+            $ref: '#/components/schemas/WinningData'
+    ParasLeasesCurrent:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        leasePeriodIndex:
+          type: string
+          format: unsignedInteger
+          description: Current lease period index. This value may be null when the current block now, substracted by the leaseOffset is less then zero.
+        endOfLeasePeriod:
+          type: string
+          format: unsignedInteger
+          description: Last block (number) of the current lease period. This value may be null when `leasePeriodIndex` is null.
+        currentLeaseHolders:
+          type: array
+          items:
+            type: string
+            format: unsignedInteger
+          description: List of `paraId`s that currently hold a lease.
+    Paras:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        paras:
+          type: array
+          items:
+            $ref: '#/components/schemas/Para'
     FundInfo:
       type: object
       properties:
@@ -344,6 +515,18 @@ components:
         trieIndex:
           type: string
           format: unsignedInteger
+    OnboardingAs:
+      type: string
+      enum:
+      - parachain
+      - parathread
+      description: 'This property only shows up when `paraLifecycle=onboarding`. It
+
+        describes if a particular para is onboarding as a `parachain` or a
+
+        `parathread`.
+
+        '
     WinningData:
       type: object
       properties:
@@ -407,25 +590,42 @@ components:
                   items:
                     $ref: '#/components/schemas/DigestItem'
                   description: Array of `DigestItem`s associated with the block.
-    ParasLeasesCurrent:
+    DigestItem:
+      type: object
+      properties:
+        type:
+          type: string
+        index:
+          type: string
+          format: unsignedInteger
+        value:
+          type: array
+          items:
+            type: string
+    ParasCrowdloanInfo:
       type: object
       properties:
         at:
           $ref: '#/components/schemas/BlockIdentifiers'
-        leasePeriodIndex:
-          type: string
-          format: unsignedInteger
-          description: Current lease period index. This value may be null when the current block now, substracted by the leaseOffset is less then zero.
-        endOfLeasePeriod:
-          type: string
-          format: unsignedInteger
-          description: Last block (number) of the current lease period. This value may be null when `leasePeriodIndex` is null.
-        currentLeaseHolders:
+        fundInfo:
+          $ref: '#/components/schemas/FundInfo'
+        leasePeriods:
           type: array
           items:
             type: string
             format: unsignedInteger
-          description: List of `paraId`s that currently hold a lease.
+          description: Lease periods the crowdloan can bid on.
+    BlockIdentifiers:
+      type: object
+      properties:
+        hash:
+          type: string
+          description: The block's hash.
+          format: hex
+        height:
+          type: string
+          description: The block's height.
+          format: unsignedInteger
     ParasCrowdloans:
       type: object
       properties:
@@ -444,203 +644,3 @@ components:
           description: 'List of paras that have crowdloans.
 
             '
-    Para:
-      type: object
-      properties:
-        paraId:
-          type: string
-          format: unsignedInteger
-        paraLifecycle:
-          $ref: '#/components/schemas/ParaLifecycle'
-        onboardingAs:
-          $ref: '#/components/schemas/OnboardingAs'
-    ParaLifecycle:
-      type: string
-      enum:
-      - onboarding
-      - parathread
-      - parachain
-      - upgradingParathread
-      - downgradingParachain
-      - offboardingParathread
-      - offboardingParachain
-      description: 'The possible states of a para, to take into account delayed lifecycle
-
-        changes.
-
-        '
-    ParachainInclusion:
-      type: object
-      properties:
-        parachainBlock:
-          type: integer
-          description: The parachain block number that was searched for.
-        parachainBlockHash:
-          type: string
-          format: hex
-          description: The hash of the parachain block.
-        parachainId:
-          type: integer
-          description: The parachain ID.
-        relayParentNumber:
-          type: integer
-          description: The relay chain block number used as parent during parachain block production.
-        inclusionNumber:
-          type:
-          - integer
-          - 'null'
-          description: The relay chain block number where the parachain block was included (null if not found).
-        found:
-          type: boolean
-          description: Whether the inclusion was found within the search depth.
-      required:
-      - parachainBlock
-      - parachainBlockHash
-      - parachainId
-      - relayParentNumber
-      - inclusionNumber
-      - found
-    Paras:
-      type: object
-      properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        paras:
-          type: array
-          items:
-            $ref: '#/components/schemas/Para'
-    ParasLeaseInfo:
-      type: object
-      properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        paraLifecycle:
-          $ref: '#/components/schemas/ParaLifecycle'
-        onboardingAs:
-          $ref: '#/components/schemas/OnboardingAs'
-        leases:
-          type: array
-          items:
-            type: object
-            properties:
-              leasePeriodIndex:
-                type: string
-                format: unsignedInteger
-              account:
-                type: string
-              deposit:
-                type: string
-                format: unsignedInteger
-          description: 'List of lease periods for which the `paraId` holds a lease along with
-
-            the deposit held and the associated `accountId`.
-
-            '
-    ParasCrowdloanInfo:
-      type: object
-      properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        fundInfo:
-          $ref: '#/components/schemas/FundInfo'
-        leasePeriods:
-          type: array
-          items:
-            type: string
-            format: unsignedInteger
-          description: Lease periods the crowdloan can bid on.
-    OnboardingAs:
-      type: string
-      enum:
-      - parachain
-      - parathread
-      description: 'This property only shows up when `paraLifecycle=onboarding`. It
-
-        describes if a particular para is onboarding as a `parachain` or a
-
-        `parathread`.
-
-        '
-    DigestItem:
-      type: object
-      properties:
-        type:
-          type: string
-        index:
-          type: string
-          format: unsignedInteger
-        value:
-          type: array
-          items:
-            type: string
-    ParasAuctionsCurrent:
-      type: object
-      properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        beginEnd:
-          type: string
-          format: unisgnedInteger or $null
-          description: 'Fist block (number) of the auction ending phase. `null` if there is no ongoing
-
-            auction.
-
-            '
-        finishEnd:
-          type: string
-          format: unisgnedInteger or $null
-          description: 'Last block (number) of the auction ending phase. `null` if there is no ongoing
-
-            auction.
-
-            '
-        phase:
-          type: string
-          enum:
-          - startPeriod
-          - endPeriod
-          - vrfDelay
-          description: 'An auction can be in one of 4 phases. Both `startingPeriod` () and `endingPeriod` indicate
-
-            an ongoing auction, while `vrfDelay` lines up with the `AuctionStatus::VrfDelay` . Finally, a value of `null`
-
-            indicates there is no ongoing auction. Keep in mind the that the `finishEnd` field is the block number the
-
-            `endingPeriod` finishes and the `vrfDelay` period begins. The `vrfDelay` period is typically about an
-
-            epoch long and no crowdloan contributions are accepted.
-
-            '
-        auctionIndex:
-          type: string
-          format: unsignedInteger
-          description: 'The auction number. If there is no current auction this will be the number
-
-            of the previous auction.
-
-            '
-        leasePeriods:
-          type: array
-          items:
-            type: string
-            format: unsignedInteger
-          description: 'Lease period indexes that may be bid on in this auction. `null` if
-
-            there is no ongoing auction.
-
-            '
-        winning:
-          type: array
-          items:
-            $ref: '#/components/schemas/WinningData'
-    BlockIdentifiers:
-      type: object
-      properties:
-        hash:
-          type: string
-          description: The block's hash.
-          format: hex
-        height:
-          type: string
-          description: The block's height.
-          format: unsignedInteger

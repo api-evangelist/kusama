@@ -570,6 +570,221 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    PalletStorageItemMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+          example: ReferendumInfoOf
+          description: The storage item's name (which is the same as the storage item's ID).
+        modifier:
+          type: string
+          example: Optional
+        type:
+          $ref: '#/components/schemas/PalletStorageType'
+        fallback:
+          type: string
+          example: '0x00'
+        docs:
+          type: string
+          example: " Information concerning any given referendum.\n\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control."
+      description: Metadata of a storage item from a FRAME pallet.
+    PalletConstantsItem:
+      type: object
+      properties:
+        pallet:
+          type: string
+          description: Name of the pallet.
+          example: democracy
+        palletIndex:
+          type: string
+          description: Index of the pallet for looking up constants.
+          example: '14'
+        errorItem:
+          type: string
+          description: Name of the constant item.
+          example: EnactmentPeriod
+        metadata:
+          $ref: '#/components/schemas/PalletConstantsItemMetadata'
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+    PalletStorageItem:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        pallet:
+          type: string
+          description: Name of the pallet.
+          example: democracy
+        palletIndex:
+          type: string
+          description: Index of the pallet for looking up storage.
+          example: '15'
+        storageItem:
+          type: string
+          description: Name of the storage item.
+          example: referendumInfoOf
+        keys:
+          type: array
+          items:
+            type: string
+          description: N Storage keys passed in as the `keys` query param.
+          example:
+          - '0x00'
+          - '0x01'
+        value:
+          type: object
+          description: Value returned by this storage query.
+          example:
+            Ongoing:
+              end: '1612800'
+              proposalHash: '0x7de70fc8be782076d0b5772be77153d172a5381c72dd56d3385e25f62abf507e'
+              threshold: Supermajorityapproval
+              delay: '403200'
+              tally:
+                ayes: '41925212461400000'
+                nays: '214535586500000'
+                turnout: '34485320658000000'
+        metadata:
+          $ref: '#/components/schemas/PalletStorageItemMetadata'
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+    PalletConstantsItemMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+          example: VotingPeriod
+          description: The constant item's name (which is the same as the constant item's ID).
+        type:
+          type: string
+          example: '4'
+        value:
+          type: string
+          example: '0x00270600'
+          description: The hex value of the constant
+        docs:
+          type: string
+          example: "Information concerning any given constant.\n\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control."
+      description: Metadata of an constant item from a FRAME pallet.
+    PalletEvents:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        pallet:
+          type: string
+          description: Name of the pallet.
+          example: democracy
+        palletIndex:
+          type: string
+          description: Index of the pallet for looking up events.
+          example: '14'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PalletEventsItemMetadata'
+          description: Array containing metadata for each event entry of the pallet.
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+    PalletDispatchablesItem:
+      type: object
+      properties:
+        pallet:
+          type: string
+          description: Name of the pallet.
+          example: democracy
+        palletIndex:
+          type: string
+          description: Index of the pallet for looking up dispatchables.
+          example: '14'
+        dispatchableItem:
+          type: string
+          description: Name of the dispatchable item.
+          example: vote
+        metadata:
+          $ref: '#/components/schemas/PalletDispatchablesItemMetadata'
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    PalletStorage:
+      type: object
+      properties:
+        pallet:
+          type: string
+          description: Name of the pallet.
+          example: democracy
+        palletIndex:
+          type: string
+          description: Index of the pallet for looking up storage.
+          example: '15'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PalletStorageItemMetadata'
+          description: Array containing metadata for each storage entry of the pallet.
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+    PalletDispatchablesItemMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+          example: propose
+          description: The dispatchable item's name (which is the same as the dispatchable item's ID).
+        fields:
+          type: array
+          items:
+            type: string
+        index:
+          type: string
+          example: '0'
+          description: The index of the dispatchable item in the lists of pallet dispatchables.
+        docs:
+          type: string
+          example: "Information concerning any given dispatchable.\n\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control."
+        args:
+          type: array
+          items:
+            type: string
+      description: Metadata of a dispatchable item from a FRAME pallet.
     PalletEventsItemMetadata:
       type: object
       properties:
@@ -593,11 +808,38 @@ components:
           items:
             type: string
       description: Metadata of an event item from a FRAME pallet.
-    PalletErrors:
+    PalletDispatchables:
       type: object
       properties:
         at:
           $ref: '#/components/schemas/BlockIdentifiers'
+        pallet:
+          type: string
+          description: Name of the pallet.
+          example: democracy
+        palletIndex:
+          type: string
+          description: Index of the pallet for looking up dispatchables.
+          example: '14'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PalletDispatchablesItemMetadata'
+          description: Array containing metadata for each dispatchable entry of the pallet.
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    PalletErrorsItem:
+      type: object
+      properties:
         pallet:
           type: string
           description: Name of the pallet.
@@ -606,11 +848,12 @@ components:
           type: string
           description: Index of the pallet for looking up errors.
           example: '14'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/PalletErrorsItemMetadata'
-          description: Array containing metadata for each error entry of the pallet.
+        errorItem:
+          type: string
+          description: Name of the error item.
+          example: ValueLow
+        metadata:
+          $ref: '#/components/schemas/PalletErrorsItemMetadata'
         rcBlockHash:
           type: string
           description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
@@ -620,33 +863,47 @@ components:
         ahTimestamp:
           type: string
           description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
-    PalletConstants:
+    Error:
       type: object
       properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        pallet:
+        code:
+          type: number
+        message:
           type: string
-          description: Name of the pallet.
-          example: democracy
-        palletIndex:
+        stack:
           type: string
-          description: Index of the pallet for looking up constants.
-          example: '14'
-        items:
+        level:
+          type: string
+    UnappliedSlash:
+      type: object
+      properties:
+        validator:
+          type: string
+          description: Stash account ID of the offending validator.
+          format: ss58
+        own:
+          type: string
+          description: The amount the validator will be slashed.
+          format: unsignedInteger
+        others:
           type: array
+          description: Array of tuples(`[accountId, amount]`) representing all the stashes of other slashed stakers and the amount they will be slashed.
           items:
-            $ref: '#/components/schemas/PalletConstantsItemMetadata'
-          description: Array containing metadata for each constant entry of the pallet.
-        rcBlockHash:
+            type: string
+            format: tuple[ss58, unsignedInteger]
+        reporters:
+          type: array
+          description: Array of account IDs of the reporters of the offense.
+          items:
+            type: string
+            format: ss58
+        payout:
           type: string
-          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
-        rcBlockNumber:
-          type: string
-          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
-        ahTimestamp:
-          type: string
-          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          description: Amount of bounty payout to reporters.
+          format: unsignedInteger
+    PalletStorageType:
+      type: object
+      description: This is going to be formatted to the type of StorageEntryTypeV14.
     StakingProgress:
       type: object
       properties:
@@ -702,205 +959,6 @@ components:
           type: string
           description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
           format: unsignedInteger
-    PalletErrorsItemMetadata:
-      type: object
-      properties:
-        name:
-          type: string
-          example: InsufficientFunds
-          description: The error item's name (which is the same as the error item's ID).
-        fields:
-          type: array
-          items:
-            type: string
-        index:
-          type: string
-          example: '0'
-          description: The index of the error item in the lists of pallet errors
-        docs:
-          type: string
-          example: " Information concerning any given error.\n\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control."
-        args:
-          type: array
-          items:
-            type: string
-      description: Metadata of an error item from a FRAME pallet.
-    PalletDispatchablesItemMetadata:
-      type: object
-      properties:
-        name:
-          type: string
-          example: propose
-          description: The dispatchable item's name (which is the same as the dispatchable item's ID).
-        fields:
-          type: array
-          items:
-            type: string
-        index:
-          type: string
-          example: '0'
-          description: The index of the dispatchable item in the lists of pallet dispatchables.
-        docs:
-          type: string
-          example: "Information concerning any given dispatchable.\n\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control."
-        args:
-          type: array
-          items:
-            type: string
-      description: Metadata of a dispatchable item from a FRAME pallet.
-    PalletStorageItem:
-      type: object
-      properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        pallet:
-          type: string
-          description: Name of the pallet.
-          example: democracy
-        palletIndex:
-          type: string
-          description: Index of the pallet for looking up storage.
-          example: '15'
-        storageItem:
-          type: string
-          description: Name of the storage item.
-          example: referendumInfoOf
-        keys:
-          type: array
-          items:
-            type: string
-          description: N Storage keys passed in as the `keys` query param.
-          example:
-          - '0x00'
-          - '0x01'
-        value:
-          type: object
-          description: Value returned by this storage query.
-          example:
-            Ongoing:
-              end: '1612800'
-              proposalHash: '0x7de70fc8be782076d0b5772be77153d172a5381c72dd56d3385e25f62abf507e'
-              threshold: Supermajorityapproval
-              delay: '403200'
-              tally:
-                ayes: '41925212461400000'
-                nays: '214535586500000'
-                turnout: '34485320658000000'
-        metadata:
-          $ref: '#/components/schemas/PalletStorageItemMetadata'
-        rcBlockHash:
-          type: string
-          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
-        rcBlockNumber:
-          type: string
-          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
-        ahTimestamp:
-          type: string
-          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
-    PalletEvents:
-      type: object
-      properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        pallet:
-          type: string
-          description: Name of the pallet.
-          example: democracy
-        palletIndex:
-          type: string
-          description: Index of the pallet for looking up events.
-          example: '14'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/PalletEventsItemMetadata'
-          description: Array containing metadata for each event entry of the pallet.
-        rcBlockHash:
-          type: string
-          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
-        rcBlockNumber:
-          type: string
-          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
-        ahTimestamp:
-          type: string
-          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
-    PalletStorage:
-      type: object
-      properties:
-        pallet:
-          type: string
-          description: Name of the pallet.
-          example: democracy
-        palletIndex:
-          type: string
-          description: Index of the pallet for looking up storage.
-          example: '15'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/PalletStorageItemMetadata'
-          description: Array containing metadata for each storage entry of the pallet.
-        rcBlockHash:
-          type: string
-          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
-        rcBlockNumber:
-          type: string
-          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
-        ahTimestamp:
-          type: string
-          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
-    PalletErrorsItem:
-      type: object
-      properties:
-        pallet:
-          type: string
-          description: Name of the pallet.
-          example: democracy
-        palletIndex:
-          type: string
-          description: Index of the pallet for looking up errors.
-          example: '14'
-        errorItem:
-          type: string
-          description: Name of the error item.
-          example: ValueLow
-        metadata:
-          $ref: '#/components/schemas/PalletErrorsItemMetadata'
-        rcBlockHash:
-          type: string
-          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
-        rcBlockNumber:
-          type: string
-          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
-        ahTimestamp:
-          type: string
-          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
-    PalletEventsItem:
-      type: object
-      properties:
-        pallet:
-          type: string
-          description: Name of the pallet.
-          example: democracy
-        palletIndex:
-          type: string
-          description: Index of the pallet for looking up events.
-          example: '14'
-        eventItem:
-          type: string
-          description: Name of the events item.
-          example: Proposed
-        metadata:
-          $ref: '#/components/schemas/PalletEventsItemMetadata'
-        rcBlockHash:
-          type: string
-          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
-        rcBlockNumber:
-          type: string
-          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
-        ahTimestamp:
-          type: string
-          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
     BlockIdentifiers:
       type: object
       properties:
@@ -911,95 +969,6 @@ components:
         height:
           type: string
           description: The block's height.
-          format: unsignedInteger
-    PalletStorageType:
-      type: object
-      description: This is going to be formatted to the type of StorageEntryTypeV14.
-    PalletStorageItemMetadata:
-      type: object
-      properties:
-        name:
-          type: string
-          example: ReferendumInfoOf
-          description: The storage item's name (which is the same as the storage item's ID).
-        modifier:
-          type: string
-          example: Optional
-        type:
-          $ref: '#/components/schemas/PalletStorageType'
-        fallback:
-          type: string
-          example: '0x00'
-        docs:
-          type: string
-          example: " Information concerning any given referendum.\n\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control."
-      description: Metadata of a storage item from a FRAME pallet.
-    UnappliedSlash:
-      type: object
-      properties:
-        validator:
-          type: string
-          description: Stash account ID of the offending validator.
-          format: ss58
-        own:
-          type: string
-          description: The amount the validator will be slashed.
-          format: unsignedInteger
-        others:
-          type: array
-          description: Array of tuples(`[accountId, amount]`) representing all the stashes of other slashed stakers and the amount they will be slashed.
-          items:
-            type: string
-            format: tuple[ss58, unsignedInteger]
-        reporters:
-          type: array
-          description: Array of account IDs of the reporters of the offense.
-          items:
-            type: string
-            format: ss58
-        payout:
-          type: string
-          description: Amount of bounty payout to reporters.
-          format: unsignedInteger
-    Error:
-      type: object
-      properties:
-        code:
-          type: number
-        message:
-          type: string
-        stack:
-          type: string
-        level:
-          type: string
-    PalletDispatchables:
-      type: object
-      properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        pallet:
-          type: string
-          description: Name of the pallet.
-          example: democracy
-        palletIndex:
-          type: string
-          description: Index of the pallet for looking up dispatchables.
-          example: '14'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/PalletDispatchablesItemMetadata'
-          description: Array containing metadata for each dispatchable entry of the pallet.
-        rcBlockHash:
-          type: string
-          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
-        rcBlockNumber:
-          type: string
-          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
-          format: unsignedInteger
-        ahTimestamp:
-          type: string
-          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
           format: unsignedInteger
     StakingValidators:
       type: object
@@ -1046,25 +1015,20 @@ components:
           type: string
           description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
           format: unsignedInteger
-    PalletConstantsItemMetadata:
+    ElectionStatus:
       type: object
       properties:
-        name:
+        status:
+          type: object
+          description: '[Deprecated](Works for polkadot runtimes before v0.8.30).
+
+            Era election status: either `Close: null` or `Open: <BlockNumber>`. A status of `Close` indicates that the submission window for solutions from off-chain Phragmen is not open. A status of `Open` indicates that the submission window for off-chain Phragmen solutions has been open since BlockNumber. N.B. when the submission window is open, certain extrinsics are not allowed because they would mutate the state that the off-chain Phragmen calculation relies on for calculating results.'
+        toggleEstimate:
           type: string
-          example: VotingPeriod
-          description: The constant item's name (which is the same as the constant item's ID).
-        type:
-          type: string
-          example: '4'
-        value:
-          type: string
-          example: '0x00270600'
-          description: The hex value of the constant
-        docs:
-          type: string
-          example: "Information concerning any given constant.\n\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control."
-      description: Metadata of an constant item from a FRAME pallet.
-    PalletConstantsItem:
+          description: Upper bound estimate of the block height at which the `status` will switch.
+          format: unsignedInteger
+      description: Information about the off-chain election. Not included in response when `forceEra.isForceNone`.
+    PalletEventsItem:
       type: object
       properties:
         pallet:
@@ -1073,14 +1037,14 @@ components:
           example: democracy
         palletIndex:
           type: string
-          description: Index of the pallet for looking up constants.
+          description: Index of the pallet for looking up events.
           example: '14'
-        errorItem:
+        eventItem:
           type: string
-          description: Name of the constant item.
-          example: EnactmentPeriod
+          description: Name of the events item.
+          example: Proposed
         metadata:
-          $ref: '#/components/schemas/PalletConstantsItemMetadata'
+          $ref: '#/components/schemas/PalletEventsItemMetadata'
         rcBlockHash:
           type: string
           description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
@@ -1090,6 +1054,29 @@ components:
         ahTimestamp:
           type: string
           description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+    PalletErrorsItemMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+          example: InsufficientFunds
+          description: The error item's name (which is the same as the error item's ID).
+        fields:
+          type: array
+          items:
+            type: string
+        index:
+          type: string
+          example: '0'
+          description: The index of the error item in the lists of pallet errors
+        docs:
+          type: string
+          example: " Information concerning any given error.\n\n TWOX-NOTE: SAFE as indexes are not under an attacker’s control."
+        args:
+          type: array
+          items:
+            type: string
+      description: Metadata of an error item from a FRAME pallet.
     PalletsOnGoingReferenda:
       type: object
       properties:
@@ -1145,44 +1132,57 @@ components:
         ahTimestamp:
           type: string
           description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
-    PalletDispatchablesItem:
+    PalletErrors:
       type: object
       properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
         pallet:
           type: string
           description: Name of the pallet.
           example: democracy
         palletIndex:
           type: string
-          description: Index of the pallet for looking up dispatchables.
+          description: Index of the pallet for looking up errors.
           example: '14'
-        dispatchableItem:
-          type: string
-          description: Name of the dispatchable item.
-          example: vote
-        metadata:
-          $ref: '#/components/schemas/PalletDispatchablesItemMetadata'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PalletErrorsItemMetadata'
+          description: Array containing metadata for each error entry of the pallet.
         rcBlockHash:
           type: string
           description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
         rcBlockNumber:
           type: string
           description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
-          format: unsignedInteger
         ahTimestamp:
           type: string
           description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
-          format: unsignedInteger
-    ElectionStatus:
+    PalletConstants:
       type: object
       properties:
-        status:
-          type: object
-          description: '[Deprecated](Works for polkadot runtimes before v0.8.30).
-
-            Era election status: either `Close: null` or `Open: <BlockNumber>`. A status of `Close` indicates that the submission window for solutions from off-chain Phragmen is not open. A status of `Open` indicates that the submission window for off-chain Phragmen solutions has been open since BlockNumber. N.B. when the submission window is open, certain extrinsics are not allowed because they would mutate the state that the off-chain Phragmen calculation relies on for calculating results.'
-        toggleEstimate:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        pallet:
           type: string
-          description: Upper bound estimate of the block height at which the `status` will switch.
-          format: unsignedInteger
-      description: Information about the off-chain election. Not included in response when `forceEra.isForceNone`.
+          description: Name of the pallet.
+          example: democracy
+        palletIndex:
+          type: string
+          description: Index of the pallet for looking up constants.
+          example: '14'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PalletConstantsItemMetadata'
+          description: Array containing metadata for each constant entry of the pallet.
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.

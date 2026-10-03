@@ -57,6 +57,17 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        stack:
+          type: string
+        level:
+          type: string
     AhmInfo:
       type: object
       description: Asset Hub Migration information including migration boundaries for both relay chain and Asset Hub.
@@ -100,14 +111,3 @@ components:
         assetHub:
           startBlock: 11716733
           endBlock: 11736597
-    Error:
-      type: object
-      properties:
-        code:
-          type: number
-        message:
-          type: string
-        stack:
-          type: string
-        level:
-          type: string
