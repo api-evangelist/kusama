@@ -88,34 +88,19 @@ components:
       - LightClient
       - Authority
       - Sentry
-    TransactionPool:
+    NodeVersion:
       type: object
       properties:
-        pool:
-          type: array
-          items:
-            type: object
-            properties:
-              hash:
-                type: string
-                format: hex
-                description: H256 hash of the extrinsic.
-              encodedExtrinsic:
-                type: string
-                format: hex
-                description: Scale encoded extrinsic.
-              tip:
-                type: string
-                format: unsignedInteger
-                description: The tip included in the extrinsic. Only included if the query param `includeFee` is set to true.
-              priority:
-                type: string
-                format: unsignedInteger
-                description: Computed priority of an extrinsic. Only included if the query param `includeFee` is set to true.
-              partialFee:
-                type: string
-                format: unsignedInteger
-                description: Provided `partialFee` of an extrinsic. Only included if the query param `includeFee` is set to true.
+        clientVersion:
+          type: string
+          description: Node's binary version.
+        clientImplName:
+          type: string
+          description: Node's implementation name.
+        chain:
+          type: string
+          description: Node's chain name.
+      description: Version information of the node.
     NodeNetwork:
       type: object
       properties:
@@ -164,16 +149,31 @@ components:
           type: string
           description: Height of the best block on the peer's canon chain.
           format: unsignedInteger
-    NodeVersion:
+    TransactionPool:
       type: object
       properties:
-        clientVersion:
-          type: string
-          description: Node's binary version.
-        clientImplName:
-          type: string
-          description: Node's implementation name.
-        chain:
-          type: string
-          description: Node's chain name.
-      description: Version information of the node.
+        pool:
+          type: array
+          items:
+            type: object
+            properties:
+              hash:
+                type: string
+                format: hex
+                description: H256 hash of the extrinsic.
+              encodedExtrinsic:
+                type: string
+                format: hex
+                description: Scale encoded extrinsic.
+              tip:
+                type: string
+                format: unsignedInteger
+                description: The tip included in the extrinsic. Only included if the query param `includeFee` is set to true.
+              priority:
+                type: string
+                format: unsignedInteger
+                description: Computed priority of an extrinsic. Only included if the query param `includeFee` is set to true.
+              partialFee:
+                type: string
+                format: unsignedInteger
+                description: Provided `partialFee` of an extrinsic. Only included if the query param `includeFee` is set to true.

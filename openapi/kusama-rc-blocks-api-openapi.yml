@@ -363,15 +363,22 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    SanitizedEvent:
+    ExtrinsicMethod:
       type: object
       properties:
+        pallet:
+          type: string
         method:
           type: string
-        data:
+      description: Extrinsic method
+    BlockFinalize:
+      type: object
+      properties:
+        events:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/SanitizedEvent'
+      description: Object with an array of `SanitizedEvent`s that occurred during block construction finalization with the `method` and `data` for each.
     RuntimeDispatchInfo:
       type: object
       properties:
@@ -393,22 +400,38 @@ components:
           type: string
           description: Information on the partialFee that is collected. Can be either `preDispatch`, `postDispatch` or `fromEvent`. `preDispatch` means the information used to collect the fee was from `payment_queryInfo`, `postDispatch` means the information used to calculate the fee was from finalized weights for the extrinsic, and `fromEvent` means that the partialFee was abstracted from the `TransactionPayment::TransactionPaidFee` event.
       description: RuntimeDispatchInfo for the transaction. Includes the `partialFee`.
-    ExtrinsicMethod:
+    Signature:
       type: object
       properties:
-        pallet:
+        signature:
           type: string
-        method:
+          format: hex
+        signer:
           type: string
-      description: Extrinsic method
-    BlockFinalize:
+          format: ss58
+      description: Object with `signature` and `signer`, or `null` if unsigned.
+    BlockParaInclusions:
       type: object
+      description: Contains all decoded parachain inclusion information for a relay chain block
       properties:
-        events:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        inclusions:
           type: array
+          description: Array of parachain inclusions in this relay chain block, sorted by paraId
           items:
-            $ref: '#/components/schemas/SanitizedEvent'
-      description: Object with an array of `SanitizedEvent`s that occurred during block construction finalization with the `method` and `data` for each.
+            $ref: '#/components/schemas/ParaInclusion'
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        stack:
+          type: string
+        level:
+          type: string
     Extrinsic:
       type: object
       properties:
@@ -446,180 +469,6 @@ components:
         paysFee:
           type: boolean
           description: Whether the extrinsic requires a fee. Careful! This field relates to whether or not the extrinsic requires a fee if called as a transaction. Block authors could insert the extrinsic as an inherent in the block and not pay a fee. Always check that `paysFee` is `true` and that the extrinsic is signed when reconciling old blocks.
-    BlockRaw:
-      type: object
-      properties:
-        number:
-          type: string
-          description: The block's height.
-          format: unsignedInteger
-        parentHash:
-          type: string
-          description: The hash of the parent block.
-          format: hex
-        stateRoot:
-          type: string
-          description: The state root after executing this block.
-          format: hex
-        extrinsicRoot:
-          type: string
-          description: The Merkle root of the extrinsics.
-          format: hex
-        digest:
-          type: object
-          properties:
-            logs:
-              type: array
-              items:
-                $ref: '#/components/schemas/DigestItem'
-              description: Array of `DigestItem`s associated with the block.
-        extrinsics:
-          type: array
-          description: Array of raw extrinsics (inherents and transactions) within the block.
-          items:
-            type: string
-        rcBlockHash:
-          type: string
-          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
-        rcBlockNumber:
-          type: string
-          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
-          format: unsignedInteger
-        ahTimestamp:
-          type: string
-          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
-          format: unsignedInteger
-    Error:
-      type: object
-      properties:
-        code:
-          type: number
-        message:
-          type: string
-        stack:
-          type: string
-        level:
-          type: string
-    WeightsV2:
-      type: object
-      properties:
-        refTime:
-          type: string
-          description: The weight of computational time used based on some reference hardware.
-        proofSize:
-          type: string
-          description: The weight of storage space used by proof of validity.
-    BlockInitialize:
-      type: object
-      properties:
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/SanitizedEvent'
-      description: Object with an array of `SanitizedEvent`s that occurred during block initialization with the `method` and `data` for each.
-    BlockParaInclusions:
-      type: object
-      description: Contains all decoded parachain inclusion information for a relay chain block
-      properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        inclusions:
-          type: array
-          description: Array of parachain inclusions in this relay chain block, sorted by paraId
-          items:
-            $ref: '#/components/schemas/ParaInclusion'
-    ParaInclusion:
-      type: object
-      description: Information about a single parachain inclusion event
-      properties:
-        paraId:
-          type: string
-          description: The parachain ID
-          format: unsignedInteger
-        paraBlockNumber:
-          type: number
-          description: The parachain block number that was included (decoded from HeadData)
-          format: unsignedInteger
-        paraBlockHash:
-          type: string
-          description: The parachain block hash that was included (decoded from HeadData)
-          format: hex
-        descriptor:
-          $ref: '#/components/schemas/ParaInclusionDescriptor'
-        commitmentsHash:
-          type: string
-          description: Hash of the candidate commitments
-          format: hex
-        coreIndex:
-          type: string
-          description: Core index assigned to this parachain block
-          format: unsignedInteger
-        groupIndex:
-          type: string
-          description: Validator group index that backed this parachain block
-          format: unsignedInteger
-    GenericExtrinsicEra:
-      type: object
-      description: 'The return value for era can either be `mortalEra`, or `immortalEra` and is represented as an enum in substrate. `immortalEra` meaning
-
-        the transaction is valid forever. `mortalEra` consists of a tuple containing a period and phase.
-
-        ex: `"{"mortalEra": ["64", "11"]}"`. The Period is the period of validity from the block hash found in the signing material.
-
-        The Phase is the period that this transaction''s lifetime begins (and, importantly,
-
-        implies which block hash is included in the signature material).
-
-        '
-      properties:
-        mortalEra:
-          type: array
-          items:
-            type: string
-          description: Tuple of a Phase, and Period. Each item in the array will be a string formatted as an integer.
-        immortalEra:
-          type: string
-          description: Hardcoded constant '0x00'.
-          format: hex
-      example: '{"mortalEra":["64", "11"]}'
-    Signature:
-      type: object
-      properties:
-        signature:
-          type: string
-          format: hex
-        signer:
-          type: string
-          format: ss58
-      description: Object with `signature` and `signer`, or `null` if unsigned.
-    ParaInclusionDescriptor:
-      type: object
-      description: Candidate descriptor containing parachain inclusion metadata
-      properties:
-        relayParent:
-          type: string
-          description: The relay chain parent block hash
-          format: hex
-        persistedValidationDataHash:
-          type: string
-          description: Hash of the persisted validation data
-          format: hex
-        povHash:
-          type: string
-          description: Hash of the Proof of Validity (PoV)
-          format: hex
-        erasureRoot:
-          type: string
-          description: Root hash of the erasure encoding
-          format: hex
-        paraHead:
-          type: string
-          description: Hash of the parachain head data
-          format: hex
-        validationCodeHash:
-          type: string
-          description: Hash of the validation code
-          format: hex
     Block:
       type: object
       properties:
@@ -676,29 +525,6 @@ components:
           description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
           format: unsignedInteger
       description: 'Note: Block finalization does not correspond to consensus, i.e. whether the block is in the canonical chain. It denotes the finalization of block _construction._'
-    DigestItem:
-      type: object
-      properties:
-        type:
-          type: string
-        index:
-          type: string
-          format: unsignedInteger
-        value:
-          type: array
-          items:
-            type: string
-    BlockIdentifiers:
-      type: object
-      properties:
-        hash:
-          type: string
-          description: The block's hash.
-          format: hex
-        height:
-          type: string
-          description: The block's height.
-          format: unsignedInteger
     BlockHeader:
       type: object
       properties:
@@ -737,3 +563,177 @@ components:
           type: string
           description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
           format: unsignedInteger
+    SanitizedEvent:
+      type: object
+      properties:
+        method:
+          type: string
+        data:
+          type: array
+          items:
+            type: string
+    WeightsV2:
+      type: object
+      properties:
+        refTime:
+          type: string
+          description: The weight of computational time used based on some reference hardware.
+        proofSize:
+          type: string
+          description: The weight of storage space used by proof of validity.
+    GenericExtrinsicEra:
+      type: object
+      description: 'The return value for era can either be `mortalEra`, or `immortalEra` and is represented as an enum in substrate. `immortalEra` meaning
+
+        the transaction is valid forever. `mortalEra` consists of a tuple containing a period and phase.
+
+        ex: `"{"mortalEra": ["64", "11"]}"`. The Period is the period of validity from the block hash found in the signing material.
+
+        The Phase is the period that this transaction''s lifetime begins (and, importantly,
+
+        implies which block hash is included in the signature material).
+
+        '
+      properties:
+        mortalEra:
+          type: array
+          items:
+            type: string
+          description: Tuple of a Phase, and Period. Each item in the array will be a string formatted as an integer.
+        immortalEra:
+          type: string
+          description: Hardcoded constant '0x00'.
+          format: hex
+      example: '{"mortalEra":["64", "11"]}'
+    ParaInclusion:
+      type: object
+      description: Information about a single parachain inclusion event
+      properties:
+        paraId:
+          type: string
+          description: The parachain ID
+          format: unsignedInteger
+        paraBlockNumber:
+          type: number
+          description: The parachain block number that was included (decoded from HeadData)
+          format: unsignedInteger
+        paraBlockHash:
+          type: string
+          description: The parachain block hash that was included (decoded from HeadData)
+          format: hex
+        descriptor:
+          $ref: '#/components/schemas/ParaInclusionDescriptor'
+        commitmentsHash:
+          type: string
+          description: Hash of the candidate commitments
+          format: hex
+        coreIndex:
+          type: string
+          description: Core index assigned to this parachain block
+          format: unsignedInteger
+        groupIndex:
+          type: string
+          description: Validator group index that backed this parachain block
+          format: unsignedInteger
+    DigestItem:
+      type: object
+      properties:
+        type:
+          type: string
+        index:
+          type: string
+          format: unsignedInteger
+        value:
+          type: array
+          items:
+            type: string
+    BlockIdentifiers:
+      type: object
+      properties:
+        hash:
+          type: string
+          description: The block's hash.
+          format: hex
+        height:
+          type: string
+          description: The block's height.
+          format: unsignedInteger
+    BlockRaw:
+      type: object
+      properties:
+        number:
+          type: string
+          description: The block's height.
+          format: unsignedInteger
+        parentHash:
+          type: string
+          description: The hash of the parent block.
+          format: hex
+        stateRoot:
+          type: string
+          description: The state root after executing this block.
+          format: hex
+        extrinsicRoot:
+          type: string
+          description: The Merkle root of the extrinsics.
+          format: hex
+        digest:
+          type: object
+          properties:
+            logs:
+              type: array
+              items:
+                $ref: '#/components/schemas/DigestItem'
+              description: Array of `DigestItem`s associated with the block.
+        extrinsics:
+          type: array
+          description: Array of raw extrinsics (inherents and transactions) within the block.
+          items:
+            type: string
+        rcBlockHash:
+          type: string
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
+          type: string
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+    BlockInitialize:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/SanitizedEvent'
+      description: Object with an array of `SanitizedEvent`s that occurred during block initialization with the `method` and `data` for each.
+    ParaInclusionDescriptor:
+      type: object
+      description: Candidate descriptor containing parachain inclusion metadata
+      properties:
+        relayParent:
+          type: string
+          description: The relay chain parent block hash
+          format: hex
+        persistedValidationDataHash:
+          type: string
+          description: Hash of the persisted validation data
+          format: hex
+        povHash:
+          type: string
+          description: Hash of the Proof of Validity (PoV)
+          format: hex
+        erasureRoot:
+          type: string
+          description: Root hash of the erasure encoding
+          format: hex
+        paraHead:
+          type: string
+          description: Hash of the parachain head data
+          format: hex
+        validationCodeHash:
+          type: string
+          description: Hash of the validation code
+          format: hex
