@@ -88,19 +88,6 @@ components:
       - LightClient
       - Authority
       - Sentry
-    NodeVersion:
-      type: object
-      properties:
-        clientVersion:
-          type: string
-          description: Node's binary version.
-        clientImplName:
-          type: string
-          description: Node's implementation name.
-        chain:
-          type: string
-          description: Node's chain name.
-      description: Version information of the node.
     NodeNetwork:
       type: object
       properties:
@@ -149,6 +136,19 @@ components:
           type: string
           description: Height of the best block on the peer's canon chain.
           format: unsignedInteger
+    NodeVersion:
+      type: object
+      properties:
+        clientVersion:
+          type: string
+          description: Node's binary version.
+        clientImplName:
+          type: string
+          description: Node's implementation name.
+        chain:
+          type: string
+          description: Node's chain name.
+      description: Version information of the node.
     TransactionPool:
       type: object
       properties:

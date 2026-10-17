@@ -126,6 +126,26 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    OperationPhase:
+      type: object
+      properties:
+        variant:
+          type: string
+          enum:
+          - onInitialize
+          - initialChecks
+          - applyExtrinsic
+          - onFinalize
+          - finalChecks
+          description: Phase of block execution pipeline.
+        extrinsicIndex:
+          type: string
+          format: unsignedInteger
+          description: 'If phase variant is `applyExtrinsic` this will be the index of
+
+            the extrinsic. Otherwise this field will not be present.
+
+            '
     TraceEvent:
       type: object
       properties:
@@ -139,64 +159,22 @@ components:
           format: unsignedInteger
         target:
           type: string
-    OperationAmount:
+    SpanId:
       type: object
       properties:
-        values:
+        name:
           type: string
-          format: unsignedInteger
-        currency:
-          $ref: '#/components/schemas/OperationAmountCurrency'
-    TraceEventDataStringValues:
-      type: object
-      properties:
-        key:
+        target:
           type: string
-          format: hex
-          description: The complete storage key for the entry.
-        method:
-          type: string
-          description: Normally one of Put or Get.
-        result:
-          type: string
-          format: hex
-          description: Hex scale encoded storage value.
-      description: Note these exact values will only be present for storage events.
-    BlocksTraceOperations:
-      type: object
-      properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        operations:
-          type: array
-          items:
-            $ref: '#/components/schemas/Operation'
-    Error:
-      type: object
-      properties:
-        code:
-          type: number
-        message:
-          type: string
-        stack:
-          type: string
-        level:
-          type: string
-    TraceSpan:
-      type: object
-      properties:
         id:
           type: string
           format: unsignedInteger
-        name:
+    OperationAmountCurrency:
+      type: object
+      properties:
+        symbol:
           type: string
-        parentId:
-          type: string
-          format: unsignedInteger
-        target:
-          type: string
-        wasm:
-          type: boolean
+          example: KSM
     Operation:
       type: object
       properties:
@@ -238,12 +216,32 @@ components:
                 '
         amount:
           $ref: '#/components/schemas/OperationAmount'
-    OperationAmountCurrency:
+    TraceSpan:
       type: object
       properties:
-        symbol:
+        id:
           type: string
-          example: KSM
+          format: unsignedInteger
+        name:
+          type: string
+        parentId:
+          type: string
+          format: unsignedInteger
+        target:
+          type: string
+        wasm:
+          type: boolean
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        stack:
+          type: string
+        level:
+          type: string
     BlocksTrace:
       type: object
       properties:
@@ -267,26 +265,21 @@ components:
         tracingTargets:
           type: string
           description: Targets used to filter spans and events.
-    OperationPhase:
+    TraceEventDataStringValues:
       type: object
       properties:
-        variant:
+        key:
           type: string
-          enum:
-          - onInitialize
-          - initialChecks
-          - applyExtrinsic
-          - onFinalize
-          - finalChecks
-          description: Phase of block execution pipeline.
-        extrinsicIndex:
+          format: hex
+          description: The complete storage key for the entry.
+        method:
           type: string
-          format: unsignedInteger
-          description: 'If phase variant is `applyExtrinsic` this will be the index of
-
-            the extrinsic. Otherwise this field will not be present.
-
-            '
+          description: Normally one of Put or Get.
+        result:
+          type: string
+          format: hex
+          description: Hex scale encoded storage value.
+      description: Note these exact values will only be present for storage events.
     BlockIdentifiers:
       type: object
       properties:
@@ -298,13 +291,20 @@ components:
           type: string
           description: The block's height.
           format: unsignedInteger
-    SpanId:
+    BlocksTraceOperations:
       type: object
       properties:
-        name:
-          type: string
-        target:
-          type: string
-        id:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        operations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Operation'
+    OperationAmount:
+      type: object
+      properties:
+        values:
           type: string
           format: unsignedInteger
+        currency:
+          $ref: '#/components/schemas/OperationAmountCurrency'

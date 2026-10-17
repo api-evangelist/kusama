@@ -159,32 +159,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    RuntimeMetadata:
-      type: object
-      description: 'Substrate runtime metadata containing pallet information, types registry, and API specifications.
-
-        The structure varies significantly between different runtime versions (V9-V16) and different chains.
-
-        This is a generic container that preserves the actual metadata structure as returned by the runtime.
-
-        '
-      properties:
-        magicNumber:
-          type: string
-          description: The magic number identifying this as Substrate metadata (typically "1635018093")
-          example: '1635018093'
-        metadata:
-          type: object
-          description: 'Version-specific metadata content. The structure depends entirely on the runtime metadata version
-
-            and can include various combinations of pallets, lookup registries, extrinsics, APIs, and other
-
-            runtime-specific information.
-
-            '
-      required:
-      - magicNumber
-      - metadata
     RuntimeSpec:
       type: object
       properties:
@@ -211,17 +185,6 @@ components:
           type: object
           description: Arbitrary properties defined in the chain spec.
       description: Version information related to the runtime.
-    BlockIdentifiers:
-      type: object
-      properties:
-        hash:
-          type: string
-          description: The block's hash.
-          format: hex
-        height:
-          type: string
-          description: The block's height.
-          format: unsignedInteger
     RuntimeCode:
       type: object
       properties:
@@ -252,3 +215,40 @@ components:
         custom:
           type: string
       example: '{"live": null}'
+    RuntimeMetadata:
+      type: object
+      description: 'Substrate runtime metadata containing pallet information, types registry, and API specifications.
+
+        The structure varies significantly between different runtime versions (V9-V16) and different chains.
+
+        This is a generic container that preserves the actual metadata structure as returned by the runtime.
+
+        '
+      properties:
+        magicNumber:
+          type: string
+          description: The magic number identifying this as Substrate metadata (typically "1635018093")
+          example: '1635018093'
+        metadata:
+          type: object
+          description: 'Version-specific metadata content. The structure depends entirely on the runtime metadata version
+
+            and can include various combinations of pallets, lookup registries, extrinsics, APIs, and other
+
+            runtime-specific information.
+
+            '
+      required:
+      - magicNumber
+      - metadata
+    BlockIdentifiers:
+      type: object
+      properties:
+        hash:
+          type: string
+          description: The block's hash.
+          format: hex
+        height:
+          type: string
+          description: The block's height.
+          format: unsignedInteger

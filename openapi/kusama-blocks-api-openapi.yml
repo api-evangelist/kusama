@@ -558,67 +558,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Block'
-    BlockFinalize:
-      type: object
-      properties:
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/SanitizedEvent'
-      description: Object with an array of `SanitizedEvent`s that occurred during block construction finalization with the `method` and `data` for each.
-    DecodedXcmMsgsHorizontalMessagesInParachain:
-      type: array
-      items:
-        type: object
-        properties:
-          sentAt:
-            type: string
-            format: unsignedInteger
-            description: Represents the block number that the XCM message was sent at on the relay chain.
-          originParaId:
-            type: string
-            format: unsignedInteger
-            description: The Parachain id that the specific XCM message was sent from.
-          data:
-            type: object
-            description: The decoded instructions included in the XCM message and their respective fields.
-        description: Array that includes the Horizontal Messages when we are connected to a Parachain. Each block can contain one or more messages. If multiple messages originate from the same parachain (originParaId), they will be displayed within the data field.
-    ParaInclusionDescriptor:
-      type: object
-      description: Candidate descriptor containing parachain inclusion metadata
-      properties:
-        relayParent:
-          type: string
-          description: The relay chain parent block hash
-          format: hex
-        persistedValidationDataHash:
-          type: string
-          description: Hash of the persisted validation data
-          format: hex
-        povHash:
-          type: string
-          description: Hash of the Proof of Validity (PoV)
-          format: hex
-        erasureRoot:
-          type: string
-          description: Root hash of the erasure encoding
-          format: hex
-        paraHead:
-          type: string
-          description: Hash of the parachain head data
-          format: hex
-        validationCodeHash:
-          type: string
-          description: Hash of the validation code
-          format: hex
-    ExtrinsicMethod:
-      type: object
-      properties:
-        pallet:
-          type: string
-        method:
-          type: string
-      description: Extrinsic method
     BlockParaInclusions:
       type: object
       description: Contains all decoded parachain inclusion information for a relay chain block
@@ -630,17 +569,14 @@ components:
           description: Array of parachain inclusions in this relay chain block, sorted by paraId
           items:
             $ref: '#/components/schemas/ParaInclusion'
-    Error:
+    ExtrinsicMethod:
       type: object
       properties:
-        code:
-          type: number
-        message:
+        pallet:
           type: string
-        stack:
+        method:
           type: string
-        level:
-          type: string
+      description: Extrinsic method
     Extrinsic:
       type: object
       properties:
@@ -678,11 +614,78 @@ components:
         paysFee:
           type: boolean
           description: Whether the extrinsic requires a fee. Careful! This field relates to whether or not the extrinsic requires a fee if called as a transaction. Block authors could insert the extrinsic as an inherent in the block and not pay a fee. Always check that `paysFee` is `true` and that the extrinsic is signed when reconciling old blocks.
+    BlockFinalize:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/SanitizedEvent'
+      description: Object with an array of `SanitizedEvent`s that occurred during block construction finalization with the `method` and `data` for each.
+    ParaInclusion:
+      type: object
+      description: Information about a single parachain inclusion event
+      properties:
+        paraId:
+          type: string
+          description: The parachain ID
+          format: unsignedInteger
+        paraBlockNumber:
+          type: number
+          description: The parachain block number that was included (decoded from HeadData)
+          format: unsignedInteger
+        paraBlockHash:
+          type: string
+          description: The parachain block hash that was included (decoded from HeadData)
+          format: hex
+        descriptor:
+          $ref: '#/components/schemas/ParaInclusionDescriptor'
+        commitmentsHash:
+          type: string
+          description: Hash of the candidate commitments
+          format: hex
+        coreIndex:
+          type: string
+          description: Core index assigned to this parachain block
+          format: unsignedInteger
+        groupIndex:
+          type: string
+          description: Validator group index that backed this parachain block
+          format: unsignedInteger
     BlockWithDecodedXcmMsgs:
       allOf:
       - $ref: '#/components/schemas/Block'
       - $ref: '#/components/schemas/DecodedXcmMsgs'
       description: Block information that includes the decoded XCM messages if any are found in the queried block. If not, the decodedXcmMsgs object will be returned with three empty arrays corresponding to each direction, horizontalMessages, downwardMessages, upwardMessages.
+    Signature:
+      type: object
+      properties:
+        signature:
+          type: string
+          format: hex
+        signer:
+          type: string
+          format: ss58
+      description: Object with `signature` and `signer`, or `null` if unsigned.
+    BlockIdentifiers:
+      type: object
+      properties:
+        hash:
+          type: string
+          description: The block's hash.
+          format: hex
+        height:
+          type: string
+          description: The block's height.
+          format: unsignedInteger
+    BlockInitialize:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/SanitizedEvent'
+      description: Object with an array of `SanitizedEvent`s that occurred during block initialization with the `method` and `data` for each.
     DigestItem:
       type: object
       properties:
@@ -695,17 +698,118 @@ components:
           type: array
           items:
             type: string
-    BlockIdentifiers:
+    DecodedXcmMsgs:
       type: object
       properties:
-        hash:
+        decodedXcmMsgs:
+          type: object
+          properties:
+            horizontalMessages:
+              type: object
+              oneOf:
+              - $ref: '#/components/schemas/DecodedXcmMsgsHorizontalMessagesInRelay'
+              - $ref: '#/components/schemas/DecodedXcmMsgsHorizontalMessagesInParachain'
+            downwardMessages:
+              type: array
+              items:
+                type: object
+                properties:
+                  sentAt:
+                    type: string
+                    format: unsignedInteger
+                    description: Represents the block number that the XCM message was sent at on the relay chain.
+                  msg:
+                    type: string
+                    description: Represents the XCM message.
+                  data:
+                    type: object
+                    description: The decoded instructions included in the XCM message and their respective fields.
+            upwardMessages:
+              type: array
+              items:
+                type: object
+                properties:
+                  originParaId:
+                    type: string
+                    format: unsignedInteger
+                    description: The Parachain id that the specific XCM message was sent from.
+                  data:
+                    type: object
+                    description: The decoded instructions included in the XCM message and their respective fields.
+      description: Object with three arrays, one for every XCM direction. The arrays are populated or left empty based on the direction of the current XCM message that is being decoded. The XCM messages can be Upward and/or Horizontal (`in transit`) messages when connected to a Relay chain. When connected to a Parachain, the messages can be Downward and/or Horizontal. One or more messages can be present in a single block. In case of multiple messages from the same paraIds (originParaId and/or destinationParaId), the messages will be shown under the field `data`.
+    DecodedXcmMsgsHorizontalMessagesInParachain:
+      type: array
+      items:
+        type: object
+        properties:
+          sentAt:
+            type: string
+            format: unsignedInteger
+            description: Represents the block number that the XCM message was sent at on the relay chain.
+          originParaId:
+            type: string
+            format: unsignedInteger
+            description: The Parachain id that the specific XCM message was sent from.
+          data:
+            type: object
+            description: The decoded instructions included in the XCM message and their respective fields.
+        description: Array that includes the Horizontal Messages when we are connected to a Parachain. Each block can contain one or more messages. If multiple messages originate from the same parachain (originParaId), they will be displayed within the data field.
+    ExtrinsicIndex:
+      type: object
+      properties:
+        at:
+          $ref: '#/components/schemas/BlockIdentifiers'
+        extrinsic:
+          $ref: '#/components/schemas/Extrinsic'
+        rcBlockHash:
           type: string
-          description: The block's hash.
-          format: hex
-        height:
+          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
+        rcBlockNumber:
           type: string
-          description: The block's height.
+          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
           format: unsignedInteger
+        ahTimestamp:
+          type: string
+          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
+          format: unsignedInteger
+      description: A single extrinsic at a given block.
+    ParaInclusionDescriptor:
+      type: object
+      description: Candidate descriptor containing parachain inclusion metadata
+      properties:
+        relayParent:
+          type: string
+          description: The relay chain parent block hash
+          format: hex
+        persistedValidationDataHash:
+          type: string
+          description: Hash of the persisted validation data
+          format: hex
+        povHash:
+          type: string
+          description: Hash of the Proof of Validity (PoV)
+          format: hex
+        erasureRoot:
+          type: string
+          description: Root hash of the erasure encoding
+          format: hex
+        paraHead:
+          type: string
+          description: Hash of the parachain head data
+          format: hex
+        validationCodeHash:
+          type: string
+          description: Hash of the validation code
+          format: hex
+    SanitizedEvent:
+      type: object
+      properties:
+        method:
+          type: string
+        data:
+          type: array
+          items:
+            type: string
     BlockRaw:
       type: object
       properties:
@@ -749,55 +853,6 @@ components:
           type: string
           description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
           format: unsignedInteger
-    Signature:
-      type: object
-      properties:
-        signature:
-          type: string
-          format: hex
-        signer:
-          type: string
-          format: ss58
-      description: Object with `signature` and `signer`, or `null` if unsigned.
-    DecodedXcmMsgs:
-      type: object
-      properties:
-        decodedXcmMsgs:
-          type: object
-          properties:
-            horizontalMessages:
-              type: object
-              oneOf:
-              - $ref: '#/components/schemas/DecodedXcmMsgsHorizontalMessagesInRelay'
-              - $ref: '#/components/schemas/DecodedXcmMsgsHorizontalMessagesInParachain'
-            downwardMessages:
-              type: array
-              items:
-                type: object
-                properties:
-                  sentAt:
-                    type: string
-                    format: unsignedInteger
-                    description: Represents the block number that the XCM message was sent at on the relay chain.
-                  msg:
-                    type: string
-                    description: Represents the XCM message.
-                  data:
-                    type: object
-                    description: The decoded instructions included in the XCM message and their respective fields.
-            upwardMessages:
-              type: array
-              items:
-                type: object
-                properties:
-                  originParaId:
-                    type: string
-                    format: unsignedInteger
-                    description: The Parachain id that the specific XCM message was sent from.
-                  data:
-                    type: object
-                    description: The decoded instructions included in the XCM message and their respective fields.
-      description: Object with three arrays, one for every XCM direction. The arrays are populated or left empty based on the direction of the current XCM message that is being decoded. The XCM messages can be Upward and/or Horizontal (`in transit`) messages when connected to a Relay chain. When connected to a Parachain, the messages can be Downward and/or Horizontal. One or more messages can be present in a single block. In case of multiple messages from the same paraIds (originParaId and/or destinationParaId), the messages will be shown under the field `data`.
     Block:
       type: object
       properties:
@@ -854,30 +909,17 @@ components:
           description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
           format: unsignedInteger
       description: 'Note: Block finalization does not correspond to consensus, i.e. whether the block is in the canonical chain. It denotes the finalization of block _construction._'
-    GenericExtrinsicEra:
+    Error:
       type: object
-      description: 'The return value for era can either be `mortalEra`, or `immortalEra` and is represented as an enum in substrate. `immortalEra` meaning
-
-        the transaction is valid forever. `mortalEra` consists of a tuple containing a period and phase.
-
-        ex: `"{"mortalEra": ["64", "11"]}"`. The Period is the period of validity from the block hash found in the signing material.
-
-        The Phase is the period that this transaction''s lifetime begins (and, importantly,
-
-        implies which block hash is included in the signature material).
-
-        '
       properties:
-        mortalEra:
-          type: array
-          items:
-            type: string
-          description: Tuple of a Phase, and Period. Each item in the array will be a string formatted as an integer.
-        immortalEra:
+        code:
+          type: number
+        message:
           type: string
-          description: Hardcoded constant '0x00'.
-          format: hex
-      example: '{"mortalEra":["64", "11"]}'
+        stack:
+          type: string
+        level:
+          type: string
     WeightsV2:
       type: object
       properties:
@@ -887,71 +929,6 @@ components:
         proofSize:
           type: string
           description: The weight of storage space used by proof of validity.
-    DecodedXcmMsgsHorizontalMessagesInRelay:
-      type: array
-      items:
-        type: object
-        properties:
-          originParaId:
-            type: string
-            format: unsignedInteger
-            description: The Parachain id that the specific XCM message was sent from.
-          destinationParaId:
-            type: string
-            format: unsignedInteger
-            description: The Parachain id that the specific XCM message was sent to.
-          data:
-            type: object
-            description: The decoded instructions included in the XCM message and their respective fields.
-        description: Array that includes the Horizontal (`in transit`) messages when we are connected to a Relay Chain. Each block can contain one or more messages. If multiple messages share the same origin and destination paraId, they will be displayed within the data field.
-    BlockInitialize:
-      type: object
-      properties:
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/SanitizedEvent'
-      description: Object with an array of `SanitizedEvent`s that occurred during block initialization with the `method` and `data` for each.
-    ExtrinsicIndex:
-      type: object
-      properties:
-        at:
-          $ref: '#/components/schemas/BlockIdentifiers'
-        extrinsic:
-          $ref: '#/components/schemas/Extrinsic'
-        rcBlockHash:
-          type: string
-          description: The relay chain block hash used for the query. Only present when `useRcBlock` parameter is used.
-        rcBlockNumber:
-          type: string
-          description: The relay chain block number used for the query. Only present when `useRcBlock` parameter is used.
-          format: unsignedInteger
-        ahTimestamp:
-          type: string
-          description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
-          format: unsignedInteger
-      description: A single extrinsic at a given block.
-    RuntimeDispatchInfo:
-      type: object
-      properties:
-        weight:
-          $ref: '#/components/schemas/WeightsV2'
-          description: Weights represented as WeightsV2 (two dimensional weights). When querying historical blocks that use WeightsV1, the weight will be returned as a weight key that points to a number represented as a string.
-        class:
-          type: string
-          description: Extrinsic class.
-          enum:
-          - Normal
-          - Operational
-          - Mandatory
-        partialFee:
-          type: string
-          description: The _inclusion fee_ of a transaction, i.e. the minimum fee required for a transaction. Includes weight and encoded length fees, but does not have access to any signed extensions, e.g. the `tip`.
-          format: unsignedInteger
-        kind:
-          type: string
-          description: Information on the partialFee that is collected. Can be either `preDispatch`, `postDispatch` or `fromEvent`. `preDispatch` means the information used to collect the fee was from `payment_queryInfo`, `postDispatch` means the information used to calculate the fee was from finalized weights for the extrinsic, and `fromEvent` means that the partialFee was abstracted from the `TransactionPayment::TransactionPaidFee` event.
-      description: RuntimeDispatchInfo for the transaction. Includes the `partialFee`.
     BlockHeader:
       type: object
       properties:
@@ -990,42 +967,65 @@ components:
           type: string
           description: The Asset Hub block timestamp. Only present when `useRcBlock` parameter is used.
           format: unsignedInteger
-    ParaInclusion:
+    GenericExtrinsicEra:
       type: object
-      description: Information about a single parachain inclusion event
+      description: 'The return value for era can either be `mortalEra`, or `immortalEra` and is represented as an enum in substrate. `immortalEra` meaning
+
+        the transaction is valid forever. `mortalEra` consists of a tuple containing a period and phase.
+
+        ex: `"{"mortalEra": ["64", "11"]}"`. The Period is the period of validity from the block hash found in the signing material.
+
+        The Phase is the period that this transaction''s lifetime begins (and, importantly,
+
+        implies which block hash is included in the signature material).
+
+        '
       properties:
-        paraId:
-          type: string
-          description: The parachain ID
-          format: unsignedInteger
-        paraBlockNumber:
-          type: number
-          description: The parachain block number that was included (decoded from HeadData)
-          format: unsignedInteger
-        paraBlockHash:
-          type: string
-          description: The parachain block hash that was included (decoded from HeadData)
-          format: hex
-        descriptor:
-          $ref: '#/components/schemas/ParaInclusionDescriptor'
-        commitmentsHash:
-          type: string
-          description: Hash of the candidate commitments
-          format: hex
-        coreIndex:
-          type: string
-          description: Core index assigned to this parachain block
-          format: unsignedInteger
-        groupIndex:
-          type: string
-          description: Validator group index that backed this parachain block
-          format: unsignedInteger
-    SanitizedEvent:
-      type: object
-      properties:
-        method:
-          type: string
-        data:
+        mortalEra:
           type: array
           items:
             type: string
+          description: Tuple of a Phase, and Period. Each item in the array will be a string formatted as an integer.
+        immortalEra:
+          type: string
+          description: Hardcoded constant '0x00'.
+          format: hex
+      example: '{"mortalEra":["64", "11"]}'
+    DecodedXcmMsgsHorizontalMessagesInRelay:
+      type: array
+      items:
+        type: object
+        properties:
+          originParaId:
+            type: string
+            format: unsignedInteger
+            description: The Parachain id that the specific XCM message was sent from.
+          destinationParaId:
+            type: string
+            format: unsignedInteger
+            description: The Parachain id that the specific XCM message was sent to.
+          data:
+            type: object
+            description: The decoded instructions included in the XCM message and their respective fields.
+        description: Array that includes the Horizontal (`in transit`) messages when we are connected to a Relay Chain. Each block can contain one or more messages. If multiple messages share the same origin and destination paraId, they will be displayed within the data field.
+    RuntimeDispatchInfo:
+      type: object
+      properties:
+        weight:
+          $ref: '#/components/schemas/WeightsV2'
+          description: Weights represented as WeightsV2 (two dimensional weights). When querying historical blocks that use WeightsV1, the weight will be returned as a weight key that points to a number represented as a string.
+        class:
+          type: string
+          description: Extrinsic class.
+          enum:
+          - Normal
+          - Operational
+          - Mandatory
+        partialFee:
+          type: string
+          description: The _inclusion fee_ of a transaction, i.e. the minimum fee required for a transaction. Includes weight and encoded length fees, but does not have access to any signed extensions, e.g. the `tip`.
+          format: unsignedInteger
+        kind:
+          type: string
+          description: Information on the partialFee that is collected. Can be either `preDispatch`, `postDispatch` or `fromEvent`. `preDispatch` means the information used to collect the fee was from `payment_queryInfo`, `postDispatch` means the information used to calculate the fee was from finalized weights for the extrinsic, and `fromEvent` means that the partialFee was abstracted from the `TransactionPayment::TransactionPaidFee` event.
+      description: RuntimeDispatchInfo for the transaction. Includes the `partialFee`.
